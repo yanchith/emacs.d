@@ -60,6 +60,7 @@
     git-timemachine
     projectile
     magit
+    multiple-cursors
     move-text
     neotree
     smartparens
@@ -549,6 +550,12 @@ The body of the advice is in BODY."
 (require 'avy)
 (setq avy-background t)
 (setq avy-style 'at-full)
+
+;; multiple cursors allows us to efficiently find/replace or edit multiple lines
+(require 'multiple-cursors)
+(global-set-key (kbd "C-c m c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
 ;; dired - reuse current buffer by pressing 'a'
 (put 'dired-find-alternate-file 'disabled nil)
