@@ -35,8 +35,6 @@
 ;; Give melpa-stable higher priority
 (setq package-archive-priorities '(("melpa-stable" . 10) ("melpa" . 5)))
 
-;; TODO: package lockfile
-
 (defun ya/install (pkg)
   "Install PKG unless already installed."
   (when (not (package-installed-p pkg))
@@ -54,12 +52,6 @@
 
 ;; --TypeScript
 ;; tide
-
-;; --Rust
-;; rust-mode
-;; racer
-;; flycheck-rust
-;; cargo
 
 ;; --Haskell
 ;; haskell-mode
@@ -457,6 +449,91 @@
 (ya/install 'ace-window)
 (global-set-key (kbd "s-w") 'ace-window)
 (global-set-key [remap other-window] 'ace-window)
+
+;; General programming support
+
+(ya/install 'flycheck)
+(ya/install 'smartparens)
+
+(require 'smartparens-config)
+(setq sp-base-key-bindings 'paredit)
+(setq sp-autoskip-closing-pair 'always)
+(setq sp-hybrid-kill-entire-symbol nil)
+(sp-use-paredit-bindings)
+(sp-pair "{" nil :post-handlers
+         '(((lambda (&rest _ignored)
+              (crux-smart-open-line-above)) "RET")))
+
+(show-smartparens-global-mode +1)
+
+(defun prelude-local-comment-auto-fill ()
+  (set (make-local-variable 'comment-auto-fill-only-comments) t))
+
+;; show the name of the current function definition in the modeline
+(require 'which-func)
+(which-function-mode 1)
+
+;; in Emacs 24 programming major modes generally derive from a common
+;; mode named prog-mode; for others, we'll arrange for our mode
+;; defaults function to run prelude-prog-mode-hook directly.  To
+;; augment and/or counteract these defaults your own function
+;; to prelude-prog-mode-hook, using:
+;;
+;;     (add-hook 'prelude-prog-mode-hook 'my-prog-mode-defaults t)
+;;
+;; (the final optional t sets the *append* argument)
+
+(defun prelude-prog-mode-defaults ()
+  "Default coding hook, useful with any programming language."
+  (when (and (executable-find ispell-program-name)
+             prelude-flyspell)
+    (flyspell-prog-mode))
+  (smartparens-mode +1)
+  (prelude-enable-whitespace)
+  (prelude-local-comment-auto-fill))
+
+(setq prelude-prog-mode-hook 'prelude-prog-mode-defaults)
+
+(add-hook 'prog-mode-hook (lambda ()
+                            (run-hooks 'prelude-prog-mode-hook)))
+
+;; enable on-the-fly syntax checking
+(if (fboundp 'global-flycheck-mode)
+    (global-flycheck-mode +1)
+  (add-hook 'prog-mode-hook 'flycheck-mode))
+
+;; Setup rust support
+;; You may need installing the following packages on your system:
+;; * rustc (Rust Compiler)
+;; * cargo (Rust Package Manager)
+;; * racer (Rust Completion Tool)
+;; * rustfmt (Rust Tool for formatting code)
+
+(ya/install 'rust-mode)
+(ya/install 'racer)
+(ya/install 'flycheck-rust)
+(ya/install 'cargo)
+
+(setq rust-format-on-save t)
+
+(eval-after-load 'rust-mode
+  '(progn
+     (add-hook 'rust-mode-hook 'racer-mode)
+     (add-hook 'racer-mode-hook 'eldoc-mode)
+     (add-hook 'rust-mode-hook 'cargo-minor-mode)
+     (add-hook 'rust-mode-hook 'flycheck-rust-setup)
+     (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
+
+     (defun prelude-rust-mode-defaults ()
+       (local-set-key (kbd "C-c C-d") 'racer-describe)
+       ;; CamelCase aware editing operations
+       (subword-mode +1))
+
+     (setq prelude-rust-mode-hook 'prelude-rust-mode-defaults)
+
+     (add-hook 'rust-mode-hook (lambda ()
+                               (run-hooks 'prelude-rust-mode-hook)))))
+
 
 (when (eq system-type 'darwin)
   ;; Load PATH from shell
