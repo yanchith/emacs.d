@@ -1,146 +1,73 @@
 (message "Emacs is powering up...")
 
-;; BOOTSTRAP
-
-(message "Init phase: bootstrap")
-
-(when (version< emacs-version "25.3")
-  (error
-   "This config requires GNU Emacs 25.3 or newer, but you're running %s"
-   emacs-version))
-
 ;; Always load newest byte code
 (setq load-prefer-newer t)
+
+;; Increase GC threshold to 50MB for better throughput during init
+(setq gc-cons-threshold 50000000)
+
+;; Increase large file limit to 100MB
+(setq large-file-warning-threshold 100000000)
 
 ;; Define directories
 
 (defvar ya/dir-root (file-name-directory load-file-name)
-  "The root dir of this Emacs distribution.")
+  "The root dir of this config.")
 
 (defvar ya/dir-savefile (expand-file-name "savefile" ya/dir-root)
   "This directory stores all automatically generated save/history files.")
 
-(unless (file-exists-p ya/dir-savefile)
-  (make-directory ya/dir-savefile))
+(defvar ya/dir-packages-elpa (expand-file-name "packages-elpa" ya/dir-root)
+  "This directory stores all downloaded packages.")
 
-;; Increase GC threshold to 50MB and large file limit to 100MB
-
-;; TODO: increase only for init
-(setq gc-cons-threshold 50000000)
-(setq large-file-warning-threshold 100000000)
-
-;; PACKAGES
-
-(message "Init phase: packages")
-
-(require 'cl)
 (require 'package)
 
 ;; Add MELPA to gain access to more packages
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-;; Load pinned packages
-(let ((ya/file-package-lock (expand-file-name "package-lock.el" ya/dir-root)))
-  (if (file-exists-p ya/file-package-lock)
-      (load ya/file-package-lock)))
-
-;; Set package-user-dir relative to this config and initialize package manger
-(setq package-user-dir (expand-file-name "elpa" ya/dir-root))
+;; Set package-user-dir path, initialize package and refresh index
+(setq package-user-dir ya/dir-packages-elpa)
 (package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents))
 
-(defvar ya/packages
-  ;; GENERAL PACKAGES
-  '(ace-window
-    avy
-    crux
-    diff-hl
-    editorconfig
-    expand-region
-    flycheck
-    git-timemachine
-    projectile
-    magit
-    multiple-cursors
-    move-text
-    neotree
-    smartparens
-    undo-tree
-    which-key
-    doom-themes
-    zop-to-char
+;; Give melpa-stable higher priority
+(setq package-archive-priorities '(("melpa-stable" . 10) ("melpa" . 5)))
 
-    ;; Ivy
-    ivy
-    swiper
-    counsel
+;; TODO: package lockfile
 
-    ;; Company
-    company
+(defun ya/install (pkg)
+  "Install PKG unless already installed."
+  (when (not (package-installed-p pkg))
+    (package-install pkg)))
 
-    ;; LANGUAGE SPECIFIC PACKAGES
+;; TODO: configure these packages
+;; --JSON
+;; json-mode
 
-    ;; Lisp (shared for all lisps)
-    rainbow-delimiters
+;; --Web (HTML + CSS + JS)
+;; web-mode
 
-    ;; Emacs Lisp
-    elisp-slime-nav
-    rainbow-mode
+;; --JavaScript
+;; js2-mode
 
-    ;; JSON
-    json-mode
+;; --TypeScript
+;; tide
 
-    ;; Web (HTML + CSS + JS)
-    web-mode
+;; --Rust
+;; rust-mode
+;; racer
+;; flycheck-rust
+;; cargo
 
-    ;; JavaScript
-    js2-mode
-
-    ;; TypeScript
-    tide
-
-    ;; Rust
-    rust-mode
-    racer
-    flycheck-rust
-    cargo
-
-    ;; Python
-    ;; TODO
-
-    ;; Haskell
-    haskell-mode)
-  "A list of packages to ensure are installed at launch.")
-
-(defun ya/require-package (package)
-  "Install PACKAGE unless already installed."
-  (unless (memq package ya/packages)
-    (add-to-list 'ya/packages package))
-  (unless (package-installed-p package)
-    (package-install package)))
-
-(defun ya/require-packages (packages)
-  "Ensure PACKAGES are installed, missing packages are installed automatically."
-  (mapc #'ya/require-package packages))
-
-;; Install all packages now
-(unless (every #'package-installed-p ya/packages)
-  ;; check for new packages (package versions)
-  (message "%s" "Emacs is now refreshing its package database...")
-  (package-refresh-contents)
-  (message "%s" " done.")
-  ;; install the missing packages
-  (ya/require-packages ya/packages))
-
-;; UI
-
-(message "Init phase: ui")
+;; --Haskell
+;; haskell-mode
 
 ;; Reclaim some screen real-estate
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
-
 (menu-bar-mode -1)
-
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
@@ -174,75 +101,56 @@
                    (abbreviate-file-name (buffer-file-name))
                  "%b"))))
 
-;; Load theme
+(ya/install 'doom-themes)
 (load-theme 'doom-one t)
-(setq
- doom-themes-enable-bold t
- doom-themes-enable-italic t)
+(setq doom-themes-enable-bold t
+      doom-themes-enable-italic t)
 
 ;; Show available keybindings after you start typing
+(ya/install 'which-key)
 (require 'which-key)
 (which-key-mode +1)
 
-;; CORE
-
-(message "Init phase: core")
-
-(require 'thingatpt)
-(require 'cl-lib)
-
-(defun ya/recompile-init ()
-  "Byte-compile all your dotfiles again."
-  (interactive)
-  (byte-recompile-directory ya/dir-root 0))
-
-(defun ya/eval-after-init (form)
-  "Add `(lambda () FORM)' to `after-init-hook'.
-If Emacs has already finished initialization, also eval FORM immediately."
-  (let ((func (list 'lambda nil form)))
-    (add-hook 'after-init-hook func)
-    (when after-init-time
-      (eval form))))
-
-;; MODE
-
-(message "Init phase: mode")
-
-(require 'easymenu)
+(ya/install 'crux)
 (require 'crux)
 
-;;;;;;;;;;;;;;;;;;;;;;;;
+(global-set-key (kbd "C-a") 'crux-move-beginning-of-line)
 
-(global-set-key map (kbd "C-a") 'crux-move-beginning-of-line)
+(global-set-key (kbd "M-o") 'crux-smart-open-line)
+(global-set-key (kbd "s-o") 'crux-smart-open-line-above)
+(global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
+(global-set-key (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
+(global-set-key (kbd "s-j") 'crux-top-join-line)
+(global-set-key (kbd "s-k") 'crux-kill-whole-line)
 
-(global-set-key map [(shift return)] 'crux-smart-open-line)
-(global-set-key map (kbd "M-o") 'crux-smart-open-line)
-(global-set-key map [(control shift return)] 'crux-smart-open-line-above)
-(global-set-key map (kbd "s-o") 'crux-smart-open-line-above)
-(global-set-key map (kbd "C-c d") 'crux-duplicate-current-line-or-region)
-(global-set-key map (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
-(global-set-key map (kbd "s-j") 'crux-top-join-line)
-(global-set-key map (kbd "s-k") 'crux-kill-whole-line)
+(global-set-key (kbd "C-c f") 'crux-recentf-ido-find-file)
+(global-set-key (kbd "s-r") 'crux-recentf-ido-find-file)
+(global-set-key (kbd "C-c r") 'crux-rename-buffer-and-file)
+(global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
+(global-set-key (kbd "C-c I") 'crux-find-user-init-file)
+(global-set-key (kbd "C-c S") 'crux-find-shell-init-file)
 
-(global-set-key map (kbd "C-c f") 'crux-recentf-ido-find-file)
-(global-set-key map (kbd "s-r") 'crux-recentf-ido-find-file)
-(global-set-key map (kbd "C-c r") 'crux-rename-buffer-and-file)
-(global-set-key map (kbd "C-c k") 'crux-kill-other-buffers)
-(global-set-key map (kbd "C-c I") 'crux-find-user-init-file)
-(global-set-key map (kbd "C-c S") 'crux-find-shell-init-file)
+(ya/install 'move-text)
+(global-set-key (kbd "M-p")  'move-text-up)
+(global-set-key (kbd "M-n")  'move-text-down)
 
-(global-set-key map [(control shift up)]  'move-text-up)
-(global-set-key map [(control shift down)]  'move-text-down)
-(global-set-key map [(meta shift up)]  'move-text-up)
-(global-set-key map [(meta shift down)]  'move-text-down)
+(ya/install 'projectile)
+(require 'projectile)
+(setq projectile-cache-file (expand-file-name  "projectile.cache" ya/dir-savefile))
+(projectile-mode t)
 
-(global-set-key map (kbd "s-p") 'projectile-command-map)
-(global-set-key map (kbd "C-c p") 'projectile-command-map)
+(global-set-key (kbd "s-p") 'projectile-command-map)
+(global-set-key (kbd "C-c p") 'projectile-command-map)
 
-(global-set-key map (kbd "s-m m") 'magit-status)
-(global-set-key map (kbd "s-m l") 'magit-log)
-(global-set-key map (kbd "s-m f") 'magit-log-buffer-file)
-(global-set-key map (kbd "s-m b") 'magit-blame)
+(ya/install 'magit)
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+(global-set-key (kbd "s-m m") 'magit-status)
+(global-set-key (kbd "s-m l") 'magit-log)
+(global-set-key (kbd "s-m f") 'magit-log-buffer-file)
+(global-set-key (kbd "s-m b") 'magit-blame)
+
+(ya/install 'git-timemachine)
 
 ;; EDITOR
 
@@ -272,10 +180,18 @@ If Emacs has already finished initialization, also eval FORM immediately."
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+(ya/install 'undo-tree)
 ;; Autosave the undo-tree history
 (setq undo-tree-history-directory-alist
       `((".*" . ,temporary-file-directory)))
 (setq undo-tree-auto-save-history t)
+(global-undo-tree-mode)
+
+;; TODO: these probably require more configuring
+(ya/install 'ivy)
+(ya/install 'swiper)
+(ya/install 'counsel)
+(ya/install 'company)
 
 ;; Revert buffers automatically when underlying files are changed externally
 (global-auto-revert-mode t)
@@ -295,27 +211,8 @@ If Emacs has already finished initialization, also eval FORM immediately."
 ;; Smart tab behavior - indent or complete
 (setq tab-always-indent 'complete)
 
-;; Smart pairing for all
-(require 'smartparens-config)
-(setq sp-base-key-bindings 'paredit)
-(setq sp-autoskip-closing-pair 'always)
-(setq sp-hybrid-kill-entire-symbol nil)
-(sp-use-paredit-bindings)
-
-(show-smartparens-global-mode +1)
-
-;; Disable annoying blink-matching-paren
-(setq blink-matching-paren nil)
-
-;; Meaningful names for buffers with the same name
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
-(setq uniquify-separator "/")
-(setq uniquify-after-kill-buffer-p t)    ; Rename after killing uniquified
-(setq uniquify-ignore-buffers-re "^\\*") ; Don't muck with special buffers
-
 ;; saveplace remembers your location in a file when saving files
-(setq save-place-file (expand-file-name "saveplace" prelude-savefile-dir))
+(setq save-place-file (expand-file-name "saveplace" ya/dir-savefile))
 ;; activate it for all buffers
 (save-place-mode 1)
 
@@ -327,12 +224,12 @@ If Emacs has already finished initialization, also eval FORM immediately."
       ;; save every minute
       savehist-autosave-interval 60
       ;; keep the home clean
-      savehist-file (expand-file-name "savehist" prelude-savefile-dir))
+      savehist-file (expand-file-name "savehist" ya/dir-savefile))
 (savehist-mode +1)
 
 ;; save recent files
 (require 'recentf)
-(setq recentf-save-file (expand-file-name "recentf" prelude-savefile-dir)
+(setq recentf-save-file (expand-file-name "recentf" ya/dir-savefile)
       recentf-max-saved-items 500
       recentf-max-menu-items 15
       ;; disable recentf-cleanup on Emacs start, because it can cause
@@ -344,45 +241,12 @@ If Emacs has already finished initialization, also eval FORM immediately."
   (let ((file-dir (file-truename (file-name-directory file))))
     (cl-some (lambda (dir)
                (string-prefix-p dir file-dir))
-             (mapcar 'file-truename (list prelude-savefile-dir package-user-dir)))))
+             (mapcar 'file-truename (list ya/dir-savefile package-user-dir)))))
 
 (add-to-list 'recentf-exclude 'prelude-recentf-exclude-p)
 
 (recentf-mode +1)
 
-;; use shift + arrow keys to switch between visible buffers
-(require 'windmove)
-(windmove-default-keybindings)
-
-;; automatically save buffers associated with files on buffer switch
-;; and on windows switch
-(defun prelude-auto-save-command ()
-  "Save the current buffer if `prelude-auto-save' is not nil."
-  (when (and prelude-auto-save
-             buffer-file-name
-             (buffer-modified-p (current-buffer))
-             (file-writable-p buffer-file-name))
-    (save-buffer)))
-
-(defmacro advise-commands (advice-name commands class &rest body)
-  "Apply advice named ADVICE-NAME to multiple COMMANDS.
-
-The body of the advice is in BODY."
-  `(progn
-     ,@(mapcar (lambda (command)
-                 `(defadvice ,command (,class ,(intern (concat (symbol-name command) "-" advice-name)) activate)
-                    ,@body))
-               commands)))
-
-;; advise all window switching functions
-(advise-commands "auto-save"
-                 (switch-to-buffer other-window windmove-up windmove-down windmove-left windmove-right)
-                 before
-                 (prelude-auto-save-command))
-
-(add-hook 'mouse-leave-buffer-hook 'prelude-auto-save-command)
-
-(add-hook 'focus-out-hook 'prelude-auto-save-command)
 
 (defadvice set-buffer-major-mode (after set-major-mode activate compile)
   "Set buffer major mode according to `auto-mode-alist'."
@@ -394,11 +258,6 @@ The body of the advice is in BODY."
 
 ;; highlight the current line
 (global-hl-line-mode +1)
-
-;; note - this should be after volatile-highlights is required
-;; add the ability to cut the current line, without marking it
-(require 'rect)
-(crux-with-region-or-line kill-region)
 
 ;; tramp, for sudo access
 (require 'tramp)
@@ -442,28 +301,19 @@ The body of the advice is in BODY."
 ;; enable erase-buffer command
 (put 'erase-buffer 'disabled nil)
 
-(require 'expand-region)
-
-;; bookmarks
-(require 'bookmark)
-(setq bookmark-default-file (expand-file-name "bookmarks" ya/dir-savefile)
-      bookmark-save-flag 1)
-
-;; projectile is a project management mode
-(require 'projectile)
-(setq projectile-cache-file (expand-file-name  "projectile.cache" ya/dir-savefile))
-(projectile-mode t)
-
 ;; avy allows us to effectively navigate to visible things
+(ya/install 'avy)
 (require 'avy)
 (setq avy-background t)
 (setq avy-style 'at-full)
+(global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
 
-;; multiple cursors allows us to efficiently find/replace or edit multiple lines
+(ya/install 'multiple-cursors)
 (require 'multiple-cursors)
 (global-set-key (kbd "C-c m c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+;; TODO mc/mark-all-like-this
 
 ;; dired - reuse current buffer by pressing 'a'
 (put 'dired-find-alternate-file 'disabled nil)
@@ -486,23 +336,6 @@ The body of the advice is in BODY."
 ;; Clean up obsolete buffers automatically
 (require 'midnight)
 
-(defadvice exchange-point-and-mark (before deactivate-mark activate compile)
-  "When called with no active region, do not activate mark."
-  (interactive
-   (list (not (region-active-p)))))
-
-(require 'tabify)
-(defmacro with-region-or-buffer (func)
-  "When called with no active region, call FUNC on current buffer."
-  `(defadvice ,func (before with-region-or-buffer activate compile)
-     (interactive
-      (if mark-active
-          (list (region-beginning) (region-end))
-        (list (point-min) (point-max))))))
-
-(with-region-or-buffer indent-region)
-(with-region-or-buffer untabify)
-
 ;; abbrev config
 (add-hook 'text-mode-hook 'abbrev-mode)
 
@@ -516,20 +349,13 @@ The body of the advice is in BODY."
 (setq reb-re-syntax 'string)
 
 (require 'eshell)
-(setq eshell-directory-name (expand-file-name "eshell" prelude-savefile-dir))
+(setq eshell-directory-name (expand-file-name "eshell" ya/dir-savefile))
 
+;; TODO: what is semanticdb?
 (setq semanticdb-default-save-directory
-      (expand-file-name "semanticdb" prelude-savefile-dir))
+      (expand-file-name "semanticdb" ya/dir-savefile))
 
-;; Compilation from Emacs
-(defun ya/colorize-compilation-buffer ()
-  "Colorize a compilation mode buffer."
-  (interactive)
-  ;; we don't want to mess with child modes such as grep-mode, ack, ag, etc
-  (when (eq major-mode 'compilation-mode)
-    (let ((inhibit-read-only t))
-      (ansi-color-apply-on-region (point-min) (point-max)))))
-
+;; TODO: what is this?
 (require 'compile)
 (setq
  ;; Just save before compiling
@@ -539,72 +365,21 @@ The body of the advice is in BODY."
  ;; Automatically scroll to first error
  compilation-scroll-output 'first-error)
 
-;; Colorize output of Compilation Mode, see
-;; http://stackoverflow.com/a/3072831/355252
-(require 'ansi-color)
-(add-hook 'compilation-filter-hook #'ya/colorize-compilation-buffer)
-
-;; Enable our mode keybindings
-(ya-global-mode t)
-
-;; Do sensible undo
-(global-undo-tree-mode)
-
 ;; Enable winner-mode to manage window configurations
 (winner-mode +1)
 
-;; Setup diff hihglights
+(ya/install 'diff-hl)
 (global-diff-hl-mode +1)
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 
-
-(defadvice server-visit-files (before parse-numbers-in-lines (files proc &optional nowait) activate)
-  "Open file with emacsclient with cursors positioned on requested line.
-Most of console-based utilities prints filename in format
-'filename:linenumber'.  So you may wish to open filename in that format.
-Just call:
-
-  emacsclient filename:linenumber
-
-and file 'filename' will be opened and cursor set on line 'linenumber'"
-  (ad-set-arg 0
-              (mapcar (lambda (fn)
-                        (let ((name (car fn)))
-                          (if (string-match "^\\(.*?\\):\\([0-9]+\\)\\(?::\\([0-9]+\\)\\)?$" name)
-                              (cons
-                               (match-string 1 name)
-                               (cons (string-to-number (match-string 2 name))
-                                     (string-to-number (or (match-string 3 name) ""))))
-                            fn))) files)))
-
-;; Use settings from .editorconfig file when present
+(ya/install 'editorconfig)
 (require 'editorconfig)
 (editorconfig-mode 1)
-
-;; KEYBINDINGS
-
-(message "Init phase: keybindings")
-
-;; Align your code in a pretty way.
-(global-set-key (kbd "C-x \\") 'align-regexp)
 
 ;; Font size
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
-
-;; Window switching. (C-x o goes to the next window)
-(global-set-key (kbd "C-x O")
-                (lambda ()
-                  (interactive)
-                  (other-window -1))) ;; Go back by one
-
-;; Indentation help
-(global-set-key (kbd "C-^") 'crux-top-join-line)
-
-;; Start proced in a similar manner to dired
-(unless (eq system-type 'darwin)
-  (global-set-key (kbd "C-x p") 'proced))
 
 ;; Start eshell or switch to it if it's active.
 (global-set-key (kbd "C-x m") 'eshell)
@@ -619,20 +394,12 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 (define-key 'help-command (kbd "C-i") 'info-display-manual)
 
-;; Replace zap-to-char functionality with the more powerful zop-to-char
-(global-set-key (kbd "M-z") 'zop-up-to-char)
-(global-set-key (kbd "M-Z") 'zop-to-char)
-
 ;; kill lines backward
-(global-set-key (kbd "C-<backspace>") (lambda ()
-                                        (interactive)
-                                        (kill-line 0)
-                                        (indent-according-to-mode)))
-
-(global-set-key [remap kill-whole-line] 'crux-kill-whole-line)
-
-;; Activate occur easily inside isearch
-(define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
+(global-set-key (kbd "C-<backspace>")
+                (lambda ()
+                  (interactive)
+                  (kill-line 0)
+                  (indent-according-to-mode)))
 
 ;; Use hippie-expand instead of dabbrev
 (global-set-key (kbd "M-/") 'hippie-expand)
@@ -640,66 +407,28 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 ;; Replace buffer-menu with ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;; Add magit commands
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
-
-;; Add expand region
+(ya/install 'expand-region)
+(require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
-;; Add avy goto subword
-(global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
-
 ;; Improve window navigation with ace-window
+(ya/install 'ace-window)
 (global-set-key (kbd "s-w") 'ace-window)
 (global-set-key [remap other-window] 'ace-window)
 
-;; PLATFORMS
-
-(message "Init phase: platforms")
-
-;; TODO: define conditionally
-;; TODO: define shortcut
-(defun ya/swap-meta-and-super ()
-  "Swap the mapping of Meta and Super.
-Very useful for people using their Mac with a
-Windows external keyboard from time to time."
-  (interactive)
-  (if (eq mac-command-modifier 'super)
-      (progn
-        (setq mac-command-modifier 'meta)
-        (setq mac-option-modifier 'super)
-        (message "Command is now bound to META and Option is bound to SUPER."))
-    (setq mac-command-modifier 'super)
-    (setq mac-option-modifier 'meta)
-    (message "Command is now bound to SUPER and Option is bound to META.")))
-
-
 (when (eq system-type 'darwin)
-  (message "Loaging macOS specific tweaks")
-
   ;; Load PATH from shell
-  (ya/require-packages '(exec-path-from-shell))
+  (ya/install 'exec-path-from-shell)
   (require 'exec-path-from-shell)
   (exec-path-from-shell-initialize)
 
   ;; Set fn as function key
-  (setq ns-function-modifier 'hyper)
-
-  ;; There's no point in hiding the menu bar on macOS, so let's not do it
-  (menu-bar-mode +1)
-
-  ;; Enable emoji, and stop the UI from freezing when trying to display them.
-  (when (fboundp 'set-fontset-font)
-    (set-fontset-font t 'unicode "Apple Color Emoji" nil 'prepend)))
-
-;; EMACS CUSTOM FILE
-
-(message "Init phase: custom.el")
+  (setq ns-function-modifier 'hyper))
 
 ;; Store config changes made through the customize UI here
 (setq custom-file (expand-file-name "custom.el" ya/dir-root))
 
-;; DONE
+;; Restore gc threshold for better interactivity and shorter pauses
+(setq gc-cons-threshold 800000)
 
-(message "Emacs ready!")
+(message "Done!")

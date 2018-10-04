@@ -27,10 +27,6 @@ $ brew tap d12frosted/emacs-plus
 $ brew install emacs-plus
 ```
 
-### Linux
-
-Coming soon.
-
 ## Modifier Keys
 
 `C`        Ctrl
@@ -57,13 +53,9 @@ Coming soon.
 
 ## Useful packages
 
-### Used
-
 ivy               completions list
 swiper            replaces i-search (built on ivy)
 counsel           completions everywhere (built on ivy)
-
-neotree           atom-like file explorer
 
 magit             git interface
 projectile        project management (cmd+p)
@@ -85,14 +77,6 @@ undo-tree         nonlinear (tree) undo/redo
 which-key         expand minibuffer after delay to show bound keys/commands
 zop-to-char       visual zap-to-char (do op on region between point and char)
 
-### To Learn
-
-diff view with magit
-
-#### To Try
-
-multiple-cursors  multiple cursors
-company           code completions
 
 ## Movement
 
@@ -193,6 +177,10 @@ company           code completions
 
 ## Extensions
 
+### Swiper
+
+`C-s`         swiper search (replaces i-search)
+
 ### Avy
 
 `s-.`         avy go to word or subword (char-based decision tree)
@@ -203,19 +191,29 @@ company           code completions
 `s k`         crux kill whole line
 `C-a`         crux move to beginning of line (smarter than classic `C-a`)
 
+### Multiple Cursors
+
+`C->`         Mark next like this (selection)
+`C-<`         Mark previous like this (selection)
+`mc/mark-all-like-this` (TODO: shortcut)
+`mc/edit-lines`         (TODO: shortcut)
+
 ### Magit
 
 `C-x g`       magit status
 
-#### Magit status
+In magit status:
 
-`s`           stage
-`u`           unstage
-`c c`         commit
+`(magit status) ?`   help
+`(magit status) d d` diff file or group of files at point
+`(magit status) s`   stage file at point
+`(magit status) u`   unstage file at point
+`(magit status) c c` commit
+`(magit status) P p` push to remote tracking branch
 
-#### Magit commit
+In magit commit:
 
-`C-c C-c`     commit
+`(magit commit) C-c C-c`     commit
 
 ### Move text
 
@@ -225,10 +223,6 @@ company           code completions
 ### Rust mode
 
 `M-.`         jump to definition
-
-### Swiper
-
-`C-s`         swiper search (replaces i-search)
 
 ### Tide
 
