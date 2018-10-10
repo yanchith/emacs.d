@@ -314,6 +314,7 @@
 (ya/install 'flycheck)
 (ya/install 'smartparens)
 
+;; TODO: fix smartparens, currently not working
 (require 'smartparens-config)
 (setq sp-base-key-bindings 'paredit)
 (setq sp-autoskip-closing-pair 'always)
