@@ -231,8 +231,8 @@
 (setq save-place-file (expand-file-name "saveplace" ya/dir-savefile))
 (save-place-mode 1)
 
-
-
+;; TODO flyspell
+;; TODO upcase/downcase region
 
 ;; --------------------
 ;; TODO audit the rest!
@@ -241,53 +241,17 @@
 
 
 
-;; flyspell-mode does spell-checking on the fly as you type
-(require 'flyspell)
-(setq ispell-program-name "aspell" ; use aspell instead of ispell
-      ispell-extra-args '("--sug-mode=ultra"))
+(defun ya/enable-whitespace ()
+  "Enable `whitespace-mode'."
+  ;; keep the whitespace decent all the time (in this buffer)
+  (add-hook 'before-save-hook 'whitespace-cleanup nil t)
+  (whitespace-mode +1))
 
-(defun prelude-enable-flyspell ()
-  "Enable command `flyspell-mode' if `prelude-flyspell' is not nil."
-  (when (and prelude-flyspell (executable-find ispell-program-name))
-    (flyspell-mode +1)))
-
-(defun prelude-cleanup-maybe ()
-  "Invoke `whitespace-cleanup' if `prelude-clean-whitespace-on-save' is not nil."
-  (when prelude-clean-whitespace-on-save
-    (whitespace-cleanup)))
-
-(defun prelude-enable-whitespace ()
-  "Enable `whitespace-mode' if `prelude-whitespace' is not nil."
-  (when prelude-whitespace
-    ;; keep the whitespace decent all the time (in this buffer)
-    (add-hook 'before-save-hook 'prelude-cleanup-maybe nil t)
-    (whitespace-mode +1)))
-
-(add-hook 'text-mode-hook 'prelude-enable-flyspell)
-(add-hook 'text-mode-hook 'prelude-enable-whitespace)
-
-;; enable narrowing commands
-(put 'narrow-to-region 'disabled nil)
-(put 'narrow-to-page 'disabled nil)
-(put 'narrow-to-defun 'disabled nil)
-
-;; enabled change region case commands
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-
-;; enable erase-buffer command
-(put 'erase-buffer 'disabled nil)
-
-;; dired - reuse current buffer by pressing 'a'
-(put 'dired-find-alternate-file 'disabled nil)
+(add-hook 'text-mode-hook 'ya/enable-whitespace)
 
 ;; Always delete and copy recursively
 (setq dired-recursive-deletes 'always)
 (setq dired-recursive-copies 'always)
-
-;; If there is a dired buffer displayed in the next window, use its
-;; current subdir, instead of the current subdir of this dired buffer
-(setq dired-dwim-target t)
 
 ;; Enable some really cool extensions like C-x C-j(dired-jump)
 (require 'dired-x)
@@ -295,9 +259,6 @@
 ;; ediff - don't start another frame
 (require 'ediff)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-;; Clean up obsolete buffers automatically
-(require 'midnight)
 
 ;; Whitespace-mode config
 (require 'whitespace)
@@ -310,20 +271,14 @@
 
 (require 'eshell)
 (setq eshell-directory-name (expand-file-name "eshell" ya/dir-savefile))
+;; Start eshell or switch to it if it's active.
+(global-set-key (kbd "C-x m") 'eshell)
+;; Start a new eshell even if one is active.
+(global-set-key (kbd "C-x M") (lambda () (interactive) (eshell t)))
 
 ;; TODO: what is semanticdb? audit
 (setq semanticdb-default-save-directory
       (expand-file-name "semanticdb" ya/dir-savefile))
-
-;; TODO: what is this? audit
-(require 'compile)
-(setq
- ;; Just save before compiling
- compilation-ask-about-save nil
- ;; Just kill old compile processes before starting the new one
- compilation-always-kill t
- ;; Automatically scroll to first error
- compilation-scroll-output 'first-error)
 
 ;; Enable winner-mode to manage window configurations
 (winner-mode +1)
@@ -336,12 +291,6 @@
 ;; Font size
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
-
-;; Start eshell or switch to it if it's active.
-(global-set-key (kbd "C-x m") 'eshell)
-
-;; Start a new eshell even if one is active.
-(global-set-key (kbd "C-x M") (lambda () (interactive) (eshell t)))
 
 (define-key 'help-command (kbd "C-f") 'find-function)
 (define-key 'help-command (kbd "C-k") 'find-function-on-key)
@@ -368,48 +317,30 @@
 (require 'smartparens-config)
 (setq sp-base-key-bindings 'paredit)
 (setq sp-autoskip-closing-pair 'always)
-(setq sp-hybrid-kill-entire-symbol nil)
+(setq sp-hybrid-kill-entire-symbol nil) ;; TODO: audit
 (sp-use-paredit-bindings)
 (sp-pair "{" nil :post-handlers
          '(((lambda (&rest _ignored)
               (crux-smart-open-line-above)) "RET")))
 
-(show-smartparens-global-mode +1)
+(show-smartparens-global-mode +1) ;; TODO: why global? audit
 
-(defun prelude-local-comment-auto-fill ()
-  (set (make-local-variable 'comment-auto-fill-only-comments) t))
+;; TODO comment filling and autofilling
 
 ;; show the name of the current function definition in the modeline
 (require 'which-func)
 (which-function-mode 1)
 
-;; in Emacs 24 programming major modes generally derive from a common
-;; mode named prog-mode; for others, we'll arrange for our mode
-;; defaults function to run prelude-prog-mode-hook directly.  To
-;; augment and/or counteract these defaults your own function
-;; to prelude-prog-mode-hook, using:
-;;
-;;     (add-hook 'prelude-prog-mode-hook 'my-prog-mode-defaults t)
-;;
-;; (the final optional t sets the *append* argument)
-
-(defun prelude-prog-mode-defaults ()
-  "Default coding hook, useful with any programming language."
-  (when (and (executable-find ispell-program-name)
-             prelude-flyspell)
-    (flyspell-prog-mode))
+(defun ya/prog-mode-hook ()
+  "Default programming hook, useful with any programming language."
   (smartparens-mode +1)
-  (prelude-enable-whitespace)
-  (prelude-local-comment-auto-fill))
+  (ya/enable-whitespace))
 
-(setq prelude-prog-mode-hook 'prelude-prog-mode-defaults)
-
-(add-hook 'prog-mode-hook (lambda ()
-                            (run-hooks 'prelude-prog-mode-hook)))
+(add-hook 'prog-mode-hook (lambda () (run-hooks 'ya/prog-mode-hook)))
 
 ;; enable on-the-fly syntax checking
 (if (fboundp 'global-flycheck-mode)
-    (global-flycheck-mode +1)
+  (global-flycheck-mode +1)
   (add-hook 'prog-mode-hook 'flycheck-mode))
 
 ;; Setup rust support
@@ -425,6 +356,8 @@
 (ya/install 'cargo)
 
 (setq rust-format-on-save t)
+;; TODO: should probably be in preload.el
+(setq racer-rust-src-path "~/.rustup/toolchains/beta-x86_64-apple-darwin/lib/rustlib/src/rust/src")
 
 (eval-after-load 'rust-mode
   '(progn
@@ -434,15 +367,12 @@
      (add-hook 'rust-mode-hook 'flycheck-rust-setup)
      (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
 
-     (defun prelude-rust-mode-defaults ()
+     (defun ya/rust-mode-hook ()
        (local-set-key (kbd "C-c C-d") 'racer-describe)
        ;; CamelCase aware editing operations
        (subword-mode +1))
 
-     (setq prelude-rust-mode-hook 'prelude-rust-mode-defaults)
-
-     (add-hook 'rust-mode-hook (lambda ()
-                               (run-hooks 'prelude-rust-mode-hook)))))
+     (add-hook 'rust-mode-hook 'ya/rust-mode-hook)))
 
 
 (when (eq system-type 'darwin)

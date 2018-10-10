@@ -181,6 +181,10 @@ zop-to-char       visual zap-to-char (do op on region between point and char)
 
 `C-s`         swiper search (replaces i-search)
 
+### Counsel
+
+`C-c j`       git grep! really useful!
+
 ### Avy
 
 `s-.`         avy go to word or subword (char-based decision tree)
