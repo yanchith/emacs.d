@@ -337,7 +337,7 @@
   (smartparens-mode +1)
   (ya/enable-whitespace))
 
-(add-hook 'prog-mode-hook (lambda () (run-hooks 'ya/prog-mode-hook)))
+(add-hook 'prog-mode-hook 'ya/prog-mode-hook)
 
 ;; enable on-the-fly syntax checking
 (if (fboundp 'global-flycheck-mode)
