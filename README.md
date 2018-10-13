@@ -101,6 +101,10 @@ zop-to-char       visual zap-to-char (do op on region between point and char)
 `M-a`         move to beginning of sentence
 `M-e`         move to end of sentence
 
+`M-g M-g`     move to line number (interactive)
+
+`C-u C-<SPC>` move to previous mark (many operations leave marks in buffers)
+
 ## Numeric parameter
 
 `C-<num>`, `C-u <num>`  set numeric parameter
@@ -118,14 +122,15 @@ zop-to-char       visual zap-to-char (do op on region between point and char)
 `C-k`         kill text from point to end of line
 `M-k`         kill text from point to end of sentence
 
-`C-<SPC>`     set region mark, grow or shrink with point movement
+`C-<SPC>`     grow or shrink region with point movement
 `C-w`         kill selected region
 `M-w`         kill text in region mark without removing (ctrl + c)
 
 `C-y`         yank last
-`M-y`         yank from kill ring
+`M-y`         yank from kill ring (cycle)
 
-`C-/`, `C-_`  undo last command
+`C-/`         undo
+`C-S-/`       redo
 
 ## Search
 
@@ -183,7 +188,7 @@ zop-to-char       visual zap-to-char (do op on region between point and char)
 
 ### Counsel
 
-`C-c j`       git grep! really useful!
+`C-c j`       counsel git grep! really useful!
 
 ### Avy
 

@@ -22,6 +22,9 @@
 (defvar ya/dir-packages-elpa (expand-file-name "packages-elpa" ya/dir-root)
   "This directory stores all downloaded packages.")
 
+;; Store config changes made through the customize UI here
+(setq custom-file (expand-file-name "custom.el" ya/dir-root))
+
 (require 'package)
 
 ;; Add MELPA to gain access to more packages
@@ -61,21 +64,26 @@
 ;; Disable startup screen
 (setq inhibit-startup-screen t)
 
-;; Add nice scrolling, TODO: audit
-(setq scroll-margin 0
+;; Add nice scrolling
+(setq scroll-margin 3
       scroll-conservatively 100000
-      scroll-preserve-screen-position 1)
+      scroll-preserve-screen-position t)
 
 ;; Show line and column numbers, and file size indication
 (line-number-mode t)
 (column-number-mode t)
 (size-indication-mode t)
 
+;; Save whatever’s in the current (system) clipboard before
+;; replacing it with the Emacs’ text.
+(setq save-interprogram-paste-before-kill t)
+
 ;; Enable y/n answers, TODO: audit
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Add more useful frame title, Show either a file or a
 ;; buffer name (if the buffer isn't visiting a file)
+;; TODO: I broke this... fix
 (setq frame-title-format
       '("" invocation-name ""
         (:eval (if (buffer-fiLe-name)
@@ -85,6 +93,14 @@
 (load-theme 'doom-one t) ;; TODO: audit (there are theme-specific settings)
 (setq doom-themes-enable-bold t
       doom-themes-enable-italic t)
+
+
+;; meaningful names for buffers with the same name
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+(setq uniquify-separator "/")
+(setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
+(setq uniquify-ignore-buffers-re "^\\*") ; ignore special buffers
 
 ;; Show available keybindings after you start typing
 (ya/install 'which-key)
@@ -98,15 +114,13 @@
 
 (global-set-key (kbd "M-o") 'crux-smart-open-line)
 (global-set-key (kbd "s-o") 'crux-smart-open-line-above)
-(global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
-(global-set-key (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
 (global-set-key (kbd "s-j") 'crux-top-join-line)
 (global-set-key (kbd "s-k") 'crux-kill-whole-line)
 
 (global-set-key (kbd "C-c r") 'crux-rename-buffer-and-file)
 (global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
-(global-set-key (kbd "C-c I") 'crux-find-user-init-file)
-(global-set-key (kbd "C-c S") 'crux-find-shell-init-file)
+
+(global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
 
 (ya/install 'move-text)
 (global-set-key (kbd "M-p")  'move-text-up)
@@ -118,7 +132,6 @@
 (projectile-mode t)
 
 (global-set-key (kbd "s-p") 'projectile-command-map)
-(global-set-key (kbd "C-c p") 'projectile-command-map)
 
 (ya/install 'magit)
 (global-set-key (kbd "s-m m") 'magit-status)
@@ -204,9 +217,9 @@
 (ya/install 'multiple-cursors)
 (require 'multiple-cursors)
 (global-set-key (kbd "C-c m c") 'mc/edit-lines)
+(global-set-key (kbd "C-c C->") 'mc/mark-all-like-this)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-;; TODO mc/mark-all-like-this
+(global-set-key (kbd "C-<") 'mc/unmark-next-like-this)
 
 (ya/install 'editorconfig)
 (require 'editorconfig)
@@ -220,9 +233,6 @@
 (ya/install 'ace-window)
 (global-set-key [remap other-window] 'ace-window)
 
-;; Revert buffers automatically when underlying files are changed externally
-(global-auto-revert-mode t)
-
 ;; Smart tab behavior - indent or complete
 (setq tab-always-indent 'complete)
 
@@ -230,16 +240,6 @@
 ;; for all buffers
 (setq save-place-file (expand-file-name "saveplace" ya/dir-savefile))
 (save-place-mode 1)
-
-;; TODO flyspell
-;; TODO upcase/downcase region
-
-;; --------------------
-;; TODO audit the rest!
-;; --------------------
-
-
-
 
 (defun ya/enable-whitespace ()
   "Enable `whitespace-mode'."
@@ -253,8 +253,16 @@
 (setq dired-recursive-deletes 'always)
 (setq dired-recursive-copies 'always)
 
+;; TODO dired-subtree
+
 ;; Enable some really cool extensions like C-x C-j(dired-jump)
 (require 'dired-x)
+
+;; Revert buffers automatically when underlying files are changed externally
+;; This still prompts for confirmation if buffer has unsaved changes
+(global-auto-revert-mode t)
+;; auto refresh dired when file changes
+(add-hook 'dired-mode-hook 'auto-revert-mode)
 
 ;; ediff - don't start another frame
 (require 'ediff)
@@ -341,7 +349,7 @@
 
 ;; enable on-the-fly syntax checking
 (if (fboundp 'global-flycheck-mode)
-  (global-flycheck-mode +1)
+    (global-flycheck-mode +1)
   (add-hook 'prog-mode-hook 'flycheck-mode))
 
 ;; Setup rust support
@@ -391,15 +399,14 @@
   ;; Set fn as function key
   (setq ns-function-modifier 'hyper))
 
-;; Store config changes made through the customize UI here
-(setq custom-file (expand-file-name "custom.el" ya/dir-root))
-
 ;; Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold 800000)
 
 (message "Done!")
 
 ;; TODO:
+;; better package management: use-package
+;; Spelling correction: flyspell
 ;; Editing: recentf, savehist
 ;; JSON: json-mode
 ;; Web (HTML/CSS/JS): web-mode
