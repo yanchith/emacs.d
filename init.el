@@ -65,7 +65,7 @@
 (setq inhibit-startup-screen t)
 
 ;; Add nice scrolling
-(setq scroll-margin 3
+(setq scroll-margin 0
       scroll-conservatively 100000
       scroll-preserve-screen-position t)
 
@@ -241,14 +241,6 @@
 (setq save-place-file (expand-file-name "saveplace" ya/dir-savefile))
 (save-place-mode 1)
 
-(defun ya/enable-whitespace ()
-  "Enable `whitespace-mode'."
-  ;; keep the whitespace decent all the time (in this buffer)
-  (add-hook 'before-save-hook 'whitespace-cleanup nil t)
-  (whitespace-mode +1))
-
-(add-hook 'text-mode-hook 'ya/enable-whitespace)
-
 ;; Always delete and copy recursively
 (setq dired-recursive-deletes 'always)
 (setq dired-recursive-copies 'always)
@@ -272,6 +264,8 @@
 (require 'whitespace)
 (setq whitespace-line-column 80)
 (setq whitespace-style '(face tabs empty trailing lines-tail))
+(add-hook 'before-save-hook 'whitespace-cleanup nil t)
+(whitespace-mode +1)
 
 ;; Have saner regex syntax
 (require 're-builder)
@@ -332,20 +326,14 @@
          '(((lambda (&rest _ignored)
               (crux-smart-open-line-above)) "RET")))
 
-(show-smartparens-global-mode +1) ;; TODO: why global? audit
+(smartparens-global-mode +1)
+(show-smartparens-global-mode +1)
 
 ;; TODO comment filling and autofilling
 
 ;; show the name of the current function definition in the modeline
 (require 'which-func)
 (which-function-mode 1)
-
-(defun ya/prog-mode-hook ()
-  "Default programming hook, useful with any programming language."
-  (smartparens-mode +1)
-  (ya/enable-whitespace))
-
-(add-hook 'prog-mode-hook 'ya/prog-mode-hook)
 
 ;; enable on-the-fly syntax checking
 (if (fboundp 'global-flycheck-mode)
