@@ -265,7 +265,7 @@
 (setq whitespace-line-column 80)
 (setq whitespace-style '(face tabs empty trailing lines-tail))
 (add-hook 'before-save-hook 'whitespace-cleanup nil t)
-(whitespace-mode +1)
+(global-whitespace-mode +1)
 
 ;; Have saner regex syntax
 (require 're-builder)
