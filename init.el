@@ -78,7 +78,7 @@
 ;; replacing it with the Emacs’ text.
 (setq save-interprogram-paste-before-kill t)
 
-;; Enable y/n answers, TODO: audit
+;; Enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Add more useful frame title, Show either a file or a
@@ -165,13 +165,6 @@
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
-
-(ya/install 'undo-tree)
-;; Autosave the undo-tree history
-(setq undo-tree-history-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq undo-tree-auto-save-history t)
-(global-undo-tree-mode)
 
 ;; Set up ivy, swiper and counsel
 (ya/install 'ivy)
@@ -316,7 +309,6 @@
 (ya/install 'flycheck)
 (ya/install 'smartparens)
 
-;; TODO: fix smartparens, currently not working
 (require 'smartparens-config)
 (setq sp-base-key-bindings 'paredit)
 (setq sp-autoskip-closing-pair 'always)
@@ -353,7 +345,7 @@
 (ya/install 'cargo)
 
 (setq rust-format-on-save t)
-;; TODO: should probably be in preload.el
+;; TODO: should be in config.el
 (setq racer-rust-src-path "~/.rustup/toolchains/beta-x86_64-apple-darwin/lib/rustlib/src/rust/src")
 
 (eval-after-load 'rust-mode
