@@ -30,7 +30,7 @@ $ brew install emacs-plus
 ## Modifier Keys
 
 `C`        Ctrl
-`M`        Meta (can be Alt or Cmd on macOS depending on setup, usually Alt)
+`M`        Meta (can be Alt or Cmd on macOS depending on setup)
 `s`        Super key (Windows Key or Cmd/Alt - see above)
 `S`        Shift
 
@@ -67,16 +67,12 @@ avy               goto char/word using char-based decision tree
 crux              collection of misc useful extensions (see below)
 diff-hl           highlights git diffs
 editorconfig      editorconfig support
-epl               emacs perl; not sure how exactly, but used in updater
 expand-region     expand selected region syntactically
 flycheck          syntax checking for languages
 git-timemachine   convenient git history browsing for current file
 move-text         move line/region up/down
 smartparens       automatically close parens, slurping, wrapping, unwrapping
-undo-tree         nonlinear (tree) undo/redo
 which-key         expand minibuffer after delay to show bound keys/commands
-zop-to-char       visual zap-to-char (do op on region between point and char)
-
 
 ## Movement
 
@@ -166,14 +162,6 @@ zop-to-char       visual zap-to-char (do op on region between point and char)
 `C-x <right>` open next buffer
 `C-x <left>`  open previous buffer
 
-## eXtended commands and Names eXtended commands
-
-`C-x`         show extended command menu
-`M-x`         show named extended command menu
-
-`M-x replace-string`      replaces occurences of first string with second string after point
-`M-x recover-this-file`   restore file contents from autosave file (#filename.ext)
-
 ## Minor modes
 
 ### Auto Fill
@@ -188,7 +176,8 @@ zop-to-char       visual zap-to-char (do op on region between point and char)
 
 ### Counsel
 
-`C-c j`       counsel git grep! really useful!
+`C-c s g`     counsel git grep
+`C-c s r`     counsel ripgrep
 
 ### Avy
 
@@ -203,9 +192,9 @@ zop-to-char       visual zap-to-char (do op on region between point and char)
 ### Multiple Cursors
 
 `C->`         Mark next like this (selection)
-`C-<`         Mark previous like this (selection)
-`mc/mark-all-like-this` (TODO: shortcut)
-`mc/edit-lines`         (TODO: shortcut)
+`C-<`         Unmark previous like this (selection)
+`C-c C->`     Mark all like this (selection)
+`C-c m c`     Spawn cursor in the beginning of each line in region
 
 ### Magit
 
@@ -226,8 +215,8 @@ In magit commit:
 
 ### Move text
 
-`s-M <up>`    move line or region up
-`s-M <down>`  move line or region down
+`M-p`         move line or region up
+`M-n`         move line or region down
 
 ### Rust mode
 
