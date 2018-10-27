@@ -90,7 +90,7 @@
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 
 (ya/install 'doom-themes)
-(load-theme 'doom-one t) ;; TODO: audit (there are theme-specific settings)
+(load-theme 'doom-one t)
 (setq doom-themes-enable-bold t
       doom-themes-enable-italic t)
 
@@ -333,12 +333,16 @@
     (global-flycheck-mode +1)
   (add-hook 'prog-mode-hook 'flycheck-mode))
 
-;; Setup rust support
+;;;; Rust
+
 ;; You may need installing the following packages on your system:
 ;; * rustc (Rust Compiler)
 ;; * cargo (Rust Package Manager)
 ;; * racer (Rust Completion Tool)
 ;; * rustfmt (Rust Tool for formatting code)
+
+;; TODO: should be in config.el
+(setq racer-rust-src-path "~/.rustup/toolchains/beta-x86_64-apple-darwin/lib/rustlib/src/rust/src")
 
 (ya/install 'rust-mode)
 (ya/install 'racer)
@@ -346,24 +350,41 @@
 (ya/install 'cargo)
 
 (setq rust-format-on-save t)
-;; TODO: should be in config.el
-(setq racer-rust-src-path "~/.rustup/toolchains/beta-x86_64-apple-darwin/lib/rustlib/src/rust/src")
 
-(eval-after-load 'rust-mode
-  '(progn
-     (add-hook 'rust-mode-hook 'racer-mode)
-     (add-hook 'racer-mode-hook 'eldoc-mode)
-     (add-hook 'rust-mode-hook 'cargo-minor-mode)
-     (add-hook 'rust-mode-hook 'flycheck-rust-setup)
-     (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
+(with-eval-after-load 'rust-mode
+  (add-hook 'rust-mode-hook 'racer-mode)
+  (add-hook 'racer-mode-hook 'eldoc-mode)
+  (add-hook 'rust-mode-hook 'cargo-minor-mode)
+  (add-hook 'rust-mode-hook 'flycheck-rust-setup)
+  (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
 
-     (defun ya/rust-mode-hook ()
-       (local-set-key (kbd "C-c C-d") 'racer-describe)
-       ;; CamelCase aware editing operations
-       (subword-mode +1))
+  (defun ya/rust-mode-hook ()
+    (local-set-key (kbd "C-c C-d") 'racer-describe)
+    ;; CamelCase aware editing operations
+    (subword-mode +1))
 
-     (add-hook 'rust-mode-hook 'ya/rust-mode-hook)))
+  (add-hook 'rust-mode-hook 'ya/rust-mode-hook))
 
+;;;; TypeScript
+
+(ya/install 'tide)
+(require 'typescript-mode)
+
+(add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-mode))
+
+(with-eval-after-load 'typescript-mode
+  (defun ya/ts-mode-hook ()
+    (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode +1)
+    (tide-hl-identifier-mode +1))
+
+  (add-hook 'before-save-hook 'tide-format-before-save)
+  (add-hook 'typescript-mode-hook 'ya/ts-mode-hook))
+
+;;;; macOS
 
 (when (eq system-type 'darwin)
   ;; Load PATH from shell
@@ -389,8 +410,4 @@
 ;; better package management: use-package
 ;; Spelling correction: flyspell
 ;; Editing: recentf, savehist
-;; JSON: json-mode
-;; Web (HTML/CSS/JS): web-mode
-;; JavaScript: js2-mode
-;; TypeScript: tide
 ;; Haskell: haskell-mode
