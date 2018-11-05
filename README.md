@@ -5,7 +5,7 @@
 ### macOS
 
 The `railwaycat/emacsmacport` version is compatible with `spectacle` snapping
-`https://github.com/railwaycat/homebrew-emacsmacport`
+(there is undesired space left around the borders after snapping).
 
 Install it from `homebrew`:
 
@@ -14,17 +14,20 @@ $ brew tap railwaycat/emacsmacport
 $ brew install emacs-mac
 ```
 
-There is also an `emacs` formula and `d12frosted/emacs-plus` that might work.
-
-``` shell
-$ brew install emacs
-```
-
-or
+Alternatively, the `d12frosted/emacs-plus` is recommended by `spacemacs`.
+Previously it had issues with `spectacle`snapping, but those may have been
+resolved meanwhile, or could be resolved by using the appropriate `brew install`
+flags.
 
 ``` shell
 $ brew tap d12frosted/emacs-plus
 $ brew install emacs-plus
+```
+
+There is also an official `emacs` formula:
+
+``` shell
+$ brew install emacs
 ```
 
 ## Modifier Keys
@@ -39,7 +42,7 @@ $ brew install emacs-plus
 `C-h C-h`            display help
 `C-g`                cancel current action, quit minibuffer
 `<ESC> <ESC> <ESC>`  get out of all recursive editing levels
-`M-x`                run commands (Ctrl/Cmd + P on sublime/atom/vs-code)
+`M-x`                run commands
 
 ## Help
 
@@ -48,29 +51,31 @@ $ brew install emacs-plus
 `C-h k`       show docs for a command key (e.g. C-h k C-p)
 `C-h f`       show docs for a command function (e.g. C-h f replace-string)
 `C-h v`       show docs for a variable
-`C-h a`       show docs for a keyword?
 `C-h i`       show manuals for installed packages
 
 ## Useful packages
 
 ivy               completions list
 swiper            replaces i-search (built on ivy)
-counsel           completions everywhere (built on ivy)
+counsel           ivy completions in various places, e.g. M-x or project grep
+
+company           various autocomples, e.g. function name, variables, text
 
 magit             git interface
-projectile        project management (cmd+p)
+projectile        project management (cmd+p, search within project)
 
 doom-themes       various color themes
 
 ace-window        better other-window
-avy               goto char/word using char-based decision tree
-crux              collection of misc useful extensions (see below)
+avy               goto word using char-based decision tree
+crux              collection of misc useful commands (see below)
 diff-hl           highlights git diffs
 editorconfig      editorconfig support
 expand-region     expand selected region syntactically
 flycheck          syntax checking for languages
 git-timemachine   convenient git history browsing for current file
 move-text         move line/region up/down
+multiple-cursors  duplicate cursor and edit multiple places at once
 smartparens       automatically close parens, slurping, wrapping, unwrapping
 which-key         expand minibuffer after delay to show bound keys/commands
 
@@ -176,6 +181,8 @@ which-key         expand minibuffer after delay to show bound keys/commands
 
 ### Counsel
 
+`M-x`         counsel powered M-x
+`C-x C-f`     counsel powered C-x C-f
 `C-c s g`     counsel git grep
 `C-c s r`     counsel ripgrep
 
@@ -198,12 +205,12 @@ which-key         expand minibuffer after delay to show bound keys/commands
 
 ### Magit
 
-`C-x g`       magit status
+`s-m m`       magit status
 
 In magit status:
 
 `(magit status) ?`   help
-`(magit status) d d` diff file or group of files at point
+`(magit status) d d` diff file or group (e.g. staged or unstaged files)
 `(magit status) s`   stage file at point
 `(magit status) u`   unstage file at point
 `(magit status) c c` commit
@@ -211,7 +218,7 @@ In magit status:
 
 In magit commit:
 
-`(magit commit) C-c C-c`     commit
+`(magit commit) C-c C-c`     commit (with-editor-finish)
 
 ### Move text
 
