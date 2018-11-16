@@ -381,7 +381,6 @@
     (eldoc-mode +1)
     (tide-hl-identifier-mode +1))
 
-  (add-hook 'before-save-hook 'tide-format-before-save)
   (add-hook 'typescript-mode-hook 'ya/ts-mode-hook))
 
 ;;;; macOS
