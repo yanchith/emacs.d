@@ -133,10 +133,12 @@ which-key         expand minibuffer after delay to show bound keys/commands
 `C-/`         undo
 `C-S-/`       redo
 
-## Search
+## Search & Replace
 
-`C-s`         start incremental search
-`C-r`         start backwards incremental search
+`C-s`         start i-search (incremental search)
+`C-r`         start backwards i-search
+`M-%`         start query replace
+`C-M-%`       start regexp query replace
 
 ## Window management
 
