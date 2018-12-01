@@ -175,6 +175,17 @@ which-key         expand minibuffer after delay to show bound keys/commands
 
 ## Extensions
 
+### Projectile
+
+`s-p p`       Switch to project
+`s-p f`       Switch to file in current project
+`s-p D`       Open Dired in project root
+`s-p d`       Find a directory in project and open Dired in it
+`s-p r`       Project search and replace
+`s-p s g`     Project grep
+`s-p s r`     Project ripgrep
+`projectile-add-known-project` Add a project to projectile's index
+
 ### Swiper
 
 `C-s`         swiper search (replaces i-search)
@@ -193,7 +204,7 @@ which-key         expand minibuffer after delay to show bound keys/commands
 ### Crux
 
 `C-c d`       crux duplicate current line or region
-`s k`         crux kill whole line
+`s-k`         crux kill whole line
 `C-a`         crux move to beginning of line (smarter than classic `C-a`)
 
 ### Multiple Cursors
