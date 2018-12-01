@@ -67,7 +67,6 @@ projectile        project management (cmd+p, search within project)
 doom-themes       various color themes
 
 ace-window        better other-window
-avy               goto word using char-based decision tree
 crux              collection of misc useful commands (see below)
 diff-hl           highlights git diffs
 editorconfig      editorconfig support
@@ -198,10 +197,6 @@ which-key         expand minibuffer after delay to show bound keys/commands
 `C-x C-f`     counsel powered C-x C-f
 `C-c s g`     counsel git grep
 `C-c s r`     counsel ripgrep
-
-### Avy
-
-`s-.`         avy go to word or subword (char-based decision tree)
 
 ### Crux
 

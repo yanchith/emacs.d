@@ -1,4 +1,4 @@
-(message "Emacs is powering up...")
+(message "Configuring Emacs...")
 
 ;; Always load newest byte code
 (setq load-prefer-newer t)
@@ -199,13 +199,6 @@
 (setq company-minimum-prefix-length 2)
 (setq company-tooltip-align-annotations t)
 (global-company-mode 1)
-
-;; avy allows us to effectively navigate to visible things
-(ya/install 'avy)
-(require 'avy)
-(setq avy-background t)
-(setq avy-style 'at-full)
-(global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
 
 (ya/install 'multiple-cursors)
 (require 'multiple-cursors)
