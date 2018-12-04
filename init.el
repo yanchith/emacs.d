@@ -1,5 +1,7 @@
 (message "Configuring Emacs...")
 
+;;  TODO: try using use-package
+
 ;; Always load newest byte code
 (setq load-prefer-newer t)
 
