@@ -1,15 +1,13 @@
 (message "Configuring Emacs...")
 
-;;  TODO: try using use-package
-
 ;; Always load newest byte code
 (setq load-prefer-newer t)
 
 ;; Increase GC threshold to 50MB for better throughput during init
 (setq gc-cons-threshold 50000000)
 
-;; Increase large file limit to 100MB
-(setq large-file-warning-threshold 100000000)
+;; Increase large file limit to 50MB
+(setq large-file-warning-threshold 50000000)
 
 ;; Define directories
 
@@ -28,10 +26,14 @@
 (setq custom-file (expand-file-name "custom.el" ya/dir-root))
 
 (require 'package)
+(add-to-list 'load-path 'ya/dir-packages-elpa)
 
 ;; Add MELPA to gain access to more packages
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+
+;; Give melpa-stable higher priority
+(setq package-archive-priorities '(("melpa-stable" . 10) ("melpa" . 5)))
 
 ;; Set package-user-dir path, initialize package and refresh index
 (setq package-user-dir ya/dir-packages-elpa)
@@ -39,20 +41,15 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;; Give melpa-stable higher priority
-(setq package-archive-priorities '(("melpa-stable" . 10) ("melpa" . 5)))
-
-(defun ya/install (pkg)
-  "Install PKG unless already installed."
-  (when (not (package-installed-p pkg))
-    (package-install pkg)))
+(eval-when-compile
+  (when (not (package-installed-p 'use-package))
+    (package-install 'use-package))
+  (require 'use-package))
 
 ;; Reclaim some screen real-estate
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
-(menu-bar-mode -1)
-(when (fboundp 'scroll-bar-mode)
-  (scroll-bar-mode -1))
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; Disable cursor blinking
 (blink-cursor-mode -1)
@@ -60,14 +57,10 @@
 ;; Always highlight the current line
 (global-hl-line-mode +1)
 
-;; Disable sounds
-(setq ring-bell-function 'ignore)
-
-;; Disable startup screen
-(setq inhibit-startup-screen t)
-
-;; Add nice scrolling
-(setq scroll-margin 0
+;; Disable sounds, startup screen, prettify scrolling
+(setq ring-bell-function 'ignore
+      inhibit-startup-screen t
+      scroll-margin 0
       scroll-conservatively 100000
       scroll-preserve-screen-position t)
 
@@ -91,70 +84,104 @@
         (:eval (if (buffer-fiLe-name)
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 
-(ya/install 'doom-themes)
-(load-theme 'doom-one t)
-(setq doom-themes-enable-bold t
-      doom-themes-enable-italic t)
-
+(use-package doom-themes
+  :ensure t
+  :pin melpa-stable
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (load-theme 'doom-one t))
 
 ;; meaningful names for buffers with the same name
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
-(setq uniquify-separator "/")
-(setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
-(setq uniquify-ignore-buffers-re "^\\*") ; ignore special buffers
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'forward
+        uniquify-separator "/"
+        ;; Rename after killing uniquified
+        uniquify-after-kill-buffer-p t
+        ;; Ignore special buffers
+        uniquify-ignore-buffers-re "^\\*"))
 
 ;; Show available keybindings after you start typing
-(ya/install 'which-key)
-(require 'which-key)
-(which-key-mode +1)
+(use-package which-key
+  :ensure t
+  :pin melpa-stable
+  :config
+  (which-key-mode +1))
 
-(ya/install 'crux)
-(require 'crux)
+(use-package crux
+  :ensure t
+  :pin melpa-stable
+  :bind (("C-a" . crux-move-beggining-of-line)
 
-(global-set-key (kbd "C-a") 'crux-move-beginning-of-line)
+         ("M-o" . crux-smart-open-line)
+         ("s-o" . crux-smart-open-line-above)
+         ("s-j" . crux-top-join-line)
+         ("s-k" . crux-kill-whole-line)
 
-(global-set-key (kbd "M-o") 'crux-smart-open-line)
-(global-set-key (kbd "s-o") 'crux-smart-open-line-above)
-(global-set-key (kbd "s-j") 'crux-top-join-line)
-(global-set-key (kbd "s-k") 'crux-kill-whole-line)
+         ("C-c r" . crux-rename-buffer-and-file)
+         ("C-c k" . crux-kill-other-buffers)
 
-(global-set-key (kbd "C-c r") 'crux-rename-buffer-and-file)
-(global-set-key (kbd "C-c k") 'crux-kill-other-buffers)
+         ("C-c d" . crux-duplicate-current-line-or-region)))
 
-(global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
+(use-package move-text
+  :ensure t
+  :pin melpa-stable
+  :bind (("M-p" . move-text-up)
+         ("M-n" . move-text-down)))
 
-(ya/install 'move-text)
-(global-set-key (kbd "M-p")  'move-text-up)
-(global-set-key (kbd "M-n")  'move-text-down)
+;; Set up ivy, swiper and counsel
+(use-package ivy
+  :ensure t
+  :pin melpa-stable
+  :config
+  (setq ivy-use-virtual-buffers t
+        enable-recursive-minibuffers t)
+  (ivy-mode 1))
 
-(ya/install 'projectile)
-(require 'projectile)
-(setq projectile-cache-file (expand-file-name  "projectile.cache" ya/dir-savefile))
-(projectile-mode t)
+;; swiper provides enhanced buffer search, replace i-search with swiper
+(use-package swiper
+  :ensure t
+  :pin melpa-stable
+  :bind ("C-s" . swiper))
 
-(global-set-key (kbd "s-p") 'projectile-command-map)
+;; counsel supercharges a lot of commands with some ivy magic
+(use-package counsel
+  :ensure t
+  :pin melpa-stable
+  :bind (("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+         ("C-c g" . counsel-git)
+         ("C-c s g" . counsel-git-grep)
+         ("C-c s r" . counsel-rg)))
 
-(ya/install 'magit)
-(global-set-key (kbd "s-m m") 'magit-status)
-(global-set-key (kbd "s-m l") 'magit-log)
-(global-set-key (kbd "s-m f") 'magit-log-buffer-file)
-(global-set-key (kbd "s-m b") 'magit-blame)
+(use-package projectile
+  :ensure t
+  :pin melpa-stable
+  :after ivy
+  :bind-keymap (("s-p" . projectile-command-map)
+                ("C-c p" . projectile-command-map))
+  :config
+  (setq projectile-cache-file (expand-file-name  "projectile.cache" ya/dir-savefile)
+        projectile-completion-system 'ivy)
+  (projectile-mode t))
 
-(ya/install 'git-timemachine)
 
-;; TODO: audit
-;; Death to tabs! However, tabs historically indent to the next
-;; 8-character offset; specifying anything else will cause *mass*
-;; confusion, as it will change the appearance of every existing file.
-;; In some cases (python), even worse -- it will change the semantics.
-;;
-;; Emacs modes typically provide a standard means to change the
-;; indentation width -- eg. c-basic-offset: use that to adjust your
-;; personal indentation width, while maintaining the style (and
-;; meaning) of any files you load.
-(setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
-(setq-default tab-width 8)            ;; but maintain correct appearance
+(use-package magit
+  :ensure t
+  :pin melpa-stable
+  :bind (("s-m m" . magit-status)
+         ("s-m l" . magit-log)
+         ("s-m f" . magit-log-buffer-file)
+         ("s-m b" . magit-blame)))
+
+(use-package git-timemachine
+    :ensure t
+    :pin melpa-stable)
+
+;; Don't use tabs to indent, but set them to appear at 4 spaces
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
 
 ;; Newline at end of file
 (setq require-final-newline t)
@@ -168,58 +195,42 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-;; Set up ivy, swiper and counsel
-(ya/install 'ivy)
-(ya/install 'swiper)
-(ya/install 'counsel)
+;; Set up completetions in text
+(use-package company
+  :ensure t
+  :pin melpa-stable
+  :config
+  (setq company-idle-delay 0.3
+        company-show-numbers t
+        company-tooltip-limit 10
+        company-minimum-prefix-length 2
+        company-tooltip-align-annotations t)
+  (global-company-mode 1))
 
-(require 'ivy)
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
+(use-package multiple-cursors
+  :ensure t
+  :pin melpa-stable
+  :bind (("C-c m c" . mc/edit-lines)
+         ("C-c C->" . mc/mark-all-like-this)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/unmark-next-like-this)))
 
-;; Integrate ivy with projectile
-(setq projectile-completion-system 'ivy)
+(use-package editorconfig
+  :ensure t
+  :pin melpa-stable
+  :config
+  (editorconfig-mode 1))
 
-;; swiper provides enhanced buffer search, replace i-search with swiper
-(global-set-key "\C-s" 'swiper)
-
-;; counsel supercharges a lot of commands with some ivy magic
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c s g") 'counsel-git-grep)
-(global-set-key (kbd "C-c s r") 'counsel-rg)
-
-(ya/install 'company)
-(require 'company)
-
-;; Set up completetions in text, TODO: audit
-(setq company-idle-delay 0.3)
-(setq company-show-numbers t)
-(setq company-tooltip-limit 10)
-(setq company-minimum-prefix-length 2)
-(setq company-tooltip-align-annotations t)
-(global-company-mode 1)
-
-(ya/install 'multiple-cursors)
-(require 'multiple-cursors)
-(global-set-key (kbd "C-c m c") 'mc/edit-lines)
-(global-set-key (kbd "C-c C->") 'mc/mark-all-like-this)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/unmark-next-like-this)
-
-(ya/install 'editorconfig)
-(require 'editorconfig)
-(editorconfig-mode 1)
-
-(ya/install 'expand-region)
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(use-package expand-region
+  :ensure t
+  :pin melpa-stable
+  :bind ("C-=" . er/expand-region))
 
 ;; Improve window navigation with ace-window
-(ya/install 'ace-window)
-(global-set-key [remap other-window] 'ace-window)
+(use-package ace-window
+  :ensure t
+  :pin melpa-stable
+  :bind ([remap other-window] . ace-window))
 
 ;; Smart tab behavior - indent or complete
 (setq tab-always-indent 'complete)
@@ -233,10 +244,10 @@
 (setq dired-recursive-deletes 'always)
 (setq dired-recursive-copies 'always)
 
-;; TODO dired-subtree
 
+;; TODO dired-subtree
 ;; Enable some really cool extensions like C-x C-j(dired-jump)
-(require 'dired-x)
+(use-package dired-x)
 
 ;; Revert buffers automatically when underlying files are changed externally
 ;; This still prompts for confirmation if buffer has unsaved changes
@@ -245,26 +256,28 @@
 (add-hook 'dired-mode-hook 'auto-revert-mode)
 
 ;; ediff - don't start another frame
-(require 'ediff)
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(use-package ediff
+  :config
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 ;; Whitespace-mode config
-(require 'whitespace)
-(setq whitespace-line-column 80)
-(setq whitespace-style '(face tabs empty trailing lines-tail))
-(add-hook 'before-save-hook 'whitespace-cleanup nil t)
-(global-whitespace-mode +1)
+(use-package whitespace
+  :config
+  (setq whitespace-line-column 80
+        whitespace-style '(face tabs empty trailing lines-tail))
+  (add-hook 'before-save-hook 'whitespace-cleanup nil t)
+  (global-whitespace-mode +1))
 
 ;; Have saner regex syntax
-(require 're-builder)
-(setq reb-re-syntax 'string)
+(use-package re-builder
+  :config
+  (setq reb-re-syntax 'string))
 
-(require 'eshell)
-(setq eshell-directory-name (expand-file-name "eshell" ya/dir-savefile))
-;; Start eshell or switch to it if it's active.
-(global-set-key (kbd "C-x m") 'eshell)
-;; Start a new eshell even if one is active.
-(global-set-key (kbd "C-x M") (lambda () (interactive) (eshell t)))
+(use-package eshell
+  :bind (("C-x m" . eshell)
+         ("C-x M" . (lambda () (interactive) (eshell t))))
+  :config
+  (setq eshell-directory-name (expand-file-name "eshell" ya/dir-savefile)))
 
 ;; TODO: what is semanticdb? audit
 (setq semanticdb-default-save-directory
@@ -273,10 +286,13 @@
 ;; Enable winner-mode to manage window configurations
 (winner-mode +1)
 
-(ya/install 'diff-hl)
-(global-diff-hl-mode +1)
-(add-hook 'dired-mode-hook 'diff-hl-dired-mode)
-(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+(use-package diff-hl
+  :ensure t
+  :pin melpa-stable
+  :config
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  (global-diff-hl-mode +1))
 
 ;; Font size
 (global-set-key (kbd "C-+") 'text-scale-increase)
@@ -290,109 +306,113 @@
 
 (define-key 'help-command (kbd "C-i") 'info-display-manual)
 
-;; kill lines backward, TODO: audit - isn't this the default?
-(global-set-key (kbd "C-<backspace>")
-                (lambda ()
-                  (interactive)
-                  (kill-line 0)
-                  (indent-according-to-mode)))
-
 ;; Replace buffer-menu with ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; General programming support
 
-(ya/install 'flycheck)
-(ya/install 'smartparens)
+(use-package flycheck
+  :ensure t
+  :pin melpa-stable
+  :config
+  ;; enable on-the-fly syntax checking
+  (if (fboundp 'global-flycheck-mode)
+      (global-flycheck-mode +1)
+    (add-hook 'prog-mode-hook 'flycheck-mode)))
 
-(require 'smartparens-config)
-(setq sp-base-key-bindings 'paredit)
-(setq sp-autoskip-closing-pair 'always)
-(setq sp-hybrid-kill-entire-symbol nil) ;; TODO: audit
-(sp-use-paredit-bindings)
-(sp-pair "{" nil :post-handlers
-         '(((lambda (&rest _ignored)
-              (crux-smart-open-line-above)) "RET")))
-
-(smartparens-global-mode +1)
-(show-smartparens-global-mode +1)
+(use-package smartparens-config
+  :ensure smartparens
+  :pin melpa-stable
+  :config
+  (setq sp-base-key-bindings 'paredit
+        sp-autoskip-closing-pair 'always
+        sp-hybrid-kill-entire-symbol nil) ;; TODO: audit
+  (sp-use-paredit-bindings)
+  (sp-pair "{" nil :post-handlers
+           '(((lambda (&rest _ignored)
+                (crux-smart-open-line-above)) "RET")))
+  (smartparens-global-mode +1)
+  (show-smartparens-global-mode +1))
 
 ;; TODO comment filling and autofilling
 
 ;; show the name of the current function definition in the modeline
-(require 'which-func)
-(which-function-mode 1)
-
-;; enable on-the-fly syntax checking
-(if (fboundp 'global-flycheck-mode)
-    (global-flycheck-mode +1)
-  (add-hook 'prog-mode-hook 'flycheck-mode))
+(use-package which-func
+  :config
+  (which-function-mode 1))
 
 ;;;; Rust
 
-;; You may need installing the following packages on your system:
+;; The following packages may need to be installed manually on the system
 ;; * rustc (Rust Compiler)
 ;; * cargo (Rust Package Manager)
 ;; * racer (Rust Completion Tool)
 ;; * rustfmt (Rust Tool for formatting code)
 
-;; TODO: should be in config.el
-(setq racer-rust-src-path "~/.rustup/toolchains/beta-x86_64-apple-darwin/lib/rustlib/src/rust/src")
 
-(ya/install 'rust-mode)
-(ya/install 'racer)
-(ya/install 'flycheck-rust)
-(ya/install 'cargo)
-
-(setq rust-format-on-save t)
-
-(with-eval-after-load 'rust-mode
+(use-package rust-mode
+  :ensure t
+  :pin melpa-stable
+  :config
+  (setq rust-format-on-save t)
   (add-hook 'rust-mode-hook 'racer-mode)
-  (add-hook 'racer-mode-hook 'eldoc-mode)
   (add-hook 'rust-mode-hook 'cargo-minor-mode)
   (add-hook 'rust-mode-hook 'flycheck-rust-setup)
-  (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)
-
   (defun ya/rust-mode-hook ()
     (local-set-key (kbd "C-c C-d") 'racer-describe)
     ;; CamelCase aware editing operations
     (subword-mode +1))
-
   (add-hook 'rust-mode-hook 'ya/rust-mode-hook))
+
+(use-package racer
+  :ensure t
+  :pin melpa-stable
+  :config
+  ;; TODO: should be in config.el
+  (setq racer-rust-src-path "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src")
+  (add-hook 'racer-mode-hook 'eldoc-mode))
+
+(use-package flycheck-rust
+  :ensure t
+  ;; :pin melpa-stable ;; flycheck-rust is not on stable :(
+  :config
+  (add-hook 'flycheck-mode-hook 'flycheck-rust-setup))
+
+(use-package cargo
+  :ensure t
+  :pin melpa-stable)
 
 ;;;; TypeScript
 
-(ya/install 'tide)
-(require 'typescript-mode)
-
-(add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-mode))
-
-(with-eval-after-load 'typescript-mode
+(use-package typescript-mode
+  :ensure tide
+  :pin melpa-stable
+  :mode ("\\.tsx?\\" . typescript-mode)
+  :config
   (defun ya/ts-mode-hook ()
     (interactive)
     (tide-setup)
     (flycheck-mode +1)
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (eldoc-mode +1))
-
   (add-hook 'typescript-mode-hook 'ya/ts-mode-hook))
 
 ;;;; macOS
 
+(use-package exec-path-from-shell
+  :if (eq system-type 'darwin)
+  :ensure t
+  :pin melpa-stable
+  :config
+  (exec-path-from-shell-initialize))
+
 (when (eq system-type 'darwin)
-  ;; Load PATH from shell
-  (ya/install 'exec-path-from-shell)
-  (require 'exec-path-from-shell)
-  (exec-path-from-shell-initialize)
-
-  ;; Set option/alt -> meta and cmd -> super
-  (setq mac-option-key-is-meta t)
-  (setq mac-command-key-is-meta nil)
-  (setq mac-command-modifier 'super)
-  (setq mac-option-modifier 'meta)
-
-  ;; Set fn as function key
-  (setq ns-function-modifier 'hyper))
+  ;; Set option/alt -> meta, cmd -> super and fn -> hyper
+  (setq mac-option-key-is-meta t
+        mac-command-key-is-meta nil
+        mac-command-modifier 'super
+        mac-option-modifier 'meta
+        ns-function-modifier 'hyper))
 
 ;; Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold 800000)
@@ -400,7 +420,7 @@
 (message "Done!")
 
 ;; TODO:
-;; better package management: use-package
 ;; Spelling correction: flyspell
 ;; Editing: recentf, savehist
 ;; Haskell: haskell-mode
+;; diminish & delight
