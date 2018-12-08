@@ -21,22 +21,18 @@
 
 (defvar ya/dir-packages-elpa (expand-file-name "packages-elpa" ya/dir-root)
   "This directory stores all downloaded packages.")
+(unless (file-exists-p ya/dir-packages-elpa)
+  (make-directory ya/dir-packages-elpa))
 
 ;; Store config changes made through the customize UI here
 (setq custom-file (expand-file-name "custom.el" ya/dir-root))
 
 (require 'package)
 (add-to-list 'load-path 'ya/dir-packages-elpa)
-
-;; Add MELPA to gain access to more packages
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-
-;; Give melpa-stable higher priority
-(setq package-archive-priorities '(("melpa-stable" . 10) ("melpa" . 5)))
-
-;; Set package-user-dir path, initialize package and refresh index
-(setq package-user-dir ya/dir-packages-elpa)
+(setq package-user-dir ya/dir-packages-elpa
+      package-archive-priorities '(("melpa-stable" . 10) ("melpa" . 5)))
 (package-initialize)
 (when (not package-archive-contents)
   (package-refresh-contents))
