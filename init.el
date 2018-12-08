@@ -151,7 +151,7 @@
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
-(use-package projectile
+(use-package projectile ;; TODO: fix forgetting added projects
   :ensure t
   :pin melpa-stable
   :demand ;; Some commands are not available from the start unless :demand
@@ -172,7 +172,7 @@
          ("s-m f" . magit-log-buffer-file)
          ("s-m b" . magit-blame)))
 
-(use-package git-timemachine
+(use-package git-timemachine ;; TODO: :bind this so it can be deferred
     :ensure t
     :pin melpa-stable)
 
@@ -362,7 +362,7 @@
     (subword-mode +1))
   (add-hook 'rust-mode-hook 'ya/rust-mode-hook))
 
-(use-package racer
+(use-package racer ;; TODO: find a way to defer this
   :ensure t
   :pin melpa-stable
   :config
@@ -370,13 +370,13 @@
   (setq racer-rust-src-path "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src")
   (add-hook 'racer-mode-hook 'eldoc-mode))
 
-(use-package flycheck-rust
+(use-package flycheck-rust ;; TODO: find a way to defer this
   :ensure t
   :pin melpa ;; flycheck-rust is not on stable :(
   :config
   (add-hook 'flycheck-mode-hook 'flycheck-rust-setup))
 
-(use-package cargo
+(use-package cargo ;; TODO: find a way to defer this... what does it do?
   :ensure t
   :pin melpa-stable)
 
