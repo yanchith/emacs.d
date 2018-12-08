@@ -387,7 +387,7 @@
 (use-package typescript-mode
   :ensure tide
   :pin melpa-stable
-  :mode ("\\.tsx?\\" . typescript-mode)
+  :mode ("\\.tsx?\\'" . typescript-mode)
   :config
   (defun ya/ts-mode-hook ()
     (interactive)
