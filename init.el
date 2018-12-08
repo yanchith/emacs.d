@@ -158,6 +158,7 @@
 (use-package projectile
   :ensure t
   :pin melpa-stable
+  :demand ;; Some commands are not available from the start unless :demand
   :after ivy
   :bind-keymap (("s-p" . projectile-command-map)
                 ("C-c p" . projectile-command-map))
