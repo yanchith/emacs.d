@@ -374,7 +374,7 @@
 
 (use-package flycheck-rust
   :ensure t
-  ;; :pin melpa-stable ;; flycheck-rust is not on stable :(
+  :pin melpa ;; flycheck-rust is not on stable :(
   :config
   (add-hook 'flycheck-mode-hook 'flycheck-rust-setup))
 
