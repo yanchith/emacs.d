@@ -112,7 +112,7 @@
 (use-package crux
   :ensure t
   :pin melpa-stable
-  :bind (("C-a" . crux-move-beggining-of-line)
+  :bind (("C-a" . crux-move-beginning-of-line)
 
          ("M-o" . crux-smart-open-line)
          ("s-o" . crux-smart-open-line-above)
@@ -324,6 +324,7 @@
 (use-package smartparens-config
   :ensure smartparens
   :pin melpa-stable
+  :after crux
   :config
   (setq sp-base-key-bindings 'paredit
         sp-autoskip-closing-pair 'always
