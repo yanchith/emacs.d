@@ -1,3 +1,5 @@
+;; TODO: projectile does not remember projects, markdown is not highlighted
+
 (message "Configuring Emacs...")
 
 ;; Always load newest byte code
@@ -320,7 +322,6 @@
 (use-package smartparens-config
   :ensure smartparens
   :pin melpa-stable
-  :after crux
   :config
   (setq sp-base-key-bindings 'paredit
         sp-autoskip-closing-pair 'always
