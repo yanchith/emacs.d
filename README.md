@@ -78,6 +78,10 @@ multiple-cursors  duplicate cursor and edit multiple places at once
 smartparens       automatically close parens, slurping, wrapping, unwrapping
 which-key         expand minibuffer after delay to show bound keys/commands
 
+tide              typescript
+rust-mode         rust
+markdown-mode     markdown
+
 ## Movement
 
 `C-v`         move one page forward

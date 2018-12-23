@@ -33,8 +33,7 @@
 (add-to-list 'load-path 'ya/dir-packages-elpa)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(setq package-user-dir ya/dir-packages-elpa
-      package-archive-priorities '(("melpa-stable" . 10) ("melpa" . 5)))
+(setq package-user-dir ya/dir-packages-elpa)
 (package-initialize)
 (when (not package-archive-contents)
   (package-refresh-contents))
@@ -396,6 +395,16 @@
     (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'typescript-mode-hook 'ya/ts-mode-hook))
+
+;;;; Markdown
+
+(use-package markdown-mode
+  :ensure t
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :config
+  (setq markdown-command "multimarkdown"))
 
 ;;;; macOS
 
