@@ -1,5 +1,3 @@
-;; TODO: projectile does not remember projects, markdown is not highlighted
-
 (message "Configuring Emacs...")
 
 ;; Always load newest byte code
@@ -163,7 +161,6 @@
   (setq projectile-cache-file (expand-file-name  "projectile.cache" ya/dir-savefile)
         projectile-completion-system 'ivy)
   (projectile-mode t))
-
 
 (use-package magit
   :ensure t
