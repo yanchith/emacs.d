@@ -1,4 +1,7 @@
-packages-elpa/
+# Ignore straight cache, but keep its lockfile
+straight/
+! straight/versions/default.el
+
 savefile/
 
 custom.el
