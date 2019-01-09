@@ -19,27 +19,27 @@
 (unless (file-exists-p ya/dir-savefile)
   (make-directory ya/dir-savefile))
 
-(defvar ya/dir-packages-elpa (expand-file-name "packages-elpa" ya/dir-root)
-  "This directory stores all downloaded packages.")
-(unless (file-exists-p ya/dir-packages-elpa)
-  (make-directory ya/dir-packages-elpa))
-
 ;; Store config changes made through the customize UI here
 (setq custom-file (expand-file-name "custom.el" ya/dir-root))
 
-(require 'package)
-(add-to-list 'load-path 'ya/dir-packages-elpa)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(setq package-user-dir ya/dir-packages-elpa)
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents))
+;;;; straight.el bootstrap
 
-(eval-when-compile
-  (when (not (package-installed-p 'use-package))
-    (package-install 'use-package))
-  (require 'use-package))
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+
+(eval-when-compile (require 'use-package))
 
 ;; Reclaim some screen real-estate
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -80,8 +80,7 @@
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 
 (use-package doom-themes
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
@@ -99,14 +98,12 @@
 
 ;; Show available keybindings after you start typing
 (use-package which-key
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :config
   (which-key-mode +1))
 
 (use-package crux
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :bind (("C-a" . crux-move-beginning-of-line)
 
          ("M-o" . crux-smart-open-line)
@@ -120,15 +117,13 @@
          ("C-c d" . crux-duplicate-current-line-or-region)))
 
 (use-package move-text
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :bind (("M-p" . move-text-up)
          ("M-n" . move-text-down)))
 
 ;; Set up ivy, swiper and counsel
 (use-package ivy
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :config
   (setq ivy-use-virtual-buffers t
         enable-recursive-minibuffers t)
@@ -136,14 +131,12 @@
 
 ;; swiper provides enhanced buffer search, replace i-search with swiper
 (use-package swiper
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :bind ("C-s" . swiper))
 
 ;; counsel supercharges a lot of commands with some ivy magic
 (use-package counsel
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
          ("C-c g" . counsel-git)
@@ -151,8 +144,7 @@
          ("C-c s r" . counsel-rg)))
 
 (use-package projectile
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :demand ;; Some commands are not available from the start unless :demand
   :after ivy
   :bind-keymap (("s-p" . projectile-command-map)
@@ -163,16 +155,14 @@
   (projectile-mode t))
 
 (use-package magit
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :bind (("s-m m" . magit-status)
          ("s-m l" . magit-log)
          ("s-m f" . magit-log-buffer-file)
          ("s-m b" . magit-blame)))
 
 (use-package git-timemachine ;; TODO: :bind this so it can be deferred
-    :ensure t
-    :pin melpa-stable)
+    :straight t)
 
 ;; Don't use tabs to indent, but set them to appear at 4 spaces
 (setq-default indent-tabs-mode nil)
@@ -192,8 +182,7 @@
 
 ;; Set up completetions in text
 (use-package company
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :config
   (setq company-idle-delay 0.3
         company-show-numbers t
@@ -203,28 +192,24 @@
   (global-company-mode 1))
 
 (use-package multiple-cursors
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :bind (("C-c m c" . mc/edit-lines)
          ("C-c C->" . mc/mark-all-like-this)
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/unmark-next-like-this)))
 
 (use-package editorconfig
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :config
   (editorconfig-mode 1))
 
 (use-package expand-region
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :bind ("C-=" . er/expand-region))
 
 ;; Improve window navigation with ace-window
 (use-package ace-window
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :bind ([remap other-window] . ace-window))
 
 ;; Smart tab behavior - indent or complete
@@ -282,8 +267,7 @@
 (winner-mode +1)
 
 (use-package diff-hl
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :config
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
@@ -307,8 +291,7 @@
 ;; General programming support
 
 (use-package flycheck
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :config
   ;; enable on-the-fly syntax checking
   (if (fboundp 'global-flycheck-mode)
@@ -316,8 +299,7 @@
     (add-hook 'prog-mode-hook 'flycheck-mode)))
 
 (use-package smartparens-config
-  :ensure smartparens
-  :pin melpa-stable
+  :straight smartparens
   :config
   (setq sp-base-key-bindings 'paredit
         sp-autoskip-closing-pair 'always
@@ -346,8 +328,7 @@
 
 
 (use-package rust-mode
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :config
   (setq rust-format-on-save t)
   (add-hook 'rust-mode-hook 'racer-mode)
@@ -360,28 +341,24 @@
   (add-hook 'rust-mode-hook 'ya/rust-mode-hook))
 
 (use-package racer ;; TODO: find a way to defer this
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :config
   ;; TODO: should be in config.el
   (setq racer-rust-src-path "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src")
   (add-hook 'racer-mode-hook 'eldoc-mode))
 
 (use-package flycheck-rust ;; TODO: find a way to defer this
-  :ensure t
-  :pin melpa ;; flycheck-rust is not on stable :(
+  :straight t
   :config
   (add-hook 'flycheck-mode-hook 'flycheck-rust-setup))
 
 (use-package cargo ;; TODO: find a way to defer this... what does it do?
-  :ensure t
-  :pin melpa-stable)
+  :straight t)
 
 ;;;; TypeScript
 
 (use-package typescript-mode
-  :ensure tide
-  :pin melpa-stable
+  :straight tide
   :mode ("\\.tsx?\\'" . typescript-mode)
   :config
   (defun ya/ts-mode-hook ()
@@ -396,8 +373,7 @@
 ;;;; Markdown
 
 (use-package markdown-mode
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
@@ -408,8 +384,7 @@
 
 (use-package exec-path-from-shell
   :if (eq system-type 'darwin)
-  :ensure t
-  :pin melpa-stable
+  :straight t
   :config
   (exec-path-from-shell-initialize))
 
