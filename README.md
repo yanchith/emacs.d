@@ -1,11 +1,12 @@
-# Emacs Cheatsheet
+# My Emacs Config and Cheatsheet
 
 ## Installation
 
 ### macOS
 
 The `railwaycat/emacsmacport` version is compatible with `spectacle` snapping
-(there is undesired space left around the borders after snapping).
+(some emacs distribution have an undesired space left around the borders after
+snapping).
 
 Install it from `homebrew`:
 
@@ -198,6 +199,8 @@ In magit status:
 - `(magit status) u`   unstage file at point
 - `(magit status) c c` commit
 - `(magit status) P p` push to remote tracking branch
+- `(magit status) b b` checkout branch (`git checkout`)
+- `(magit status) b c` checkout new branch (`git checkout -b`)
 
 In magit commit:
 
