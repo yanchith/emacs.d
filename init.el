@@ -150,7 +150,7 @@
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
-(use-package projectile ;; TODO: fix forgetting added projects
+(use-package projectile
   :ensure t
   :pin melpa-stable
   :demand ;; Some commands are not available from the start unless :demand
@@ -397,6 +397,7 @@
 
 (use-package markdown-mode
   :ensure t
+  :pin melpa-stable
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
