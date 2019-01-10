@@ -331,29 +331,25 @@
   :straight t
   :config
   (setq rust-format-on-save t)
-  (add-hook 'rust-mode-hook 'racer-mode)
-  (add-hook 'rust-mode-hook 'cargo-minor-mode)
-  (add-hook 'rust-mode-hook 'flycheck-rust-setup)
   (defun ya/rust-mode-hook ()
-    (local-set-key (kbd "C-c C-d") 'racer-describe)
-    ;; CamelCase aware editing operations
     (subword-mode +1))
   (add-hook 'rust-mode-hook 'ya/rust-mode-hook))
 
-(use-package racer ;; TODO: find a way to defer this
+(use-package racer
   :straight t
+  :hook (rust-mode . racer-mode)
   :config
   ;; TODO: should be in config.el
   (setq racer-rust-src-path "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src")
   (add-hook 'racer-mode-hook 'eldoc-mode))
 
-(use-package flycheck-rust ;; TODO: find a way to defer this
+(use-package flycheck-rust
   :straight t
-  :config
-  (add-hook 'flycheck-mode-hook 'flycheck-rust-setup))
+  :hook (flycheck-mode . flycheck-rust-setup))
 
-(use-package cargo ;; TODO: find a way to defer this... what does it do?
-  :straight t)
+(use-package cargo
+  :straight t
+  :hook (rust-mode . cargo-minor-mode))
 
 ;;;; TypeScript
 
@@ -402,6 +398,8 @@
 (message "Done!")
 
 ;; TODO:
+;; Rust RLS with lsp-mode?
+;; Typescript with lsp-mode?
 ;; Spelling correction: flyspell
 ;; Editing: recentf, savehist
 ;; Haskell: haskell-mode
