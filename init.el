@@ -366,6 +366,16 @@
     (subword-mode +1))
   (add-hook 'typescript-mode-hook 'ya/ts-mode-hook))
 
+;;;; Racket
+
+(use-package racket-mode
+  :straight t
+  :mode ("\\.rkt\\'" . racket-mode)
+  :config
+  (defun ya/racket-mode-hook ()
+    (smartparens-strict-mode +1))
+  (add-hook 'racket-mode-hook 'ya/racket-mode-hook))
+
 ;;;; Markdown
 
 (use-package markdown-mode
