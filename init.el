@@ -109,6 +109,9 @@
   :config
   (which-key-mode +1))
 
+(use-package delight
+  :straight t)
+
 (use-package crux
   :straight t
   :bind (("C-a" . crux-move-beginning-of-line)
@@ -131,6 +134,7 @@
 ;; Set up ivy, swiper and counsel
 (use-package ivy
   :straight t
+  :delight ivy-mode
   :config
   (setq ivy-use-virtual-buffers t
         enable-recursive-minibuffers t)
@@ -154,6 +158,7 @@
   :straight t
   :demand ;; Some commands are not available from the start unless :demand
   :after ivy
+  :delight '(:eval (concat " [" (projectile-project-name) "]"))
   :bind-keymap (("s-p" . projectile-command-map)
                 ("C-c p" . projectile-command-map))
   :config
@@ -207,6 +212,7 @@
 
 (use-package editorconfig
   :straight t
+  :delight (editorconfig-mode " EC")
   :config
   (editorconfig-mode 1))
 
@@ -420,4 +426,3 @@
 ;; Spelling correction: flyspell
 ;; Editing: recentf, savehist
 ;; Haskell: haskell-mode
-;; diminish & delight
