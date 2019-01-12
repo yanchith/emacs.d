@@ -24,6 +24,13 @@
 
 ;;;; straight.el bootstrap
 
+;; This produces a huge (2.5x) init time perf boost by not using find(1)
+;; to detect whether a package needs rebuilding at init time. Another options,
+;; such as check-on-save or watch-files could be used to check at package
+;; config modification time, but for now we just don't check that at all and
+;; reinit everything from scratch
+(setq straight-check-for-modifications nil)
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
