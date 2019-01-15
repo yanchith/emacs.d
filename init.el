@@ -303,6 +303,7 @@
 
 ;; General programming support
 
+ ;; TODO: :hook into prog-mode to defer (or maybe into concrete programming modes)
 (use-package flycheck
   :straight t
   :config
@@ -339,7 +340,7 @@
 ;; * racer (Rust Completion Tool)
 ;; * rustfmt (Rust Tool for formatting code)
 
-
+ ;; TODO: :mode this to defer if possible
 (use-package rust-mode
   :straight t
   :config
@@ -356,6 +357,10 @@
   (setq racer-rust-src-path "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src")
   (add-hook 'racer-mode-hook 'eldoc-mode))
 
+;; TODO: flycheck-rust integration broken, see
+;; * https://github.com/flycheck/flycheck-rust
+;; * the error message printed when opening a .rs file for the first time
+;; TODO integrate clippy with flycheck
 (use-package flycheck-rust
   :straight t
   :hook (flycheck-mode . flycheck-rust-setup))
@@ -366,6 +371,7 @@
 
 ;;;; TypeScript
 
+;; TODO integrate tslint with flycheck
 (use-package typescript-mode
   :straight tide
   :mode ("\\.tsx?\\'" . typescript-mode)
