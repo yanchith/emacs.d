@@ -179,6 +179,8 @@
 ;; Don't use tabs to indent, but set them to appear at 4 spaces
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
+;; Change C indentation to respect our tab width
+(defvaralias 'c-basic-offset 'tab-width)
 
 ;; Newline at end of file
 (setq require-final-newline t)
@@ -384,6 +386,16 @@
     (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'typescript-mode-hook 'ya/ts-mode-hook))
+
+;;;; GLSL
+
+(use-package glsl-mode
+  :straight t
+  :mode (("\\.glsl\\'" . glsl-mode)
+         ("\\.vert\\'" . glsl-mode)
+         ("\\.frag\\'" . glsl-mode)
+         ("\\/geom\\'" . glsl-mode))
+  )
 
 ;;;; Racket
 
