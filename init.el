@@ -304,7 +304,7 @@
 
 ;; General programming support
 
- ;; TODO: :hook into prog-mode to defer (or maybe into concrete programming modes)
+;; TODO: :hook into prog-mode to defer (or maybe into concrete programming modes)
 (use-package flycheck
   :straight t
   :config
@@ -325,8 +325,6 @@
                 (crux-smart-open-line-above)) "RET")))
   (smartparens-global-mode +1)
   (show-smartparens-global-mode +1))
-
-;; TODO comment filling and autofilling
 
 ;; show the name of the current function definition in the modeline
 (use-package which-func
