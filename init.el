@@ -292,12 +292,11 @@
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 
-;; TODO: audit - isn't this the default?
+;; Define additional help functions
 (define-key 'help-command (kbd "C-f") 'find-function)
 (define-key 'help-command (kbd "C-k") 'find-function-on-key)
 (define-key 'help-command (kbd "C-v") 'find-variable)
 (define-key 'help-command (kbd "C-l") 'find-library)
-
 (define-key 'help-command (kbd "C-i") 'info-display-manual)
 
 ;; Replace buffer-menu with ibuffer
