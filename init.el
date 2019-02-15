@@ -391,7 +391,7 @@
   :mode (("\\.glsl\\'" . glsl-mode)
          ("\\.vert\\'" . glsl-mode)
          ("\\.frag\\'" . glsl-mode)
-         ("\\/geom\\'" . glsl-mode))
+         ("\\.geom\\'" . glsl-mode))
   )
 
 ;;;; Racket
