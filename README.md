@@ -152,6 +152,17 @@ $ brew install emacs
 
 ## Extensions
 
+### Straight and package management
+
+When running the first time, straight.el seems to be ignoring the
+lockfile and uses the newest versions instead. Running
+`straight-thaw-versions` and restarting has the desired effect.
+
+- `straight-freeze-versions` Save currently checked out versions to lockfile
+- `straight-thaw-versions`   Check out versions saved in lockfile (but
+                             does not apply them)
+- `straight-fetch-all`       Fetch all git repos
+
 ### Projectile
 
 - `s-p p`       Switch to project
