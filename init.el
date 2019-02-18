@@ -304,7 +304,8 @@
 
 ;; General programming support
 
-;; TODO: :hook into prog-mode to defer (or maybe into concrete programming modes)
+;; TODO: :hook into prog-mode to defer
+;; PERF ~70ms
 (use-package flycheck
   :straight t
   :config
@@ -313,6 +314,8 @@
       (global-flycheck-mode +1)
     (add-hook 'prog-mode-hook 'flycheck-mode)))
 
+;; TODO: :hook into prog-mode to defer
+;; PERF ~40ms
 (use-package smartparens-config
   :straight smartparens
   :config
