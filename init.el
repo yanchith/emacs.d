@@ -1,5 +1,3 @@
-(message "Configuring Emacs...")
-
 ;; Always load newest byte code
 (setq load-prefer-newer t)
 
@@ -22,33 +20,9 @@
 ;; Store config changes made through the customize UI here
 (setq custom-file (expand-file-name "custom.el" ya/dir-root))
 
-;;;; straight.el bootstrap
+;;;; Customize UI
 
-;; This produces a huge (2.5x) init time perf boost by not using find(1)
-;; to detect whether a package needs rebuilding at init time. Another options,
-;; such as check-on-save or watch-files could be used to check at package
-;; config modification time, but for now we just don't check that at all and
-;; reinit everything from scratch
-(setq straight-check-for-modifications nil)
-
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
-(straight-use-package 'use-package)
-
-(eval-when-compile (require 'use-package))
-
-;; Reclaim some screen real-estate
+;; Hide all the bars
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -85,6 +59,32 @@
       '("" invocation-name ""
         (:eval (if (buffer-fiLe-name)
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
+
+;;;; bootstrap straight.el
+
+;; This produces a huge (2.5x) init time perf boost by not using find(1)
+;; to detect whether a package needs rebuilding at init time.
+(setq straight-check-for-modifications nil)
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;;;; bootstrap use-package
+
+(straight-use-package 'use-package)
+(eval-when-compile (require 'use-package))
+
+;;;; Configure packages
 
 (use-package doom-themes
   :straight t
@@ -435,8 +435,6 @@
 
 ;; Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold 800000)
-
-(message "Done!")
 
 ;; TODO:
 ;; Rust RLS with lsp-mode?
