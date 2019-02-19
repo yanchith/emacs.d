@@ -177,10 +177,12 @@
 
 (use-package ivy
   :straight t
+  :delight ivy-mode
   :bind ("C-x b" . ivy-switch-buffer)
   :config
   (setq ivy-use-virtual-buffers t
-        enable-recursive-minibuffers t))
+        enable-recursive-minibuffers t)
+  (ivy-mode 1))
 
 ;; swiper provides enhanced buffer search, replace i-search with swiper
 (use-package swiper
