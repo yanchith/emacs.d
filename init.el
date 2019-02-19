@@ -175,7 +175,6 @@
   :bind (("M-p" . move-text-up)
          ("M-n" . move-text-down)))
 
-;; PERF ~70ms
 (use-package ivy
   :straight t
   :bind ("C-x b" . ivy-switch-buffer)
@@ -198,10 +197,10 @@
          ("C-c s r" . counsel-rg)))
 
 ;; PERF ~30ms
+;; TODO: create :binds for missing projectile commands so it can be deferred
 (use-package projectile
   :straight t
-  :demand ;; Some commands are not available from the start unless :demand
-  :after ivy
+  :demand  ;; Some projectile commands are not available until it is loaded
   :delight '(:eval (concat " [" (projectile-project-name) "]"))
   :bind-keymap (("s-p" . projectile-command-map)
                 ("C-c p" . projectile-command-map))
