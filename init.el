@@ -175,15 +175,13 @@
   :bind (("M-p" . move-text-up)
          ("M-n" . move-text-down)))
 
-;; Set up ivy, swiper and counsel
 ;; PERF ~70ms
 (use-package ivy
   :straight t
-  :delight ivy-mode
+  :bind ("C-x b" . ivy-switch-buffer)
   :config
   (setq ivy-use-virtual-buffers t
-        enable-recursive-minibuffers t)
-  (ivy-mode 1))
+        enable-recursive-minibuffers t))
 
 ;; swiper provides enhanced buffer search, replace i-search with swiper
 (use-package swiper
