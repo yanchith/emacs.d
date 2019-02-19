@@ -198,14 +198,13 @@
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
-;; PERF ~30ms
-;; TODO: create :binds for missing projectile commands so it can be deferred
 (use-package projectile
   :straight t
-  :demand  ;; Some projectile commands are not available until it is loaded
   :delight '(:eval (concat " [" (projectile-project-name) "]"))
-  :bind-keymap (("s-p" . projectile-command-map)
-                ("C-c p" . projectile-command-map))
+  :bind (("s-p p" . projectile-switch-project)
+          ("s-p f" . projectile-find-file)
+          ("s-p a" . projectile-add-known-project)
+          ("s-p r" . projectile-remove-known-project))
   :config
   (setq projectile-cache-file (expand-file-name  "projectile.cache" ya/dir-savefile)
         projectile-completion-system 'ivy)
