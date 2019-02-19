@@ -60,7 +60,52 @@
         (:eval (if (buffer-fiLe-name)
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 
-;;;; bootstrap straight.el
+;;;; Customize editor behavior
+
+;; Smart tab behavior - indent or complete
+(setq tab-always-indent 'complete)
+
+;; Don't use tabs to indent, but set them to appear at 4 spaces
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+;; Change C indentation to respect our tab width
+(defvaralias 'c-basic-offset 'tab-width)
+
+;; Newline at end of file
+(setq require-final-newline t)
+
+;; Delete the selection with a keypress
+(delete-selection-mode t)
+
+;;;; Define keybindings for common operations
+
+;; Font size
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+
+;; Replace buffer-menu with ibuffer
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+;; Define additional help functions
+(define-key 'help-command (kbd "C-f") 'find-function)
+(define-key 'help-command (kbd "C-k") 'find-function-on-key)
+(define-key 'help-command (kbd "C-v") 'find-variable)
+(define-key 'help-command (kbd "C-l") 'find-library)
+(define-key 'help-command (kbd "C-i") 'info-display-manual)
+
+;;;; Misc customizations
+
+;; Store all backup and autosave files in the tmp dir
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+;; Revert buffers automatically when underlying files are changed externally
+;; This still prompts for confirmation if buffer has unsaved changes
+(global-auto-revert-mode t)
+
+;;;; Bootstrap straight.el
 
 ;; This produces a huge (2.5x) init time perf boost by not using find(1)
 ;; to detect whether a package needs rebuilding at init time.
@@ -79,13 +124,14 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;;;; bootstrap use-package
+;;;; Bootstrap use-package
 
 (straight-use-package 'use-package)
 (eval-when-compile (require 'use-package))
 
 ;;;; Configure packages
 
+;; PERF ~70ms
 (use-package doom-themes
   :straight t
   :config
@@ -93,7 +139,7 @@
         doom-themes-enable-italic t)
   (load-theme 'doom-one t))
 
-;; meaningful names for buffers with the same name
+;; Make unique and more meaninuful namse for buffers with the same name
 (use-package uniquify
   :config
   (setq uniquify-buffer-name-style 'forward
@@ -116,8 +162,6 @@
   :straight t
   :bind (("C-a" . crux-move-beginning-of-line)
 
-         ("M-o" . crux-smart-open-line)
-         ("s-o" . crux-smart-open-line-above)
          ("s-j" . crux-top-join-line)
          ("s-k" . crux-kill-whole-line)
 
@@ -132,6 +176,7 @@
          ("M-n" . move-text-down)))
 
 ;; Set up ivy, swiper and counsel
+;; PERF ~70ms
 (use-package ivy
   :straight t
   :delight ivy-mode
@@ -154,6 +199,7 @@
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
+;; PERF ~30ms
 (use-package projectile
   :straight t
   :demand ;; Some commands are not available from the start unless :demand
@@ -173,26 +219,9 @@
          ("s-m f" . magit-log-buffer-file)
          ("s-m b" . magit-blame)))
 
-(use-package git-timemachine ;; TODO: :bind this so it can be deferred
+;; TODO: :bind this so it can be deferred
+(use-package git-timemachine
     :straight t)
-
-;; Don't use tabs to indent, but set them to appear at 4 spaces
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-;; Change C indentation to respect our tab width
-(defvaralias 'c-basic-offset 'tab-width)
-
-;; Newline at end of file
-(setq require-final-newline t)
-
-;; Delete the selection with a keypress
-(delete-selection-mode t)
-
-;; Store all backup and autosave files in the tmp dir
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
 
 ;; Set up completetions in text
 (use-package company
@@ -227,28 +256,15 @@
   :straight t
   :bind ([remap other-window] . ace-window))
 
-;; Smart tab behavior - indent or complete
-(setq tab-always-indent 'complete)
-
-;; saveplace remembers your location in a file when saving files activate it
-;; for all buffers
-(setq save-place-file (expand-file-name "saveplace" ya/dir-savefile))
-(save-place-mode 1)
-
-;; Always delete and copy recursively
-(setq dired-recursive-deletes 'always)
-(setq dired-recursive-copies 'always)
-
-
 ;; TODO dired-subtree
 ;; Enable some really cool extensions like C-x C-j(dired-jump)
-(use-package dired-x)
-
-;; Revert buffers automatically when underlying files are changed externally
-;; This still prompts for confirmation if buffer has unsaved changes
-(global-auto-revert-mode t)
-;; auto refresh dired when file changes
-(add-hook 'dired-mode-hook 'auto-revert-mode)
+(use-package dired-x
+  :config
+  ;; Auto refresh dired when file changes
+  (add-hook 'dired-mode-hook 'auto-revert-mode)
+  ;; Always delete and copy recursively
+  (setq dired-recursive-deletes 'always
+        dired-recursive-copies 'always))
 
 ;; ediff - don't start another frame
 (use-package ediff
@@ -287,22 +303,6 @@
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (global-diff-hl-mode +1))
-
-;; Font size
-(global-set-key (kbd "C-+") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-
-;; Define additional help functions
-(define-key 'help-command (kbd "C-f") 'find-function)
-(define-key 'help-command (kbd "C-k") 'find-function-on-key)
-(define-key 'help-command (kbd "C-v") 'find-variable)
-(define-key 'help-command (kbd "C-l") 'find-library)
-(define-key 'help-command (kbd "C-i") 'info-display-manual)
-
-;; Replace buffer-menu with ibuffer
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-
-;; General programming support
 
 ;; TODO: :hook into prog-mode to defer
 ;; PERF ~70ms
