@@ -139,7 +139,7 @@
         doom-themes-enable-italic t)
   (load-theme 'doom-one t))
 
-;; Make unique and more meaninuful namse for buffers with the same name
+;; Make unique and more meaningful names for buffers with the same name
 (use-package uniquify
   :config
   (setq uniquify-buffer-name-style 'forward
