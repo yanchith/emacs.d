@@ -202,9 +202,13 @@
   :straight t
   :delight '(:eval (concat " [" (projectile-project-name) "]"))
   :bind (("s-p p" . projectile-switch-project)
-          ("s-p f" . projectile-find-file)
-          ("s-p a" . projectile-add-known-project)
-          ("s-p r" . projectile-remove-known-project))
+         ("s-p f" . projectile-find-file)
+         ("s-p a" . projectile-add-known-project)
+         ("s-p r" . projectile-remove-known-project)
+         ("C-c p p" . projectile-switch-project)
+         ("C-c p f" . projectile-find-file)
+         ("C-c p a" . projectile-add-known-project)
+         ("C-c p r" . projectile-remove-known-project))
   :config
   (setq projectile-cache-file (expand-file-name  "projectile.cache" ya/dir-savefile)
         projectile-completion-system 'ivy)
@@ -215,7 +219,11 @@
   :bind (("s-m m" . magit-status)
          ("s-m l" . magit-log)
          ("s-m f" . magit-log-buffer-file)
-         ("s-m b" . magit-blame)))
+         ("s-m b" . magit-blame)
+         ("C-c m m" . magit-status)
+         ("C-c m l" . magit-log)
+         ("C-c m f" . magit-log-buffer-file)
+         ("C-c m b" . magit-blame)))
 
 ;; TODO: :bind this so it can be deferred
 (use-package git-timemachine
@@ -234,8 +242,8 @@
 
 (use-package multiple-cursors
   :straight t
-  :bind (("C-c m c" . mc/edit-lines)
-         ("C-c C->" . mc/mark-all-like-this)
+  :bind (("C-c l l" . mc/edit-lines)
+         ("C-c l a" . mc/mark-all-like-this-dwim)
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/unmark-next-like-this)))
 
@@ -247,7 +255,7 @@
 
 (use-package expand-region
   :straight t
-  :bind ("C-=" . er/expand-region))
+  :bind ("C-:" . er/expand-region))
 
 ;; Improve window navigation with ace-window
 (use-package ace-window

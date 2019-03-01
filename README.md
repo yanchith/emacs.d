@@ -167,12 +167,8 @@ lockfile and uses the newest versions instead. Running
 
 - `s-p p`       Switch to project
 - `s-p f`       Switch to file in current project
-- `s-p D`       Open Dired in project root
-- `s-p d`       Find a directory in project and open Dired in it
-- `s-p r`       Project search and replace
-- `s-p s g`     Project grep
-- `s-p s r`     Project ripgrep
-- `projectile-add-known-project` Add a project to projectile's index
+- `s-p a`       Add a project to projectile's index
+- `s-p r`       Remove a project from projectile's index
 
 ### Swiper
 
@@ -191,12 +187,16 @@ lockfile and uses the newest versions instead. Running
 - `s-k`         crux kill whole line
 - `C-a`         crux move to beginning of line (smarter than classic `C-a`)
 
+### Expand Region (very useful with Multiple Cursors below)
+
+- `C-:`         Expand currently selected region based on syntax (mostly dwim)
+
 ### Multiple Cursors
 
 - `C->`         Mark next like this (selection)
 - `C-<`         Unmark previous like this (selection)
-- `C-c C->`     Mark all like this (selection)
-- `C-c m c`     Spawn cursor in the beginning of each line in region
+- `C-c l a`     Mark all like this (dwim)
+- `C-c l l`     Spawn cursor in the beginning of each line in region
 
 ### Magit
 
