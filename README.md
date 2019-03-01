@@ -143,6 +143,27 @@ $ brew install emacs
 - `C-x k`       kill a buffer
 - `C-x <right>` open next buffer
 - `C-x <left>`  open previous buffer
+- `C-x C-q`    toggle read-only for current buffer
+
+## Major modes
+
+### Dired
+
+Dired is a directory explorer and editor.
+
+In Dired:
+
+- `(Dired) ?`   show help
+- `(Dired) d`   mark file at point for deletion
+- `(Dired) u`   unmark file at point for deletion
+- `(Dired) x`   delete files marked for deletion
+- `(Dired) f`   find/open file at point
+- `(Dired) o`   find/open file at point in other window
+- `(Dired) R`   move/rename file
+- `(Dired) C`   copy file
+
+A very powerful feature of Dired is, that like other buffers one can
+toggle it's read-only status with `C-x C-q`.
 
 ## Minor modes
 
