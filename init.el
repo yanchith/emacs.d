@@ -233,7 +233,7 @@
 (use-package company
   :straight t
   :config
-  (setq company-idle-delay 0.3
+  (setq company-idle-delay 0.2
         company-show-numbers t
         company-tooltip-limit 10
         company-minimum-prefix-length 2
@@ -379,7 +379,6 @@
 
 ;;;; TypeScript
 
-;; TODO integrate tslint with flycheck
 (use-package typescript-mode
   :straight tide
   :mode ("\\.tsx?\\'" . typescript-mode)
