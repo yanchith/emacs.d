@@ -240,13 +240,13 @@
 ;; Set up completetions in text
 (use-package company
   :straight t
+  :hook (prog-mode . company-mode)
   :config
   (setq company-idle-delay 0.2
         company-show-numbers t
         company-tooltip-limit 10
         company-minimum-prefix-length 2
-        company-tooltip-align-annotations t)
-  (global-company-mode 1))
+        company-tooltip-align-annotations t))
 
 (use-package multiple-cursors
   :straight t
