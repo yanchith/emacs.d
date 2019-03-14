@@ -322,10 +322,9 @@
   :straight t
   :hook (prog-mode . flycheck-mode))
 
-;; TODO: :hook into prog-mode to defer
-;; PERF ~40ms
 (use-package smartparens-config
   :straight smartparens
+  :hook (prog-mode . smartparens-mode)
   :config
   (setq sp-base-key-bindings 'paredit
         sp-autoskip-closing-pair 'always
@@ -333,9 +332,7 @@
   (sp-use-paredit-bindings)
   (sp-pair "{" nil :post-handlers
            '(((lambda (&rest _ignored)
-                (crux-smart-open-line-above)) "RET")))
-  (smartparens-global-mode +1)
-  (show-smartparens-global-mode +1))
+                (crux-smart-open-line-above)) "RET"))))
 
 ;; show the name of the current function definition in the modeline
 (use-package which-func
