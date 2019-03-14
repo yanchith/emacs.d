@@ -27,6 +27,14 @@
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+;; PERF The emacs default for initial-major-mode is
+;; lisp-interaction-mode, which is a programming mode. Everything
+;; :hook-ed with prog-mode (such as the very expensive flycheck) would
+;; be loaded right from the start (bad for perf), if we kept it that
+;; way.
+(setq initial-major-mode 'fundamental-mode
+      initial-scratch-message ";; Welcome to the scratch buffer\n\n")
+
 ;; Disable cursor blinking
 (blink-cursor-mode -1)
 
@@ -310,15 +318,9 @@
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (global-diff-hl-mode +1))
 
-;; TODO: :hook into prog-mode to defer
-;; PERF ~70ms
 (use-package flycheck
   :straight t
-  :config
-  ;; enable on-the-fly syntax checking
-  (if (fboundp 'global-flycheck-mode)
-      (global-flycheck-mode +1)
-    (add-hook 'prog-mode-hook 'flycheck-mode)))
+  :hook (prog-mode . flycheck-mode))
 
 ;; TODO: :hook into prog-mode to defer
 ;; PERF ~40ms
@@ -348,14 +350,20 @@
 ;; * racer (Rust Completion Tool)
 ;; * rustfmt (Rust Tool for formatting code)
 
- ;; TODO: :mode this to defer if possible
+;; TODO: :mode this to defer if possible
 (use-package rust-mode
   :straight t
+  :mode ("\\.rs\\'" . rust-mode)
   :config
   (setq rust-format-on-save t)
-  (defun ya/rust-mode-hook ()
+  (defun setup-rust-mode ()
     (subword-mode +1))
-  (add-hook 'rust-mode-hook 'ya/rust-mode-hook))
+  (add-hook 'rust-mode-hook 'setup-rust-mode))
+
+(use-package flycheck-rust
+  :straight t
+  :after flycheck
+  :hook (rust-mode . flycheck-rust-setup))
 
 (use-package racer
   :straight t
@@ -364,14 +372,6 @@
   ;; TODO: should be in config.el
   (setq racer-rust-src-path "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src")
   (add-hook 'racer-mode-hook 'eldoc-mode))
-
-;; TODO: flycheck-rust integration broken, see
-;; * https://github.com/flycheck/flycheck-rust
-;; * the error message printed when opening a .rs file for the first time
-;; TODO integrate clippy with flycheck
-(use-package flycheck-rust
-  :straight t
-  :hook (flycheck-mode . flycheck-rust-setup))
 
 (use-package cargo
   :straight t
@@ -383,14 +383,14 @@
   :straight tide
   :mode ("\\.tsx?\\'" . typescript-mode)
   :config
-  (defun ya/ts-mode-hook ()
+  (defun setup-tide-mode ()
     (interactive)
     (tide-setup)
     (flycheck-mode +1)
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (eldoc-mode +1)
     (subword-mode +1))
-  (add-hook 'typescript-mode-hook 'ya/ts-mode-hook))
+  (add-hook 'typescript-mode-hook 'setup-tide-mode))
 
 ;;;; GLSL
 
@@ -408,9 +408,9 @@
   :straight t
   :mode ("\\.rkt\\'" . racket-mode)
   :config
-  (defun ya/racket-mode-hook ()
+  (defun setup-racket-mode ()
     (smartparens-strict-mode +1))
-  (add-hook 'racket-mode-hook 'ya/racket-mode-hook))
+  (add-hook 'racket-mode-hook 'setup-racket-mode))
 
 ;;;; Markdown
 
