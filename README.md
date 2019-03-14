@@ -121,6 +121,7 @@ $ brew install emacs
 - `C-x 1`       close all other windows
 - `C-x 2`       split vertically
 - `C-x 3`       split horizontally
+- `C-x 4 0`     kill current buffer and window
 - `C-x o`       focus next active window
 - `C-M-v`       scroll text (C-v) in other window
 
