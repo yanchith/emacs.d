@@ -149,6 +149,7 @@
 
 ;; Make unique and more meaningful names for buffers with the same name
 (use-package uniquify
+  :straight f
   :config
   (setq uniquify-buffer-name-style 'forward
         uniquify-separator "/"
@@ -273,6 +274,7 @@
 ;; TODO dired-subtree
 ;; Enable some really cool extensions like C-x C-j(dired-jump)
 (use-package dired-x
+  :straight f
   :config
   ;; Auto refresh dired when file changes
   (add-hook 'dired-mode-hook 'auto-revert-mode)
@@ -282,11 +284,13 @@
 
 ;; ediff - don't start another frame
 (use-package ediff
+  :straight f
   :config
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 ;; Whitespace-mode config
 (use-package whitespace
+  :straight f
   :config
   (setq whitespace-line-column 100
         whitespace-style '(face tabs empty trailing lines-tail))
@@ -295,10 +299,12 @@
 
 ;; Have saner regex syntax
 (use-package re-builder
+  :straight f
   :config
   (setq reb-re-syntax 'string))
 
 (use-package eshell
+  :straight f
   :bind (("C-x m" . eshell)
          ("C-x M" . (lambda () (interactive) (eshell t))))
   :config
@@ -336,6 +342,7 @@
 
 ;; show the name of the current function definition in the modeline
 (use-package which-func
+  :straight f
   :config
   (which-function-mode 1))
 
