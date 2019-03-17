@@ -12,6 +12,10 @@
 (defvar ya/dir-root (file-name-directory load-file-name)
   "The root dir of this config.")
 
+(defvar ya/dir-lisp (expand-file-name "lisp" ya/dir-root)
+  "This directory stores custom Lisp code.")
+(add-to-list 'load-path ya/dir-lisp)
+
 (defvar ya/dir-savefile (expand-file-name "savefile" ya/dir-root)
   "This directory stores all automatically generated save/history files.")
 (unless (file-exists-p ya/dir-savefile)
@@ -234,9 +238,9 @@
          ("C-c m f" . magit-log-buffer-file)
          ("C-c m b" . magit-blame)))
 
-;; TODO: :bind this so it can be deferred
 (use-package git-timemachine
-    :straight t)
+  :straight t
+  :commands git-timemachine)
 
 ;; Set up completetions in text
 (use-package company
@@ -346,15 +350,23 @@
   :config
   (which-function-mode 1))
 
+;; LSP client
+
+(use-package lsp-mode
+  :straight t
+  :commands lsp
+  :hook (rust-mode . lsp)
+  :config
+  (require 'ra-emacs-lsp))
+
+(use-package lsp-ui
+  :commands lsp-ui-mode)
+
+(use-package company-lsp
+  :commands company-lsp)
+
 ;;;; Rust
 
-;; The following packages may need to be installed manually on the system
-;; * rustc (Rust Compiler)
-;; * cargo (Rust Package Manager)
-;; * racer (Rust Completion Tool)
-;; * rustfmt (Rust Tool for formatting code)
-
-;; TODO: :mode this to defer if possible
 (use-package rust-mode
   :straight t
   :mode ("\\.rs\\'" . rust-mode)
@@ -368,14 +380,6 @@
   :straight t
   :after flycheck
   :hook (rust-mode . flycheck-rust-setup))
-
-(use-package racer
-  :straight t
-  :hook (rust-mode . racer-mode)
-  :config
-  ;; TODO: should be in config.el
-  (setq racer-rust-src-path "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src")
-  (add-hook 'racer-mode-hook 'eldoc-mode))
 
 (use-package cargo
   :straight t
@@ -446,7 +450,7 @@
 (setq gc-cons-threshold 800000)
 
 ;; TODO:
-;; Rust RLS with lsp-mode?
+;; Rust RLS with lsp-mode? (Using Rust Analyzer currently)
 ;; Typescript with lsp-mode?
 ;; Spelling correction: flyspell
 ;; Editing: recentf, savehist
