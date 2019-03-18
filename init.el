@@ -64,12 +64,11 @@
 ;; Enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; Add more useful frame title, Show either a file or a
-;; buffer name (if the buffer isn't visiting a file)
-;; TODO: I broke this... fix
+;; Have more useful frame title. Show either a file or a
+;; buffer name, if the buffer isn't visiting a file.
 (setq frame-title-format
-      '("" invocation-name ""
-        (:eval (if (buffer-fiLe-name)
+      '("" invocation-name " - "
+        (:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 
 ;;;; Customize editor behavior
@@ -338,7 +337,7 @@
   :config
   (setq sp-base-key-bindings 'paredit
         sp-autoskip-closing-pair 'always
-        sp-hybrid-kill-entire-symbol nil) ;; TODO: audit
+        sp-hybrid-kill-entire-symbol nil)
   (sp-use-paredit-bindings)
   (sp-pair "{" nil :post-handlers
            '(((lambda (&rest _ignored)
