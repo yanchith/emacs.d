@@ -226,14 +226,20 @@ lockfile and uses the newest versions instead. Running
 
 In magit status:
 
-- `(magit status) ?`   help
-- `(magit status) d d` diff file or group (e.g. staged or unstaged files)
-- `(magit status) s`   stage file at point
-- `(magit status) u`   unstage file at point
-- `(magit status) c c` commit
-- `(magit status) P p` push to remote tracking branch
-- `(magit status) b b` checkout branch (`git checkout`)
-- `(magit status) b c` checkout new branch (`git checkout -b`)
+- `(magit status) ?`        help
+- `(magit status) q`        close magit status window
+- `(magit status) g`        refresh
+- `(magit status) <tab>`    toggle section at point (diff)
+- `(magit status) <return>` visit section at point
+- `(magit status) d d`      diff file or group (e.g. staged or unstaged files)
+- `(magit status) s`        stage file at point
+- `(magit status) u`        unstage file at point
+- `(magit status) k`        discard changed in file at point
+- `(magit status) c c`      commit
+- `(magit status) P p`      push to push-remote branch
+- `(magit status) P u`      push to upstream
+- `(magit status) b b`      checkout branch (`git checkout`)
+- `(magit status) b c`      checkout new branch (`git checkout -b`)
 
 In magit commit:
 
