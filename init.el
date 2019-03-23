@@ -331,14 +331,17 @@
   :straight t
   :hook (prog-mode . flycheck-mode))
 
-(use-package smartparens-config
-  :straight smartparens
+(use-package smartparens
+  :straight t
   :hook (prog-mode . smartparens-mode)
   :config
+  (require 'smartparens-config)
   (setq sp-base-key-bindings 'paredit
         sp-autoskip-closing-pair 'always
         sp-hybrid-kill-entire-symbol nil)
   (sp-use-paredit-bindings)
+  ;; Show matching parens everywhere this is hooked
+  (show-smartparens-global-mode +1)
   (sp-pair "{" nil :post-handlers
            '(((lambda (&rest _ignored)
                 (crux-smart-open-line-above)) "RET"))))
