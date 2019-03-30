@@ -373,6 +373,7 @@
   :straight t
   :mode ("\\.rs\\'" . rust-mode)
   :config
+  (setq rust-format-on-save t)
   (defun setup-rust-mode ()
     (subword-mode +1))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
