@@ -79,6 +79,8 @@
 ;; Don't use tabs to indent, but set them to appear at 4 spaces
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
+(setq-default tab-stop-list (number-sequence 4 120 4))
+
 ;; Change C indentation to respect our tab width
 (defvaralias 'c-basic-offset 'tab-width)
 
