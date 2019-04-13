@@ -265,6 +265,11 @@
   :straight t
   :bind ("C-:" . er/expand-region))
 
+(use-package avy
+  :straight t
+  :bind (("C-;" . avy-goto-char)
+         ("C-'" . avy-goto-word-or-subword-1)))
+
 ;; Improve window navigation with ace-window
 (use-package ace-window
   :straight t
