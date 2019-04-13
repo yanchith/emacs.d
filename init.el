@@ -167,9 +167,6 @@
   :config
   (which-key-mode +1))
 
-(use-package delight
-  :straight t)
-
 (use-package crux
   :straight t
   :bind (("C-a" . crux-move-beginning-of-line)
@@ -189,7 +186,6 @@
 
 (use-package ivy
   :straight t
-  :delight ivy-mode
   :bind ("C-x b" . ivy-switch-buffer)
   :config
   (setq ivy-use-virtual-buffers t
@@ -212,7 +208,6 @@
 
 (use-package projectile
   :straight t
-  :delight '(:eval (concat " [" (projectile-project-name) "]"))
   :bind (("s-p p" . projectile-switch-project)
          ("s-p f" . projectile-find-file)
          ("s-p a" . projectile-add-known-project)
@@ -261,7 +256,6 @@
 
 (use-package editorconfig
   :straight t
-  :delight (editorconfig-mode " EC")
   :config
   (editorconfig-mode 1))
 
