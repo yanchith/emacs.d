@@ -144,7 +144,7 @@
 
 ;;;; Configure packages
 
-;; PERF ~70ms
+;; PERF ~90ms
 (use-package doom-themes
   :straight t
   :config
@@ -268,7 +268,7 @@
 (use-package avy
   :straight t
   :bind (("C-;" . avy-goto-char)
-         ("C-'" . avy-goto-word-or-subword-1)))
+         ("C-'" . avy-goto-word-1)))
 
 ;; Improve window navigation with ace-window
 (use-package ace-window
