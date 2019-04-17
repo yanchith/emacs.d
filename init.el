@@ -313,10 +313,6 @@
   :config
   (setq eshell-directory-name (expand-file-name "eshell" ya/dir-savefile)))
 
-;; TODO: what is semanticdb? audit
-(setq semanticdb-default-save-directory
-      (expand-file-name "semanticdb" ya/dir-savefile))
-
 ;; Enable winner-mode to manage window configurations
 (winner-mode +1)
 
@@ -455,5 +451,4 @@
 ;; Rust RLS with lsp-mode? (Using Rust Analyzer currently)
 ;; Typescript with lsp-mode?
 ;; Spelling correction: flyspell
-;; Editing: recentf, savehist
 ;; Haskell: haskell-mode
