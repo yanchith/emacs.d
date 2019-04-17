@@ -222,6 +222,14 @@
         projectile-completion-system 'ivy)
   (projectile-mode t))
 
+(use-package neotree
+  :straight t
+  :bind (("s-t" . neotree-toggle)
+         ("C-c t" . neotree-toggle))
+  :config
+  (setq neo-theme 'arrow
+        neo-smart-open t))
+
 (use-package magit
   :straight t
   :bind (("s-g g" . magit-status)
