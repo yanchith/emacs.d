@@ -217,12 +217,12 @@ lockfile and uses the newest versions instead. Running
 
 - `C->`         Mark next like this (selection)
 - `C-<`         Unmark previous like this (selection)
-- `C-c l a`     Mark all like this (dwim)
-- `C-c l l`     Spawn cursor in the beginning of each line in region
+- `C-c m c`     Mark all like this (dwim)
+- `C-c m a`     Spawn cursor in the beginning of each line in region
 
 ### Magit
 
-- `s-m m`       magit status
+- `s-g g`       magit status
 
 In magit status:
 

@@ -204,7 +204,6 @@
   :straight t
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
-         ("C-c g" . counsel-git)
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
@@ -225,14 +224,14 @@
 
 (use-package magit
   :straight t
-  :bind (("s-m m" . magit-status)
-         ("s-m l" . magit-log)
-         ("s-m f" . magit-log-buffer-file)
-         ("s-m b" . magit-blame)
-         ("C-c m m" . magit-status)
-         ("C-c m l" . magit-log)
-         ("C-c m f" . magit-log-buffer-file)
-         ("C-c m b" . magit-blame)))
+  :bind (("s-g g" . magit-status)
+         ("s-g l" . magit-log)
+         ("s-g f" . magit-log-buffer-file)
+         ("s-g b" . magit-blame)
+         ("C-c g m" . magit-status)
+         ("C-c g l" . magit-log)
+         ("C-c g f" . magit-log-buffer-file)
+         ("C-c g b" . magit-blame)))
 
 (use-package git-timemachine
   :straight t
@@ -251,8 +250,8 @@
 
 (use-package multiple-cursors
   :straight t
-  :bind (("C-c l l" . mc/edit-lines)
-         ("C-c l a" . mc/mark-all-like-this-dwim)
+  :bind (("C-c m l" . mc/edit-lines)
+         ("C-c m c" . mc/mark-all-dwim)
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/unmark-next-like-this)))
 
