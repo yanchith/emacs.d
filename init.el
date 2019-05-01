@@ -186,6 +186,14 @@
   :bind (("M-p" . move-text-up)
          ("M-n" . move-text-down)))
 
+(use-package undo-tree
+  :straight t
+  :bind (("C-/" . undo-tree-undo)
+         ("C-?" . undo-tree-redo)
+         ("C-c u" . undo-tree-visualize))
+  :config
+  (global-undo-tree-mode 1))
+
 (use-package ivy
   :straight t
   :bind ("C-x b" . ivy-switch-buffer)
