@@ -11,6 +11,7 @@
  ("emacs-async" . "81dc034572e963550c5403a2b3c28047e46b4029")
  ("emacs-doom-themes" . "cbac92578aba8eff8edd18b3e1ea72c295e3631e")
  ("emacs-memoize" . "9a561268ffb550b257a08710489a95cd087998b6")
+ ("emacs-neotree" . "5e1271655170f4cdc6849258e383c548a4e6e3d0")
  ("emacs-which-key" . "c87b0ce78213f922a725be1e0ae2dede1cf29516")
  ("epkgs" . "7e303629d071d84ae7bbfa71907b1d33e5fbb553")
  ("epl" . "78ab7a85c08222cd15582a298a364774e3282ce6")
@@ -44,6 +45,7 @@
  ("tide" . "b64f7b5a9b8a111fbda05e5bdce23668b547ef36")
  ("transient" . "a6295fa7eea2d7a95c705684064e82ea47e27e44")
  ("typescript.el" . "08ceb01ff3983f6d743a83fa19dbf78f2a1609d2")
+ ("undo-tree" . "d54ef13e3c69655e39f977b8bf75399a6d2b5e42")
  ("use-package" . "19b6a562dc93fbf186e7ac04a335ab3d1822c475")
  ("with-editor" . "38df9bfc2227bcb7ac4899c83a03756d5f171450"))
 :saturn
