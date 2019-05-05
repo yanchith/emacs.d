@@ -120,9 +120,10 @@
 
 ;;;; Bootstrap straight.el
 
-;; This produces a huge (2.5x) init time perf boost by not using find(1)
-;; to detect whether a package needs rebuilding at init time.
-(setq straight-check-for-modifications nil)
+;; This produces a huge (2.5x) init time perf boost by not using
+;; find(1) on startup to detect whether a package needs rebuilding at
+;; init time.
+(setq straight-check-for-modifications '(check-on-save find-when-checking))
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
