@@ -372,6 +372,7 @@
   :commands lsp
   :hook (rust-mode . lsp)
   :config
+  (setq lsp-enable-snippet nil)
   (require 'ra-emacs-lsp))
 
 (use-package lsp-ui
