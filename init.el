@@ -58,6 +58,15 @@
 ;; Don't highlight the current line
 (global-hl-line-mode -1)
 
+;; Show line numbers
+(global-display-line-numbers-mode t)
+
+;; Show line and column numbers, and file size indication in the
+;; modeline
+(line-number-mode t)
+(column-number-mode t)
+(size-indication-mode t)
+
 ;; Disable sounds, startup screen, prettify scrolling
 (setq ring-bell-function 'ignore
       inhibit-startup-screen t
@@ -65,10 +74,6 @@
       scroll-conservatively 100000
       scroll-preserve-screen-position t)
 
-;; Show line and column numbers, and file size indication
-(line-number-mode t)
-(column-number-mode t)
-(size-indication-mode t)
 
 ;; Save whatever’s in the current (system) clipboard before
 ;; replacing it with the Emacs’ text.
