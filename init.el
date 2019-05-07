@@ -291,17 +291,6 @@
   :straight t
   :bind ([remap other-window] . ace-window))
 
-;; TODO dired-subtree
-;; Enable some really cool extensions like C-x C-j(dired-jump)
-(use-package dired-x
-  :straight f
-  :config
-  ;; Auto refresh dired when file changes
-  (add-hook 'dired-mode-hook 'auto-revert-mode)
-  ;; Always delete and copy recursively
-  (setq dired-recursive-deletes 'always
-        dired-recursive-copies 'always))
-
 ;; ediff - don't start another frame
 (use-package ediff
   :straight f
