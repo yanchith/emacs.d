@@ -1,3 +1,12 @@
+;;; init.el --- My humble emacs config
+
+;;; Commentary:
+
+;; This is a `use-package' and `straight.el' based config focused on
+;; "minimal" functionality and good startup time.
+
+;;; Code:
+
 ;; Always load newest byte code
 (setq load-prefer-newer t)
 
