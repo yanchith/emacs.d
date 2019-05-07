@@ -330,9 +330,6 @@
   :config
   (setq eshell-directory-name (expand-file-name "eshell" ya/dir-savefile)))
 
-;; Enable winner-mode to manage window configurations
-(winner-mode +1)
-
 (use-package diff-hl
   :straight t
   :config
