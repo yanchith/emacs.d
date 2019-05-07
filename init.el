@@ -99,13 +99,6 @@
 ;; Replace buffer-menu with ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;; Define additional help functions
-(define-key 'help-command (kbd "C-f") 'find-function)
-(define-key 'help-command (kbd "C-k") 'find-function-on-key)
-(define-key 'help-command (kbd "C-v") 'find-variable)
-(define-key 'help-command (kbd "C-l") 'find-library)
-(define-key 'help-command (kbd "C-i") 'info-display-manual)
-
 ;;;; Misc customizations
 
 ;; Store all backup and autosave files in the tmp dir
