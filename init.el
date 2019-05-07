@@ -10,11 +10,15 @@
 ;; Always load newest byte code
 (setq load-prefer-newer t)
 
+(defun megabytes (n)
+  "Return the number of bytes in N megabytes."
+  (* n 1024 1024))
+
 ;; Increase GC threshold to 50MB for better throughput during init
-(setq gc-cons-threshold 50000000)
+(setq gc-cons-threshold (megabytes 50))
 
 ;; Increase large file limit to 50MB
-(setq large-file-warning-threshold 50000000)
+(setq large-file-warning-threshold (megabytes 50))
 
 ;; Define directories
 
@@ -429,7 +433,7 @@
         ns-function-modifier 'hyper))
 
 ;; Restore gc threshold for better interactivity and shorter pauses
-(setq gc-cons-threshold 800000)
+(setq gc-cons-threshold (megabytes 1))
 
 ;; TODO:
 ;; Rust RLS with lsp-mode? (Using Rust Analyzer currently)
