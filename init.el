@@ -324,12 +324,6 @@
            '(((lambda (&rest _ignored)
                 (crux-smart-open-line-above)) "RET"))))
 
-;; show the name of the current function definition in the modeline
-(use-package which-func
-  :straight f
-  :config
-  (which-function-mode 1))
-
 ;; LSP client
 
 (use-package lsp-mode
