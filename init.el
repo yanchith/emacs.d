@@ -291,13 +291,6 @@
   :straight t
   :bind ([remap other-window] . ace-window))
 
-;; ediff - don't start another frame
-(use-package ediff
-  :straight f
-  :config
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain))
-
-;; Whitespace-mode config
 (use-package whitespace
   :straight f
   :config
