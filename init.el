@@ -42,8 +42,8 @@
 ;; Disable cursor blinking
 (blink-cursor-mode -1)
 
-;; Always highlight the current line
-(global-hl-line-mode +1)
+;; Don't highlight the current line
+(global-hl-line-mode -1)
 
 ;; Disable sounds, startup screen, prettify scrolling
 (setq ring-bell-function 'ignore
