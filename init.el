@@ -298,13 +298,6 @@
   :config
   (setq reb-re-syntax 'string))
 
-(use-package eshell
-  :straight f
-  :bind (("C-x m" . eshell)
-         ("C-x M" . (lambda () (interactive) (eshell t))))
-  :config
-  (setq eshell-directory-name (expand-file-name "eshell" ya/dir-savefile)))
-
 (use-package diff-hl
   :straight t
   :config
