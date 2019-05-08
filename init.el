@@ -210,8 +210,8 @@
 (use-package ivy
   :straight t
   :demand
-  :bind (([remap switch-to-buffer] . ivy-switch-buffer)
-         ([remap switch-to-buffer-other-window] . ivy-switch-buffer-other-window))
+  :bind (("C-x b" . ivy-switch-buffer)
+         ("C-x 4 b" . ivy-switch-buffer-other-window))
   :config
   (setq ivy-use-virtual-buffers t
         enable-recursive-minibuffers t)
@@ -227,6 +227,7 @@
   :straight t
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
+         ("M-y" . counsel-yank-pop)
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
@@ -303,7 +304,7 @@
 ;; Improve window navigation with ace-window
 (use-package ace-window
   :straight t
-  :bind ([remap other-window] . ace-window))
+  :bind ("C-x o" . ace-window))
 
 (use-package whitespace
   :straight f
