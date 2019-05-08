@@ -204,9 +204,14 @@
   :config
   (global-undo-tree-mode 1))
 
+;; PERF ~80ms
+;; Note: ivy has :demand, because projectile doesn't trigger
+;; an autoload of ivy with `projectile-add-known-project'
 (use-package ivy
   :straight t
-  :bind ("C-x b" . ivy-switch-buffer)
+  :demand
+  :bind (([remap switch-to-buffer] . ivy-switch-buffer)
+         ([remap switch-to-buffer-other-window] . ivy-switch-buffer-other-window))
   :config
   (setq ivy-use-virtual-buffers t
         enable-recursive-minibuffers t)
