@@ -9,5 +9,7 @@ auto-save-list/
 savefile/
 transient/
 
+.lsp-session-v1
+recentf
 projectile-bookmarks.eld
 custom.el
