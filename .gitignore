@@ -5,6 +5,9 @@
 straight/
 ! straight/versions/default.el
 
+auto-save-list/
 savefile/
+transient/
 
+projectile-bookmarks.eld
 custom.el
