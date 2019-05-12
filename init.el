@@ -173,12 +173,6 @@
         ;; Ignore special buffers
         uniquify-ignore-buffers-re "^\\*"))
 
-;; Show available keybindings after you start typing
-(use-package which-key
-  :straight t
-  :config
-  (which-key-mode +1))
-
 (use-package crux
   :straight t
   :bind (("C-a" . crux-move-beginning-of-line)
