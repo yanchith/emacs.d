@@ -370,7 +370,7 @@
 
 (use-package flycheck-rust
   :straight t
-  :after flycheck
+  :after flycheck ;; TODO: audit if :after works here or this is actually fragile
   :hook (rust-mode . flycheck-rust-setup))
 
 (use-package cargo
