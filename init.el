@@ -318,7 +318,6 @@
 (use-package diff-hl
   :straight t
   :config
-  (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (global-diff-hl-mode +1))
 
