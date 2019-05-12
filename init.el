@@ -364,6 +364,8 @@
   :config
   (setq rust-format-on-save nil)
   (defun setup-rust-mode ()
+    ;; TODO: eldoc is currently almost useless with rust, try later
+    ;; (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
 
