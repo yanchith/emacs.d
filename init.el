@@ -314,6 +314,7 @@
   :config
   (setq reb-re-syntax 'string))
 
+;; PERF ~20ms
 (use-package diff-hl
   :straight t
   :config
