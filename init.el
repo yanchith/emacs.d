@@ -111,6 +111,7 @@
 ;;;; Define keybindings for common operations
 
 ;; Font size
+;; (set-default-font "Monaco 14") ; If you want to set a bigger font
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 
