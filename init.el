@@ -47,13 +47,19 @@
 ;; PERF The emacs default for initial-major-mode is
 ;; lisp-interaction-mode, which is a programming mode. Everything
 ;; :hook-ed with prog-mode (such as the very expensive flycheck) would
-;; be loaded right from the start (bad for perf), if we kept it that
-;; way.
+;; be loaded right from the start (bad), if we kept it that way.
 (setq initial-major-mode 'fundamental-mode
       initial-scratch-message ";; Welcome to the scratch buffer\n\n")
 
 ;; Disable cursor blinking
 (blink-cursor-mode -1)
+
+;; Don't blink matching parenthesis by default as it has a painfully
+;; slow interaction with multiple cursors when inserting closing
+;; parenthesis. For modes where we'd like to highlight matching
+;; parenthesis, show-smartparens-global-mode takes care of it while
+;; not slowing multiple cursors down
+(setq blink-matching-paren nil)
 
 ;; Don't highlight the current line
 (global-hl-line-mode -1)
