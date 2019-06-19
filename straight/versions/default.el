@@ -1,6 +1,4 @@
-(("ace-window" . "138a80cbc4e9ed17d3a085a3687f5223a142a9a3")
- ("all-the-icons.el" . "f996fafa5b2ea072d0ad1df9cd98acc75820f530")
- ("avy" . "f91ae613a86187c8ca75e86f22e3f5ac9958399c")
+(("all-the-icons.el" . "f996fafa5b2ea072d0ad1df9cd98acc75820f530")
  ("cargo.el" . "1a45c676970fea58dc9bfa37290327b820531d63")
  ("cl-lib" . "deb92588d9d83d46c4698936ea31c5f58d244f04")
  ("company-mode" . "ad6ff0eecca99dc5ac8b6a8a6174df7d2ad88ae7")
@@ -47,4 +45,4 @@
  ("undo-tree" . "d54ef13e3c69655e39f977b8bf75399a6d2b5e42")
  ("use-package" . "4aa14a4fcd5ca52b3f1bfcf5ab294173f7bbe390")
  ("with-editor" . "ff23166feb857e3cfee96cb1c9ef416a224a7e20"))
-:saturn
+:neptune
