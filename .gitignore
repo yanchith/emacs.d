@@ -8,7 +8,9 @@ straight/
 auto-save-list/
 savefile/
 transient/
+eshell/
 
+.mc-lists.el
 .lsp-session-v1
 recentf
 projectile-bookmarks.eld
