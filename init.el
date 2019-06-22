@@ -360,20 +360,22 @@
            '(((lambda (&rest _ignored)
                 (crux-smart-open-line-above)) "RET"))))
 
-;; LSP client
+;;;; LSP client
 
+;; TODO: try integrating flycheck with lsp - will need lsp-ui back for
+;; it to work. Currently flycheck-rust is enough for us.
 (use-package lsp-mode
   :straight t
   :commands lsp
   :hook (rust-mode . lsp)
   :config
-  (setq lsp-enable-snippet nil)
+  (setq lsp-enable-snippet nil
+        ;; This disables both flycheck and flymake
+        lsp-prefer-flymake :none)
   (require 'ra-emacs-lsp))
 
-(use-package lsp-ui
-  :commands lsp-ui-mode)
-
 (use-package company-lsp
+  :straight t
   :commands company-lsp)
 
 ;;;; Rust

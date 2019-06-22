@@ -1,5 +1,6 @@
 (("all-the-icons.el" . "f996fafa5b2ea072d0ad1df9cd98acc75820f530")
  ("cl-lib" . "deb92588d9d83d46c4698936ea31c5f58d244f04")
+ ("company-lsp" . "f921ffa0cdc542c21dc3dd85f2c93df4288e83bd")
  ("company-mode" . "ad6ff0eecca99dc5ac8b6a8a6174df7d2ad88ae7")
  ("crux" . "308f17d914e2cd79cbc809de66d02b03ceb82859")
  ("dash.el" . "77f3bf40c9c85386a50f2dab3dc950513f6f88bd")
