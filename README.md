@@ -144,7 +144,12 @@ $ brew install emacs
 - `C-x k`       kill a buffer
 - `C-x <right>` open next buffer
 - `C-x <left>`  open previous buffer
-- `C-x C-q`    toggle read-only for current buffer
+- `C-x C-q`     toggle read-only for current buffer
+
+## Misc
+
+- `M-q`         re-fill current paragraph; useful for formatting prose or comments
+- `M-g g`       go to line
 
 ## Major modes
 
@@ -165,12 +170,6 @@ In Dired:
 
 A very powerful feature of Dired is, that like other buffers one can
 toggle it's read-only status with `C-x C-q`.
-
-## Minor modes
-
-### Auto Fill
-
-- `M-q`         re-fill current paragraph; useful for formatting prose or comments
 
 ## Extensions
 
