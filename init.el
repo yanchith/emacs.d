@@ -291,11 +291,6 @@
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/unmark-next-like-this)))
 
-(use-package editorconfig
-  :straight t
-  :config
-  (editorconfig-mode 1))
-
 (use-package expand-region
   :straight t
   :bind ("C-:" . er/expand-region))

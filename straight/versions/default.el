@@ -5,7 +5,6 @@
  ("crux" . "308f17d914e2cd79cbc809de66d02b03ceb82859")
  ("dash.el" . "77f3bf40c9c85386a50f2dab3dc950513f6f88bd")
  ("diff-hl" . "84a5fe1900af2e5cc522f02749804f0d9f094bbf")
- ("editorconfig-emacs" . "d073dd44c4813536dee6eadaf9e43f36ac0a3202")
  ("emacs-async" . "bd68cc1ab1ac6af890e250bdaa12ffb1cb9649be")
  ("emacs-doom-themes" . "55c49c8fd6152ebb748e75197c064b6ae7db1a57")
  ("emacs-memoize" . "9a561268ffb550b257a08710489a95cd087998b6")
