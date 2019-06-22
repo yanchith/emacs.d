@@ -162,12 +162,37 @@
 ;;;; Configure packages
 
 ;; PERF ~90ms
+;; TODO: Steal all the good things from these themes, but inline them
+;; here for speed
 (use-package doom-themes
   :straight t
   :config
   (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
+        doom-themes-enable-italic t
+        ;; Customize dark theme, especially make comments brighter
+        doom-one-brighter-comments t
+        doom-one-comment-bg nil
+        doom-one-padded-modeline t
+        ;; Also customize light theme in case you need to use it with
+        ;; video projectors
+        doom-one-light-brighter-comments t
+        doom-one-light-comment-bg nil
+        doom-one-light-padded-modeline t
+        )
   (load-theme 'doom-one t))
+
+;; This is casey's theme :))
+;; (add-to-list 'default-frame-alist '(font . "Liberation Mono-11.5"))
+;; (set-face-attribute 'default t :font "Monaco 11")
+;; (set-face-attribute 'font-lock-builtin-face nil :foreground "#DAB98F")
+;; (set-face-attribute 'font-lock-comment-face nil :foreground "gray50")
+;; (set-face-attribute 'font-lock-constant-face nil :foreground "olive drab")
+;; (set-face-attribute 'font-lock-doc-face nil :foreground "gray50")
+;; (set-face-attribute 'font-lock-function-name-face nil :foreground "burlywood3")
+;; (set-face-attribute 'font-lock-keyword-face nil :foreground "DarkGoldenrod3")
+;; (set-face-attribute 'font-lock-string-face nil :foreground "olive drab")
+;; (set-face-attribute 'font-lock-type-face nil :foreground "burlywood3")
+;; (set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3")
 
 ;; Make unique and more meaningful names for buffers with the same name
 (use-package uniquify
