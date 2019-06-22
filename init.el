@@ -369,10 +369,6 @@
   :after flycheck ;; TODO: audit if :after works here or this is actually fragile
   :hook (rust-mode . flycheck-rust-setup))
 
-(use-package cargo
-  :straight t
-  :hook (rust-mode . cargo-minor-mode))
-
 ;;;; TypeScript
 
 (use-package typescript-mode
