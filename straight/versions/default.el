@@ -37,7 +37,6 @@
  ("smartparens" . "046440700f292c90c4a992f959c8d6725aa9a3bc")
  ("spinner" . "2daa167bec1c7566d662d48613a94453536b524a")
  ("straight.el" . "570afe61cac4357e154e705d69975cc7485b9a14")
- ("sublimity" . "4c8d0280815978fc11e1c5f86266a11c717b0c89")
  ("swiper" . "44b2d7d6a8a81d1ed5c2aaa613eabe7e25c0b9a3")
  ("tide" . "9820c012b620b6b3294a25712e18074649a2d6d3")
  ("transient" . "2eff8d57e851ec7403e5e042147ad2644b336633")
