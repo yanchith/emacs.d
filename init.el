@@ -194,6 +194,14 @@
 ;; (set-face-attribute 'font-lock-type-face nil :foreground "burlywood3")
 ;; (set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3")
 
+(use-package sublimity
+  :straight t
+  :config
+  (require 'sublimity-map)
+  (sublimity-map-set-delay nil)
+  (sublimity-map-show)
+  (sublimity-mode 1))
+
 ;; Make unique and more meaningful names for buffers with the same name
 (use-package uniquify
   :straight f
