@@ -39,6 +39,9 @@
 
 ;;;; Customize UI
 
+;; Set the default font
+;; (set-default-font "Monaco 14")
+
 ;; Hide all the bars
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -114,15 +117,16 @@
 ;; Delete the selection with a keypress
 (delete-selection-mode t)
 
+;;;; Disable some enabled-by-default commands I hit accidentaly
+
+;; Occasionaly hit this when trying to do C-x b
+(put 'list-buffers 'disabled t)
+
 ;;;; Define keybindings for common operations
 
 ;; Font size
-;; (set-default-font "Monaco 14") ; If you want to set a bigger font
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
-
-;; Replace buffer-menu with ibuffer
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;;;; Misc customizations
 
