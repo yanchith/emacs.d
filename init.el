@@ -194,16 +194,6 @@
 ;; (set-face-attribute 'font-lock-type-face nil :foreground "burlywood3")
 ;; (set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3")
 
-;; Disabled as the minimap buffer interferes with counsel and
-;; with-editor (magit commit) buffers :(
-;; (use-package sublimity
-;;   :straight t
-;;   :config
-;;   (require 'sublimity-map)
-;;   (sublimity-map-set-delay nil)
-;;   (sublimity-map-show)
-;;   (sublimity-mode 1))
-
 ;; Make unique and more meaningful names for buffers with the same name
 (use-package uniquify
   :straight f
@@ -252,8 +242,6 @@
   :bind (("C-x b" . ivy-switch-buffer)
          ("C-x 4 b" . ivy-switch-buffer-other-window))
   :config
-  (setq ivy-use-virtual-buffers t
-        enable-recursive-minibuffers t)
   (ivy-mode 1))
 
 ;; swiper provides enhanced buffer search, replace i-search with swiper
@@ -266,7 +254,6 @@
   :straight t
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
-         ("M-y" . counsel-yank-pop)
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
@@ -396,8 +383,7 @@
   :config
   (setq rust-format-on-save nil)
   (defun setup-rust-mode ()
-    ;; TODO: eldoc is currently almost useless with rust, try later
-    ;; (eldoc-mode +1)
+    (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
 
@@ -471,7 +457,9 @@
 (setq gc-cons-threshold (megabytes 1))
 
 ;; TODO:
-;; Rust RLS with lsp-mode? (Using Rust Analyzer currently)
-;; Typescript with lsp-mode?
-;; Spelling correction: flyspell
-;; Haskell: haskell-mode
+;; - minimap (tried sublimity, looked nice enough, but was interfering
+;;   with magit "with-editor" and counsel)
+;; - Rust RLS with lsp-mode? (Using Rust Analyzer currently)
+;; - Typescript with lsp-mode?
+;; - Spelling correction: flyspell
+;; - Haskell: haskell-mode
