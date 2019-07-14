@@ -290,7 +290,7 @@
          ("s-g l" . magit-log)
          ("s-g f" . magit-log-buffer-file)
          ("s-g b" . magit-blame)
-         ("C-c g m" . magit-status)
+         ("C-c g g" . magit-status)
          ("C-c g l" . magit-log)
          ("C-c g f" . magit-log-buffer-file)
          ("C-c g b" . magit-blame)))
