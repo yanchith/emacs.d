@@ -40,7 +40,7 @@
 ;;;; Customize UI
 
 ;; Set the default font
-;; (set-default-font "Monaco 14")
+;; (set-default-font "Liberation Mono-11.5")
 
 ;; Hide all the bars
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -184,19 +184,6 @@
         doom-one-light-padded-modeline t
         )
   (load-theme 'doom-one t))
-
-;; This is casey's theme :))
-;; (add-to-list 'default-frame-alist '(font . "Liberation Mono-11.5"))
-;; (set-face-attribute 'default t :font "Monaco 11")
-;; (set-face-attribute 'font-lock-builtin-face nil :foreground "#DAB98F")
-;; (set-face-attribute 'font-lock-comment-face nil :foreground "gray50")
-;; (set-face-attribute 'font-lock-constant-face nil :foreground "olive drab")
-;; (set-face-attribute 'font-lock-doc-face nil :foreground "gray50")
-;; (set-face-attribute 'font-lock-function-name-face nil :foreground "burlywood3")
-;; (set-face-attribute 'font-lock-keyword-face nil :foreground "DarkGoldenrod3")
-;; (set-face-attribute 'font-lock-string-face nil :foreground "olive drab")
-;; (set-face-attribute 'font-lock-type-face nil :foreground "burlywood3")
-;; (set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3")
 
 ;; Make unique and more meaningful names for buffers with the same name
 (use-package uniquify
