@@ -197,17 +197,86 @@
         ;; Ignore special buffers
         uniquify-ignore-buffers-re "^\\*"))
 
-(use-package crux
-  :straight t
-  :bind (("C-a" . crux-move-beginning-of-line)
+(defvar crux-line-start-regex-term-mode "^[^#$%>\n]*[#$%>] "
+  "Match terminal prompts.
 
-         ("s-j" . crux-top-join-line)
-         ("s-k" . crux-kill-whole-line)
+Used by crux functions like crux-move-beginning-of-line to skip over the prompt")
 
-         ("C-c r" . crux-rename-buffer-and-file)
-         ("C-c k" . crux-kill-other-buffers)
+(defvar crux-line-start-regex-eshell-mode "^[^$\n]*$ " "Match eshell prompt.
 
-         ("C-c d" . crux-duplicate-current-line-or-region)))
+Used by crux functions like crux-move-beginning-of-line to skip over the prompt")
+
+(defvar crux-line-start-regex "^[[:space:]]*" "Match whitespace in from of line.
+
+Used by crux functions like crux-move-beginning-of-line to skip over whitespace")
+
+(defun move-to-mode-line-start ()
+  "Move to the beginning, skipping mode specific line start regex."
+  (interactive)
+  (move-beginning-of-line nil)
+  (let ((line-start-regex (cond ((eq major-mode 'term-mode) crux-line-start-regex-term-mode)
+                                ((eq major-mode 'eshell-mode) crux-line-start-regex-eshell-mode)
+                                (t crux-line-start-regex))))
+    (search-forward-regexp line-start-regex (line-end-position) t)))
+
+(defun crux-move-beginning-of-line (arg)
+  "Move point back to indentation of beginning of line.
+
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
+
+If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+point reaches the beginning or end of the buffer, stop there."
+  (interactive "^p")
+  (setq arg (or arg 1))
+
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+
+  (let ((orig-point (point)))
+    (move-to-mode-line-start)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
+(defun crux-top-join-line ()
+  "Join the current line with the line beneath it."
+  (interactive)
+  (delete-indentation 1))
+
+(defun crux-duplicate-current-line-or-region (arg)
+  "Duplicates the current line or region ARG times.
+If there's no region, the current line will be duplicated.  However, if
+there's a region, all lines that region covers will be duplicated."
+  (interactive "p")
+  (pcase-let* ((origin (point))
+               (`(,beg . ,end) (crux-get-positions-of-line-or-region))
+               (region (buffer-substring-no-properties beg end)))
+    (dotimes (_i arg)
+      (goto-char end)
+      (newline)
+      (insert region)
+      (setq end (point)))
+    (goto-char (+ origin (* (length region) arg) arg))))
+
+(defun crux-get-positions-of-line-or-region ()
+  "Return positions (beg . end) of the current line or region."
+  (let (beg end)
+    (if (and mark-active (> (point) (mark)))
+        (exchange-point-and-mark))
+    (setq beg (line-beginning-position))
+    (if mark-active
+        (exchange-point-and-mark))
+    (setq end (line-end-position))
+    (cons beg end)))
+
+(global-set-key (kbd "C-a") 'crux-move-beginning-of-line)
+(global-set-key (kbd "C-j") 'crux-top-join-line)
+(global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
+
 
 (use-package move-text
   :straight t
