@@ -40,7 +40,8 @@
 ;;;; Customize UI
 
 ;; Set the default font
-;; (set-default-font "Liberation Mono-11.5")
+(cond ((eq system-type 'darwin) (set-default-font "Monaco 12"))
+      ((eq system-type 'windows-nt) (set-default-font "Liberation Mono-11")))
 
 ;; Hide all the bars
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
