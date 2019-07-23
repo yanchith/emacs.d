@@ -202,12 +202,6 @@ lockfile and uses the newest versions instead. Running
 - `C-c s g`     counsel git grep
 - `C-c s r`     counsel ripgrep
 
-### Crux
-
-- `C-c d`       crux duplicate current line or region
-- `s-k`         crux kill whole line
-- `C-a`         crux move to beginning of line (smarter than classic `C-a`)
-
 ### Expand Region (very useful with Multiple Cursors below)
 
 - `C-:`         Expand currently selected region based on syntax (mostly dwim)
