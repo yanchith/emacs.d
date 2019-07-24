@@ -414,7 +414,6 @@
   (exec-path-from-shell-initialize))
 
 (when (eq system-type 'darwin)
-  ;; Set option/alt -> meta, cmd -> super and fn -> hyper
   (setq mac-option-key-is-meta t
         mac-command-key-is-meta nil
         mac-command-modifier 'super
