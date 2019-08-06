@@ -15,6 +15,7 @@
 ;;  - implements source changes (for code actions etc.), except for file system changes
 ;;  - implements joinLines (you need to bind rust-analyzer-join-lines to a key)
 ;;  - implements extendSelection (either bind rust-analyzer-extend-selection to a key, or use expand-region)
+;;  - provides rust-analyzer-inlay-hints-mode for inline type hints
 
 ;; What's missing:
 ;;  - file system changes in apply-source-change
@@ -22,7 +23,6 @@
 ;;  - onEnter, parentModule, findMatchingBrace
 ;;  - runnables
 ;;  - the debugging commands (syntaxTree and analyzerStatus)
-;;  - lsp-ui doesn't interpret the markdown we return currently and instead displays it raw (https://github.com/emacs-lsp/lsp-ui/issues/220 )
 ;;  - more
 
 ;; Also, there's a problem with company-lsp's caching being too eager, sometimes
@@ -202,6 +202,68 @@
       (insert (with-lsp-workspace rust-analyzer--status-buffer-workspace
                 (lsp-send-request (lsp-make-request
                                    "rust-analyzer/analyzerStatus")))))))
+
+
+(defun rust-analyzer--syntax-tree-params ()
+  "Syntax tree params."
+  (list :textDocument (lsp--text-document-identifier)
+        :range (if (use-region-p)
+                   (lsp--region-to-range (region-beginning) (region-end))
+                 (lsp--region-to-range (point-min) (point-max)))))
+
+(defun rust-analyzer-syntax-tree ()
+  "Displays syntax tree for current buffer."
+  (interactive)
+  (when (eq 'rust-mode major-mode)
+    (let* ((workspace (lsp-find-workspace 'rust-analyzer (buffer-file-name)))
+           (buf (get-buffer-create (concat "*rust-analyzer syntax tree " (with-lsp-workspace workspace (lsp-workspace-root)) "*"))))
+      (when workspace
+        (let ((parse-result (with-lsp-workspace workspace
+                              (lsp-send-request (lsp-make-request
+                                                 "rust-analyzer/syntaxTree"
+                                                 (rust-analyzer--syntax-tree-params))))))
+          (with-current-buffer buf
+            (let ((inhibit-read-only t))
+              (erase-buffer)
+              (insert parse-result)))
+          (pop-to-buffer buf))))))
+
+;; inlay hints
+(defun rust-analyzer--update-inlay-hints ()
+  (lsp-send-request-async
+   (lsp-make-request "rust-analyzer/inlayHints"
+                     (list :textDocument (lsp--text-document-identifier)))
+   (lambda (res)
+     (remove-overlays (point-min) (point-max) 'rust-analyzer--inlay-hint t)
+     (dolist (hint res)
+       (-let* (((&hash "range" "label" "kind") hint)
+               ((beg . end) (lsp--range-to-region range))
+               (overlay (make-overlay beg end)))
+         (overlay-put overlay 'rust-analyzer--inlay-hint t)
+         (overlay-put overlay 'evaporate t)
+         (overlay-put overlay 'after-string (propertize (concat ": " label)
+                                                        'font-lock-face 'font-lock-comment-face)))))
+   'tick)
+  nil)
+
+(defvar-local rust-analyzer--inlay-hints-timer nil)
+
+(defun rust-analyzer--inlay-hints-change-handler (&rest rest)
+  (when rust-analyzer--inlay-hints-timer
+    (cancel-timer rust-analyzer--inlay-hints-timer))
+  (setq rust-analyzer--inlay-hints-timer
+        (run-with-idle-timer 0.1 nil #'rust-analyzer--update-inlay-hints)))
+
+(define-minor-mode rust-analyzer-inlay-hints-mode
+  "Mode for showing inlay hints."
+  nil nil nil
+  (cond
+   (rust-analyzer-inlay-hints-mode
+    (rust-analyzer--update-inlay-hints)
+    (add-hook 'after-change-functions #'rust-analyzer--inlay-hints-change-handler nil t))
+   (t
+    (remove-overlays (point-min) (point-max) 'rust-analyzer--inlay-hint t)
+    (remove-hook 'after-change-functions #'rust-analyzer--inlay-hints-change-handler t))))
 
 
 (provide 'ra-emacs-lsp)
