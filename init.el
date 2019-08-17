@@ -118,6 +118,23 @@
 ;; Delete the selection with a keypress
 (delete-selection-mode t)
 
+;; Thank you, Casey Muratori <3
+
+(defun move-to-previous-blank-line ()
+  "Move to the previous line containing nothing but whitespace."
+  (interactive)
+  (search-backward-regexp "^[ \t]*\n"))
+
+(defun move-to-next-blank-line ()
+  "Move to the next line containing nothing but whitespace."
+  (interactive)
+  (forward-line)
+  (search-forward-regexp "^[ \t]*\n")
+  (forward-line -1))
+
+(global-set-key (kbd "M-p") 'move-to-previous-blank-line)
+(global-set-key (kbd "M-n") 'move-to-next-blank-line)
+
 ;;;; Disable some enabled-by-default commands I hit accidentaly
 
 ;; Occasionaly hit this when trying to do C-x b
@@ -197,10 +214,11 @@
         ;; Ignore special buffers
         uniquify-ignore-buffers-re "^\\*"))
 
+;; TODO: figure out a better keyboard shortcut for move-text
 (use-package move-text
   :straight t
-  :bind (("M-p" . move-text-up)
-         ("M-n" . move-text-down)))
+  :bind (("M-S-<up>" . move-text-up)
+         ("M-S-<down>" . move-text-down)))
 
 (use-package undo-tree
   :straight t
@@ -382,8 +400,7 @@
   :mode (("\\.glsl\\'" . glsl-mode)
          ("\\.vert\\'" . glsl-mode)
          ("\\.frag\\'" . glsl-mode)
-         ("\\.geom\\'" . glsl-mode))
-  )
+         ("\\.geom\\'" . glsl-mode)))
 
 ;;;; Racket
 
