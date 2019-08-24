@@ -1,4 +1,4 @@
-;;; crux.el --- Helpers, stolen from crux -*- lexical-binding: t; -*-
+;;; yanchith.el --- Helpers, stolen from crux -*- lexical-binding: t; -*-
 ;;; Code:
 
 ;; Taken from crux (https://github.com/bbatsov/crux)
@@ -87,5 +87,5 @@ there's a region, all lines that region covers will be duplicated."
     (cons beg end)))
 
 
-(provide 'yanchith-nav)
-;;; crux.el ends here
+(provide 'yanchith)
+;;; yanchith.el ends here

@@ -420,7 +420,7 @@
         mac-option-modifier 'meta
         ns-function-modifier 'hyper))
 
-(require 'yanchith-nav)
+(require 'yanchith)
 (global-set-key (kbd "C-a") 'yanchith-move-beginning-of-line)
 (global-set-key (kbd "C-j") 'yanchith-top-join-line)
 (global-set-key (kbd "C-c d") 'yanchith-duplicate-current-line-or-region)

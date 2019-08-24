@@ -31,6 +31,12 @@ There is also an official `emacs` formula:
 $ brew install emacs
 ```
 
+### Windows
+
+Use the binary distribution. Set up a shortcut with paths pointing to the config directory:
+
+`D:\emacs-26.2-x86_64\bin\runemacs.exe --no-init-file --load=D:\emacs.d\init.el`
+
 ## Modifier Keys
 
 - `C`        Ctrl
@@ -151,6 +157,14 @@ $ brew install emacs
 - `M-q`         re-fill current paragraph; useful for formatting prose or comments
 - `M-g g`       go to line
 
+## Custom navigation and editing functions
+
+- `M-n`         move to next completely blank line
+- `M-p`         move to previous completely blank line
+- `C-a`         toggle between beginning of line and first non-whitespace character
+- `C-c d`       duplicate current line
+- `C-j`         join next line to this one
+
 ## Major modes
 
 ### Dired
@@ -186,10 +200,10 @@ lockfile and uses the newest versions instead. Running
 
 ### Projectile
 
-- `s-p p`       Switch to project
-- `s-p f`       Switch to file in current project
-- `s-p a`       Add a project to projectile's index
-- `s-p r`       Remove a project from projectile's index
+- `C-c p p`       Switch to project
+- `C-c p f`       Switch to file in current project
+- `C-c p a`       Add a project to projectile's index
+- `C-c p r`       Remove a project from projectile's index
 
 ### Swiper
 
@@ -198,9 +212,11 @@ lockfile and uses the newest versions instead. Running
 ### Counsel
 
 - `M-x`         counsel powered M-x
-- `C-x C-f`     counsel powered C-x C-f
-- `C-c s g`     counsel git grep
-- `C-c s r`     counsel ripgrep
+- `C-x C-f`     counsel-find-file
+- `C-c s g`     counsel-git-grep
+- `C-c s r`     counsel-rg
+
+- `(counsel) C-M-j` use literal search string instead of completion (useful for counsel-find-file)
 
 ### Expand Region (very useful with Multiple Cursors below)
 
@@ -211,11 +227,11 @@ lockfile and uses the newest versions instead. Running
 - `C->`         Mark next like this (selection)
 - `C-<`         Unmark previous like this (selection)
 - `C-c m c`     Mark all like this (dwim)
-- `C-c m a`     Spawn cursor in the beginning of each line in region
+- `C-c m l`     Spawn cursor in the beginning of each line in region
 
 ### Magit
 
-- `s-g g`       magit status
+- `C-c g g`       magit status
 
 In magit status:
 
@@ -240,8 +256,8 @@ In magit commit:
 
 ### Move text
 
-- `M-p`         move line or region up
-- `M-n`         move line or region down
+- `M-S-<up>`         move line or region up
+- `M-S-<down`        move line or region down
 
 ### Rust mode
 
@@ -249,4 +265,4 @@ In magit commit:
 
 ### Tide
 
-- `M-.` jump to definition
+- `M-.`         jump to definition
