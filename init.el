@@ -22,20 +22,20 @@
 
 ;; Define directories
 
-(defvar ya/dir-root (file-name-directory load-file-name)
+(defvar yanchith-dir-root (file-name-directory load-file-name)
   "The root dir of this config.")
 
-(defvar ya/dir-lisp (expand-file-name "lisp" ya/dir-root)
+(defvar yanchith-dir-lisp (expand-file-name "lisp" yanchith-dir-root)
   "This directory stores custom Lisp code.")
-(add-to-list 'load-path ya/dir-lisp)
+(add-to-list 'load-path yanchith-dir-lisp)
 
-(defvar ya/dir-savefile (expand-file-name "savefile" ya/dir-root)
+(defvar yanchith-dir-savefile (expand-file-name "savefile" yanchith-dir-root)
   "This directory stores all automatically generated save/history files.")
-(unless (file-exists-p ya/dir-savefile)
-  (make-directory ya/dir-savefile))
+(unless (file-exists-p yanchith-dir-savefile)
+  (make-directory yanchith-dir-savefile))
 
 ;; Store config changes made through the customize UI here
-(setq custom-file (expand-file-name "custom.el" ya/dir-root))
+(setq custom-file (expand-file-name "custom.el" yanchith-dir-root))
 
 ;;;; Customize UI
 
@@ -117,23 +117,6 @@
 
 ;; Delete the selection with a keypress
 (delete-selection-mode t)
-
-;; Thank you, Casey Muratori <3
-
-(defun move-to-previous-blank-line ()
-  "Move to the previous line containing nothing but whitespace."
-  (interactive)
-  (search-backward-regexp "^[ \t]*\n"))
-
-(defun move-to-next-blank-line ()
-  "Move to the next line containing nothing but whitespace."
-  (interactive)
-  (forward-line)
-  (search-forward-regexp "^[ \t]*\n")
-  (forward-line -1))
-
-(global-set-key (kbd "M-p") 'move-to-previous-blank-line)
-(global-set-key (kbd "M-n") 'move-to-next-blank-line)
 
 ;;;; Disable some enabled-by-default commands I hit accidentaly
 
@@ -262,7 +245,7 @@
          ("C-c p a" . projectile-add-known-project)
          ("C-c p r" . projectile-remove-known-project))
   :config
-  (setq projectile-cache-file (expand-file-name  "projectile.cache" ya/dir-savefile)
+  (setq projectile-cache-file (expand-file-name  "projectile.cache" yanchith-dir-savefile)
         projectile-completion-system 'ivy)
   (projectile-mode t))
 
@@ -437,20 +420,18 @@
         mac-option-modifier 'meta
         ns-function-modifier 'hyper))
 
-;; Load our own, smaller version of crux (https://github.com/bbatsov/crux)
-
-(require 'crux)
-(global-set-key (kbd "C-a") 'crux-move-beginning-of-line)
-(global-set-key (kbd "C-j") 'crux-top-join-line)
-(global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
+(require 'yanchith-nav)
+(global-set-key (kbd "C-a") 'yanchith-move-beginning-of-line)
+(global-set-key (kbd "C-j") 'yanchith-top-join-line)
+(global-set-key (kbd "C-c d") 'yanchith-duplicate-current-line-or-region)
+(global-set-key (kbd "M-p") 'yanchith-move-to-previous-blank-line)
+(global-set-key (kbd "M-n") 'yanchith-move-to-next-blank-line)
 
 ;; Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold (megabytes 1))
 
 ;; TODO:
-;; - minimap (tried sublimity, looked nice enough, but was interfering
-;;   with magit "with-editor" and counsel)
-;; - Rust RLS with lsp-mode? (Using Rust Analyzer currently)
-;; - Typescript with lsp-mode?
-;; - Spelling correction: flyspell
+;; - Rust RLS 2.0 with lsp-mode? (Using Rust Analyzer currently)
+;; - Typescript with lsp-mode instead of tide?
+;; - Spelling correction for prose (and on demand for comments?): flyspell
 ;; - Haskell: haskell-mode
