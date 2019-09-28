@@ -385,16 +385,6 @@
          ("\\.frag\\'" . glsl-mode)
          ("\\.geom\\'" . glsl-mode)))
 
-;;;; Racket
-
-(use-package racket-mode
-  :straight t
-  :mode ("\\.rkt\\'" . racket-mode)
-  :config
-  (defun setup-racket-mode ()
-    (smartparens-strict-mode +1))
-  (add-hook 'racket-mode-hook 'setup-racket-mode))
-
 ;;;; Markdown
 
 (use-package markdown-mode
