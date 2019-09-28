@@ -18,7 +18,7 @@
  ("gnu-elpa-mirror" . "01001b660cd3677228e25a6f544d579b56845c37")
  ("ht.el" . "66c5f9131242697fabaede5566d87ecda4c14b1f")
  ("let-alist" . "57561d7d9267da48e8b7ab1f3bd45c9d05951289")
- ("lsp-mode" . "1899e6b05d1c9a21b20ff486f514a3c3fc03e079")
+ ("lsp-mode" . "50ddaf439cd62033d3bc0d12cca341fb0d4e1382")
  ("magit" . "00dbf89fb71872356b0c1084af3559fe20925e5d")
  ("markdown-mode" . "f3c54e34cc5228001af36a5301883325319f21d4")
  ("melpa" . "ba06c1a7b656a2c808795b602452eb67cc3847de")
