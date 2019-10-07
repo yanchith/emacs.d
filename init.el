@@ -294,7 +294,7 @@
   :config
   (setq whitespace-line-column 100
         whitespace-style '(face tabs empty trailing lines-tail))
-  (add-hook 'before-save-hook 'whitespace-cleanup nil t)
+  (add-hook 'before-save-hook 'whitespace-cleanup)
   (global-whitespace-mode +1))
 
 ;; Have saner regex syntax
