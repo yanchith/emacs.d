@@ -203,6 +203,7 @@
   :bind (("M-S-<up>" . move-text-up)
          ("M-S-<down>" . move-text-down)))
 
+;; TODO: can I live without this and just use standard emacs-undo?
 (use-package undo-tree
   :straight t
   :bind (("C-/" . undo-tree-undo)
@@ -249,6 +250,7 @@
         projectile-completion-system 'ivy)
   (projectile-mode t))
 
+;; TODO: can I live without this and just use dired/dired-x?
 (use-package neotree
   :straight t
   :bind ("C-c t" . neotree-toggle)
@@ -387,6 +389,7 @@
 
 ;;;; Markdown
 
+;; TODO: find a way to remove... currently lsp depends on it though.
 (use-package markdown-mode
   :straight t
   :mode (("README\\.md\\'" . gfm-mode)
