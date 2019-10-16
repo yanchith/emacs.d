@@ -310,24 +310,6 @@
   ;; Show matching parens everywhere this is hooked
   (show-smartparens-global-mode +1))
 
-;;;; LSP client
-
-;; TODO: try integrating flycheck with lsp - will need lsp-ui back for
-;; it to work. Currently flycheck-rust is enough for us.
-(use-package lsp-mode
-  :straight t
-  :commands lsp
-  :hook (rust-mode . lsp)
-  :config
-  (setq lsp-enable-snippet nil
-        ;; This disables both flycheck and flymake
-        lsp-prefer-flymake :none)
-  (require 'ra-emacs-lsp))
-
-(use-package company-lsp
-  :straight t
-  :commands company-lsp)
-
 ;;;; Rust
 
 (use-package rust-mode
@@ -368,17 +350,6 @@
          ("\\.vert\\'" . glsl-mode)
          ("\\.frag\\'" . glsl-mode)
          ("\\.geom\\'" . glsl-mode)))
-
-;;;; Markdown
-
-;; TODO: find a way to remove... currently lsp depends on it though.
-(use-package markdown-mode
-  :straight t
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :config
-  (setq markdown-command "multimarkdown"))
 
 ;;;; macOS
 
