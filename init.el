@@ -203,15 +203,6 @@
   :bind (("M-S-<up>" . move-text-up)
          ("M-S-<down>" . move-text-down)))
 
-;; TODO: can I live without this and just use standard emacs-undo?
-(use-package undo-tree
-  :straight t
-  :bind (("C-/" . undo-tree-undo)
-         ("C-?" . undo-tree-redo)
-         ("C-c u" . undo-tree-visualize))
-  :config
-  (global-undo-tree-mode 1))
-
 ;; PERF ~80ms
 ;; Note: ivy has :demand, because projectile doesn't trigger
 ;; an autoload of ivy with `projectile-add-known-project'
@@ -250,14 +241,6 @@
         projectile-completion-system 'ivy)
   (projectile-mode t))
 
-;; TODO: can I live without this and just use dired/dired-x?
-(use-package neotree
-  :straight t
-  :bind ("C-c t" . neotree-toggle)
-  :config
-  (setq neo-theme 'arrow
-        neo-smart-open t))
-
 (use-package magit
   :straight t
   :bind (("C-c g g" . magit-status)
@@ -269,7 +252,6 @@
   :straight t
   :commands git-timemachine)
 
-;; Set up completetions in text
 (use-package company
   :straight t
   :hook (prog-mode . company-mode)

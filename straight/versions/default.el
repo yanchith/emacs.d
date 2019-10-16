@@ -5,7 +5,6 @@
  ("diff-hl" . "374b1d4b34876219218da7a539e7301259b56958")
  ("emacs-async" . "bd68cc1ab1ac6af890e250bdaa12ffb1cb9649be")
  ("emacs-doom-themes" . "1159463956223ae53df421bcd796e94610759c42")
- ("emacs-neotree" . "5e1271655170f4cdc6849258e383c548a4e6e3d0")
  ("emacsmirror-mirror" . "c31546f458bc9ab59f964bfc83615ca06196fc60")
  ("epl" . "78ab7a85c08222cd15582a298a364774e3282ce6")
  ("exec-path-from-shell" . "3cfedb8791397ed50ee66bc0a7cbee5b9d78245c")
@@ -36,7 +35,6 @@
  ("tide" . "13f64933c19590ebd02a4b141bb6be88d7aaf2b0")
  ("transient" . "7bf97594a5ec1b9a682ef5a1537a6b0ecc6d9dfb")
  ("typescript.el" . "2405090403e2907d7751770bab4a40865ef043ff")
- ("undo-tree" . "d54ef13e3c69655e39f977b8bf75399a6d2b5e42")
  ("use-package" . "4714d73b61bdb378f6e9e3f3838cae1abbf65ea0")
  ("with-editor" . "45c29f9bfb7f2df93426ce1571e2f4f41ed4e492"))
 :alpha
