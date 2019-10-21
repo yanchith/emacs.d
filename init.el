@@ -206,9 +206,6 @@
 ;; PERF ~80ms
 ;; Note: ivy has :demand, because projectile doesn't trigger
 ;; an autoload of ivy with `projectile-add-known-project'
-;; TODO: when starting cold, ivy has huge startup time (about 2-5
-;; seconds), but only the first time after system startup. What is
-;; happening here and how can we stop it?
 (use-package ivy
   :straight t
   :demand
