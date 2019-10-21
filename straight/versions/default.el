@@ -1,7 +1,6 @@
 (("cl-lib" . "e79686c4a26959c0ecba0951a7e335ed28035386")
  ("company-mode" . "f6974e3103497afe01da2ad4d2ea3668ad68bc27")
  ("dash.el" . "a743ae3da1d5869434c6f262bbe45ef30d87cb9c")
- ("diff-hl" . "374b1d4b34876219218da7a539e7301259b56958")
  ("emacs-async" . "bd68cc1ab1ac6af890e250bdaa12ffb1cb9649be")
  ("emacs-doom-themes" . "1159463956223ae53df421bcd796e94610759c42")
  ("emacsmirror-mirror" . "c31546f458bc9ab59f964bfc83615ca06196fc60")

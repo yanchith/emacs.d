@@ -287,13 +287,6 @@
   :config
   (setq reb-re-syntax 'string))
 
-;; PERF ~20ms
-(use-package diff-hl
-  :straight t
-  :config
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  (global-diff-hl-mode +1))
-
 (use-package flycheck
   :straight t
   :hook (prog-mode . flycheck-mode))
