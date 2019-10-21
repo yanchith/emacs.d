@@ -214,12 +214,10 @@
   :config
   (ivy-mode 1))
 
-;; swiper provides enhanced buffer search, replace i-search with swiper
 (use-package swiper
   :straight t
   :bind ("C-s" . swiper))
 
-;; counsel supercharges a lot of commands with some ivy magic
 (use-package counsel
   :straight t
   :bind (("M-x" . counsel-M-x)
