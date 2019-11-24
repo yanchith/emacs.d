@@ -124,11 +124,31 @@
 ;; Occasionaly hit this when trying to do C-x b
 (put 'list-buffers 'disabled t)
 
-;;;; Define keybindings for common operations
 
-;; Font size
-(global-set-key (kbd "C-+") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
+;;;; Font size
+
+;; Add ability to control emacs-wide text-scale if I find myself
+;; having to use a monitor where I can't set operating-system wide
+;; scaling factor
+(define-globalized-minor-mode
+    global-text-scale-mode
+    text-scale-mode
+    (lambda () (text-scale-mode 1)))
+
+(defun global-text-scale-adjust (inc) (interactive)
+       (text-scale-set 1)
+       (kill-local-variable 'text-scale-mode-amount)
+       (setq-default text-scale-mode-amount (+ text-scale-mode-amount inc))
+       (global-text-scale-mode 1))
+
+(global-set-key (kbd "C-0")
+                '(lambda () (interactive)
+                   (global-text-scale-adjust (- text-scale-mode-amount))
+                   (global-text-scale-mode -1)))
+(global-set-key (kbd "C-+")
+                '(lambda () (interactive) (global-text-scale-adjust 1)))
+(global-set-key (kbd "C--")
+                '(lambda () (interactive) (global-text-scale-adjust -1)))
 
 ;;;; Misc customizations
 
