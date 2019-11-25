@@ -141,13 +141,13 @@
        (setq-default text-scale-mode-amount (+ text-scale-mode-amount inc))
        (global-text-scale-mode 1))
 
-(global-set-key (kbd "C-0")
+(global-set-key (kbd "C-M-0")
                 '(lambda () (interactive)
                    (global-text-scale-adjust (- text-scale-mode-amount))
                    (global-text-scale-mode -1)))
-(global-set-key (kbd "C-+")
+(global-set-key (kbd "C-M-+")
                 '(lambda () (interactive) (global-text-scale-adjust 1)))
-(global-set-key (kbd "C--")
+(global-set-key (kbd "C-M--")
                 '(lambda () (interactive) (global-text-scale-adjust -1)))
 
 ;;;; Misc customizations
