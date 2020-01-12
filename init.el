@@ -343,8 +343,6 @@
   (defun setup-tide-mode ()
     (interactive)
     (tide-setup)
-    (flycheck-mode +1)
-    (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'typescript-mode-hook 'setup-tide-mode))
