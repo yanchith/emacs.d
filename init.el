@@ -49,7 +49,7 @@
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-;; PERF The emacs default for initial-major-mode is
+;; PERF: The emacs default for initial-major-mode is
 ;; lisp-interaction-mode, which is a programming mode. Everything
 ;; :hook-ed with prog-mode (such as the very expensive flycheck) would
 ;; be loaded right from the start (bad), if we kept it that way.
@@ -187,9 +187,7 @@
 
 ;;;; Configure packages
 
-;; PERF ~90ms
-;; TODO: Steal all the good things from these themes, but inline them
-;; here for speed
+;; PERF: ~90ms (MBP 2014)
 (use-package doom-themes
   :straight t
   :config
@@ -224,7 +222,7 @@
   :bind (("M-S-<up>" . move-text-up)
          ("M-S-<down>" . move-text-down)))
 
-;; PERF ~80ms
+;; PERF: ~80ms (MBP 2014)
 ;; Note: ivy has :demand, because projectile doesn't trigger
 ;; an autoload of ivy with `projectile-add-known-project'
 (use-package ivy
@@ -386,7 +384,6 @@
 (setq gc-cons-threshold (megabytes 1))
 
 ;; TODO:
-;; - Rust RLS 2.0 with lsp-mode? (Using Rust Analyzer currently)
-;; - Typescript with lsp-mode instead of tide?
-;; - Spelling correction for prose (and on demand for comments?): flyspell
-;; - Haskell: haskell-mode
+;; - Rust RLS 2.0 or rust analyzer
+;; - flyspell
+;; - haskell-mode
