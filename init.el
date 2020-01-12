@@ -223,8 +223,11 @@
          ("M-S-<down>" . move-text-down)))
 
 ;; PERF: ~80ms (MBP 2014)
-;; Note: ivy has :demand, because projectile doesn't trigger
-;; an autoload of ivy with `projectile-add-known-project'
+
+;; Note: ivy has :demand, because projectile doesn't trigger an
+;; autoload of ivy with `projectile-add-known-project' (because it
+;; doesn't use `projectile-completing-read', only
+;; `read-directory-name')
 (use-package ivy
   :straight t
   :demand
