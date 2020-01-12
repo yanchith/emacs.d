@@ -231,6 +231,7 @@
   :bind (("C-x b" . ivy-switch-buffer)
          ("C-x 4 b" . ivy-switch-buffer-other-window))
   :config
+  (setq ivy-use-selectable-prompt t)
   (ivy-mode 1))
 
 (use-package swiper
