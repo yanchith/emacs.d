@@ -330,11 +330,6 @@
     (subword-mode +1))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
 
-(use-package flycheck-rust
-  :straight t
-  :after flycheck ;; TODO: audit if :after works here or this is actually fragile
-  :hook (rust-mode . flycheck-rust-setup))
-
 ;;;; TypeScript
 
 (use-package typescript-mode
