@@ -102,6 +102,10 @@
 
 ;;;; Customize editor behavior
 
+;; Give comments more space
+
+(setq-default fill-column 80)
+
 ;; Smart tab behavior - indent or complete
 (setq tab-always-indent 'complete)
 
