@@ -356,7 +356,13 @@
   :mode (("\\.glsl\\'" . glsl-mode)
          ("\\.vert\\'" . glsl-mode)
          ("\\.frag\\'" . glsl-mode)
-         ("\\.geom\\'" . glsl-mode)))
+         ("\\.geom\\'" . glsl-mode))
+  :config
+  (defun setup-glsl-mode ()
+    (interactive)
+    (eldoc-mode +1)
+    (subword-mode +1))
+  (add-hook 'glsl-mode-hook 'setup-glsl-mode))
 
 ;;;; macOS
 
