@@ -226,7 +226,7 @@
          ("M-S-<down>" . move-text-down)))
 
 ;; PERF: ~80ms (MBP 2014)
-
+;; TODO: Diminish
 ;; Note: ivy has :demand, because projectile doesn't trigger an
 ;; autoload of ivy with `projectile-add-known-project' (because it
 ;; doesn't use `projectile-completing-read', only
@@ -251,6 +251,7 @@
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
+;; TODO: Diminish (keep just "[name:type]")
 (use-package projectile
   :straight t
   :bind (("C-c p p" . projectile-switch-project)
@@ -294,6 +295,7 @@
   :straight t
   :bind ("C-:" . er/expand-region))
 
+;; TODO: Diminish
 (use-package whitespace
   :straight f
   :config
