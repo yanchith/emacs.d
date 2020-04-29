@@ -188,7 +188,7 @@
 (straight-use-package 'use-package)
 (eval-when-compile (require 'use-package))
 
-;;;; Configure buil-in packages
+;;;; Configure built-in packages
 
 ;; Make unique and more meaningful names for buffers with the same name
 (use-package uniquify
@@ -216,7 +216,7 @@
   :config
   (setq reb-re-syntax 'string))
 
-;;;; Configure external ackages
+;;;; Configure theme packages
 
 ;; TODO: Vendor just the used themes here to hopefully shave off some startup time
 ;; PERF: ~90ms (MBP 2014)
@@ -237,14 +237,43 @@
         )
   (load-theme 'doom-one t))
 
+;;;; Configure text editing packages
+
 ;; TODO: figure out a better keyboard shortcut for move-text
 (use-package move-text
   :straight t
   :bind (("M-S-<up>" . move-text-up)
          ("M-S-<down>" . move-text-down)))
 
+(use-package multiple-cursors
+  :straight t
+  :bind (("C-c m l" . mc/edit-lines)
+         ("C-c m c" . mc/mark-all-dwim)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/unmark-next-like-this)))
+
+(use-package expand-region
+  :straight t
+  :bind ("C-:" . er/expand-region))
+
+;;;; Configure VCS packages
+
+(use-package magit
+  :straight t
+  :bind (("C-c g g" . magit-status)
+         ("C-c g l" . magit-log)
+         ("C-c g f" . magit-log-buffer-file)
+         ("C-c g b" . magit-blame)))
+
+;; TODO: Git gutter?
+
+(use-package git-timemachine
+  :straight t
+  :commands git-timemachine)
+
+;;;; Configure autocomplete packages
+
 ;; PERF: ~80ms (MBP 2014)
-;; TODO: Diminish
 ;; Note: ivy has :demand, because projectile doesn't trigger an
 ;; autoload of ivy with `projectile-add-known-project' (because it
 ;; doesn't use `projectile-completing-read', only
@@ -269,7 +298,18 @@
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
-;; TODO: Diminish (keep just "[name:type]")
+(use-package company
+  :straight t
+  :hook (prog-mode . company-mode)
+  :config
+  (setq company-idle-delay 0.2
+        company-show-numbers t
+        company-tooltip-limit 10
+        company-minimum-prefix-length 2
+        company-tooltip-align-annotations t))
+
+;;;; Configure project management packages
+
 (use-package projectile
   :straight t
   :bind (("C-c p p" . projectile-switch-project)
@@ -281,39 +321,7 @@
         projectile-completion-system 'ivy)
   (projectile-mode t))
 
-(use-package magit
-  :straight t
-  :bind (("C-c g g" . magit-status)
-         ("C-c g l" . magit-log)
-         ("C-c g f" . magit-log-buffer-file)
-         ("C-c g b" . magit-blame)))
-
-;; TODO: Git gutter?
-
-(use-package git-timemachine
-  :straight t
-  :commands git-timemachine)
-
-(use-package company
-  :straight t
-  :hook (prog-mode . company-mode)
-  :config
-  (setq company-idle-delay 0.2
-        company-show-numbers t
-        company-tooltip-limit 10
-        company-minimum-prefix-length 2
-        company-tooltip-align-annotations t))
-
-(use-package multiple-cursors
-  :straight t
-  :bind (("C-c m l" . mc/edit-lines)
-         ("C-c m c" . mc/mark-all-dwim)
-         ("C->" . mc/mark-next-like-this)
-         ("C-<" . mc/unmark-next-like-this)))
-
-(use-package expand-region
-  :straight t
-  :bind ("C-:" . er/expand-region))
+;;;; Configure programming packages
 
 (use-package flycheck
   :straight t
@@ -331,8 +339,6 @@
   ;; Show matching parens everywhere this is hooked
   (show-smartparens-global-mode +1))
 
-;;;; Rust
-
 (use-package rust-mode
   :straight t
   :mode ("\\.rs\\'" . rust-mode)
@@ -342,8 +348,6 @@
     (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
-
-;;;; TypeScript
 
 (use-package typescript-mode
   :straight tide
@@ -355,8 +359,6 @@
     (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'typescript-mode-hook 'setup-tide-mode))
-
-;;;; GLSL
 
 (use-package glsl-mode
   :straight t
@@ -371,7 +373,7 @@
     (subword-mode +1))
   (add-hook 'glsl-mode-hook 'setup-glsl-mode))
 
-;;;; macOS
+;;;; Configure macOS specific packages
 
 (use-package exec-path-from-shell
   :if (eq system-type 'darwin)
