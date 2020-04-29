@@ -288,6 +288,8 @@
          ("C-c g f" . magit-log-buffer-file)
          ("C-c g b" . magit-blame)))
 
+;; TODO: Git gutter?
+
 (use-package git-timemachine
   :straight t
   :commands git-timemachine)
