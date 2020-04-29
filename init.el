@@ -188,8 +188,37 @@
 (straight-use-package 'use-package)
 (eval-when-compile (require 'use-package))
 
-;;;; Configure packages
+;;;; Configure buil-in packages
 
+;; Make unique and more meaningful names for buffers with the same name
+(use-package uniquify
+  :straight f
+  :config
+  (setq uniquify-buffer-name-style 'forward
+        uniquify-separator "/"
+        ;; Rename after killing uniquified
+        uniquify-after-kill-buffer-p t
+        ;; Ignore special buffers
+        uniquify-ignore-buffers-re "^\\*"))
+
+;; Loudly show trailing whitespace and clean it up on save
+(use-package whitespace
+  :straight f
+  :config
+  (setq whitespace-line-column 100
+        whitespace-style '(face tabs empty trailing lines-tail))
+  (add-hook 'before-save-hook 'whitespace-cleanup)
+  (global-whitespace-mode +1))
+
+;; Have saner regex syntax
+(use-package re-builder
+  :straight f
+  :config
+  (setq reb-re-syntax 'string))
+
+;;;; Configure external ackages
+
+;; TODO: Vendor just the used themes here to hopefully shave off some startup time
 ;; PERF: ~90ms (MBP 2014)
 (use-package doom-themes
   :straight t
@@ -207,17 +236,6 @@
         doom-one-light-padded-modeline t
         )
   (load-theme 'doom-one t))
-
-;; Make unique and more meaningful names for buffers with the same name
-(use-package uniquify
-  :straight f
-  :config
-  (setq uniquify-buffer-name-style 'forward
-        uniquify-separator "/"
-        ;; Rename after killing uniquified
-        uniquify-after-kill-buffer-p t
-        ;; Ignore special buffers
-        uniquify-ignore-buffers-re "^\\*"))
 
 ;; TODO: figure out a better keyboard shortcut for move-text
 (use-package move-text
@@ -294,21 +312,6 @@
 (use-package expand-region
   :straight t
   :bind ("C-:" . er/expand-region))
-
-;; TODO: Diminish
-(use-package whitespace
-  :straight f
-  :config
-  (setq whitespace-line-column 100
-        whitespace-style '(face tabs empty trailing lines-tail))
-  (add-hook 'before-save-hook 'whitespace-cleanup)
-  (global-whitespace-mode +1))
-
-;; Have saner regex syntax
-(use-package re-builder
-  :straight f
-  :config
-  (setq reb-re-syntax 'string))
 
 (use-package flycheck
   :straight t
