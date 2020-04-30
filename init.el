@@ -375,7 +375,12 @@
 (use-package lsp-mode
   :straight t
   :commands lsp
-  :hook ((rust-mode . lsp)
+  ;; TODO: Try enabling automatic lsp for rust again later. Currently it takes
+  ;; too much RAM and CPU on mid-sized projects, It also makes the modeline
+  ;; noisy with "Rust Analuzer 79%" progress, and go-to-definition hangs Emacs,
+  ;; if RA doesn't have the data already ready. It can still be enabled
+  ;; manually with "M-x lsp".
+  :hook (;(rust-mode . lsp)
          (typescript-mode . lsp)
          (javascript-mode . lsp))
   :init
