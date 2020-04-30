@@ -350,15 +350,13 @@
   (add-hook 'rust-mode-hook 'setup-rust-mode))
 
 (use-package typescript-mode
-  :straight tide
-  :mode ("\\.tsx?\\'" . typescript-mode)
+  :straight t
+  :mode ("\\.(js|jsx|ts|tsx)\\'")
   :config
-  (defun setup-tide-mode ()
-    (interactive)
-    (tide-setup)
+  (defun setup-typescript-mode ()
     (eldoc-mode +1)
     (subword-mode +1))
-  (add-hook 'typescript-mode-hook 'setup-tide-mode))
+  (add-hook 'typescript-mode-hook 'setup-typescript-mode))
 
 (use-package glsl-mode
   :straight t
@@ -368,10 +366,27 @@
          ("\\.geom\\'" . glsl-mode))
   :config
   (defun setup-glsl-mode ()
-    (interactive)
     (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'glsl-mode-hook 'setup-glsl-mode))
+
+;;;; Configure LSP packages
+
+(use-package lsp-mode
+  :straight t
+  :commands lsp
+  :hook ((rust-mode . lsp)
+         (typescript-mode . lsp)
+         (javascript-mode . lsp))
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (setq lsp-rust-server 'rust-analyzer))
+
+(use-package lsp-ivy
+  :straight t
+  :commands lsp-ivy-workspace-symbol
+  :bind ("C-c s s" . lsp-ivy-workspace-symbol))
 
 ;;;; Configure macOS specific packages
 
@@ -399,6 +414,5 @@
 (setq gc-cons-threshold (megabytes 1))
 
 ;; TODO:
-;; - Rust RLS 2.0 or rust analyzer
 ;; - flyspell
 ;; - haskell-mode
