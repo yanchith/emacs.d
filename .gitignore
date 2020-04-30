@@ -5,6 +5,9 @@
 straight/
 ! straight/versions/default.el
 
+.cache/
+.log/
+
 auto-save-list/
 savefile/
 transient/
