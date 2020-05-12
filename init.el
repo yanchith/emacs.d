@@ -40,7 +40,7 @@
 ;;;; Customize UI
 
 ;; Set the default font
-(cond ((eq system-type 'darwin) (set-frame-font "Monaco 12"))
+(cond ((eq system-type 'darwin) (set-frame-font "Liberation Mono-14"))
       ((eq system-type 'windows-nt) (set-frame-font "Liberation Mono-11"))
       ((eq system-type 'gnu/linux) (set-frame-font "Liberation Mono-11")))
 
