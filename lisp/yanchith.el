@@ -51,14 +51,15 @@ there's a region, all lines that region covers will be duplicated."
 (defun yanchith-move-to-previous-blank-line ()
   "Move to the previous line containing nothing but whitespace."
   (interactive)
-  (search-backward-regexp "^[ \t]*\n"))
+  (if (not (search-backward-regexp "^[ \t]*\n" nil t))
+      (forward-line -1)))
 
 (defun yanchith-move-to-next-blank-line ()
   "Move to the next line containing nothing but whitespace."
   (interactive)
   (forward-line)
-  (search-forward-regexp "^[ \t]*\n")
-  (forward-line -1))
+  (if (search-forward-regexp "^[ \t]*\n" nil t)
+      (forward-line -1)))
 
 ;;;; private
 
