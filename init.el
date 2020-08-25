@@ -273,14 +273,8 @@
 
 ;;;; Configure autocomplete packages
 
-;; PERF: ~80ms (MBP 2014)
-;; Note: ivy has :demand, because projectile doesn't trigger an
-;; autoload of ivy with `projectile-add-known-project' (because it
-;; doesn't use `projectile-completing-read', only
-;; `read-directory-name')
 (use-package ivy
   :straight t
-  :demand
   :bind (("C-x b" . ivy-switch-buffer)
          ("C-x 4 b" . ivy-switch-buffer-other-window))
   :config
@@ -295,6 +289,7 @@
   :straight t
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
+         ("C-c f" . counsel-git)
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
@@ -307,19 +302,6 @@
         company-tooltip-limit 10
         company-minimum-prefix-length 2
         company-tooltip-align-annotations t))
-
-;;;; Configure project management packages
-
-(use-package projectile
-  :straight t
-  :bind (("C-c p p" . projectile-switch-project)
-         ("C-c p f" . projectile-find-file)
-         ("C-c p a" . projectile-add-known-project)
-         ("C-c p r" . projectile-remove-known-project))
-  :config
-  (setq projectile-cache-file (expand-file-name  "projectile.cache" yanchith-dir-savefile)
-        projectile-completion-system 'ivy)
-  (projectile-mode t))
 
 ;;;; Configure programming packages
 
