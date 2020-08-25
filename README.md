@@ -37,6 +37,10 @@ Use the binary distribution. Set up a shortcut with paths pointing to the config
 
 `D:\emacs-26.2-x86_64\bin\runemacs.exe --no-init-file --load=D:\emacs.d\init.el`
 
+### External tools
+
+Some commands rely on `git` and `rg` being installed and in PATH.
+
 ## Modifier Keys
 
 - `C`        Ctrl
@@ -198,13 +202,6 @@ lockfile and uses the newest versions instead. Running
                              does not apply them)
 - `straight-fetch-all`       Fetch all git repos
 
-### Projectile
-
-- `C-c p p`       Switch to project
-- `C-c p f`       Switch to file in current project
-- `C-c p a`       Add a project to projectile's index
-- `C-c p r`       Remove a project from projectile's index
-
 ### Swiper
 
 - `C-s`         swiper search (replaces i-search)
@@ -213,6 +210,7 @@ lockfile and uses the newest versions instead. Running
 
 - `M-x`         counsel powered M-x
 - `C-x C-f`     counsel-find-file
+- `C-c f`       counsel-git (find file in git repo)
 - `C-c s g`     counsel-git-grep
 - `C-c s r`     counsel-rg
 
