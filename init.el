@@ -265,12 +265,6 @@
          ("C-c g f" . magit-log-buffer-file)
          ("C-c g b" . magit-blame)))
 
-;; TODO: Git gutter?
-
-(use-package git-timemachine
-  :straight t
-  :commands git-timemachine)
-
 ;;;; Configure autocomplete packages
 
 (use-package ivy
@@ -352,29 +346,6 @@
     (subword-mode +1))
   (add-hook 'glsl-mode-hook 'setup-glsl-mode))
 
-;;;; Configure LSP packages
-
-(use-package lsp-mode
-  :straight t
-  :commands lsp
-  ;; TODO: Try enabling automatic lsp for rust again later. Currently it takes
-  ;; too much RAM and CPU on mid-sized projects, It also makes the modeline
-  ;; noisy with "Rust Analuzer 79%" progress, and go-to-definition hangs Emacs,
-  ;; if RA doesn't have the data already ready. It can still be enabled
-  ;; manually with "M-x lsp".
-  :hook (;(rust-mode . lsp)
-         (typescript-mode . lsp)
-         (javascript-mode . lsp))
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :config
-  (setq lsp-rust-server 'rust-analyzer))
-
-(use-package lsp-ivy
-  :straight t
-  :commands lsp-ivy-workspace-symbol
-  :bind ("C-c s s" . lsp-ivy-workspace-symbol))
-
 ;;;; Configure macOS specific packages
 
 (use-package exec-path-from-shell
@@ -400,6 +371,4 @@
 ;; Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold (megabytes 1))
 
-;; TODO:
-;; - flyspell
-;; - haskell-mode
+;; TODO: Spellchecking via Flyspell?
