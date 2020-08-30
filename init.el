@@ -40,14 +40,38 @@
 ;;;; Customize UI
 
 ;; Set the default font
+
 (cond ((eq system-type 'darwin) (set-frame-font "Liberation Mono-14"))
       ((eq system-type 'windows-nt) (set-frame-font "Liberation Mono-11"))
       ((eq system-type 'gnu/linux) (set-frame-font "Liberation Mono-11")))
 
-;; Hide all the bars
+;; Do handmade-ish color theme
+
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+;; TODO: Configure faces for ivy/counsel, company and magit to be more in line
+;; with this style
+
+(set-foreground-color "burlywood3")
+(set-background-color "#161616")
+(set-cursor-color "#40FF40")
+
+(set-face-attribute 'font-lock-comment-face nil :foreground "gray50" :weight 'normal)
+(set-face-attribute 'font-lock-doc-face nil :foreground "gray70" :weight 'normal)
+
+(set-face-attribute 'font-lock-string-face nil :foreground "olive drab" :weight 'normal)
+
+;; Highlight things: warnings > builtins > keywords > types > other
+(set-face-attribute 'font-lock-warning-face nil :foreground "DarkGoldenrod1" :weight 'bold)
+(set-face-attribute 'font-lock-builtin-face nil :foreground "DarkGoldenrod3" :weight 'bold)
+(set-face-attribute 'font-lock-keyword-face nil :foreground "DarkGoldenrod3" :weight 'normal)
+(set-face-attribute 'font-lock-type-face nil :foreground "burlywood3" :weight 'normal)
+(set-face-attribute 'font-lock-constant-face nil :foreground "burlywood3" :weight 'normal)
+(set-face-attribute 'font-lock-function-name-face nil :foreground "burlywood3" :weight 'normal)
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3" :weight 'normal)
+
 
 ;; PERF: The emacs default for initial-major-mode is
 ;; lisp-interaction-mode, which is a programming mode. Everything
@@ -84,7 +108,6 @@
       scroll-margin 0
       scroll-conservatively 100000
       scroll-preserve-screen-position t)
-
 
 ;; Save whatever’s in the current (system) clipboard before
 ;; replacing it with the Emacs’ text.
@@ -206,7 +229,7 @@
   :straight f
   :config
   (setq whitespace-line-column 100
-        whitespace-style '(face tabs empty trailing lines-tail))
+        whitespace-style '(face tabs trailing lines-tail))
   (add-hook 'before-save-hook 'whitespace-cleanup)
   (global-whitespace-mode +1))
 
@@ -215,27 +238,6 @@
   :straight f
   :config
   (setq reb-re-syntax 'string))
-
-;;;; Configure theme packages
-
-;; TODO: Vendor just the used themes here to hopefully shave off some startup time
-;; PERF: ~90ms (MBP 2014)
-(use-package doom-themes
-  :straight t
-  :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t
-        ;; Customize dark theme, especially make comments brighter
-        doom-one-brighter-comments t
-        doom-one-comment-bg nil
-        doom-one-padded-modeline t
-        ;; Also customize light theme in case you need to use it with
-        ;; video projectors
-        doom-one-light-brighter-comments t
-        doom-one-light-comment-bg nil
-        doom-one-light-padded-modeline t
-        )
-  (load-theme 'doom-one t))
 
 ;;;; Configure text editing packages
 
