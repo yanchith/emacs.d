@@ -252,29 +252,7 @@ In magit commit:
 
 - `(magit commit) C-c C-c`     commit (with-editor-finish)
 
-### Neotree
-
-- `C-c t`            open neotree
-
-In neotree:
-
-- `(neotree) q`        close neotree window
-- `(neotree) p`        go to previous line
-- `(neotree) n`        go to next line
-- `(neotree) <SPC>`    open or unfold current item
-- `(neotree) C-c C-r`  rename file
-- `(neotree) C-c C-d`  delete file
-- `(neotree) C-c C-n`  create file or directory (directories end with `/`)
-
 ### Move text
 
-- `M-S-<up>`         move line or region up
-- `M-S-<down`        move line or region down
-
-### Rust mode
-
-- `M-.`         jump to definition
-
-### Tide
-
-- `M-.`         jump to definition
+- `M-<up>`         move line or region up
+- `M-<down`        move line or region down

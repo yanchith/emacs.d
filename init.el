@@ -242,8 +242,8 @@
 ;; TODO: figure out a better keyboard shortcut for move-text
 (use-package move-text
   :straight t
-  :bind (("M-S-<up>" . move-text-up)
-         ("M-S-<down>" . move-text-down)))
+  :bind (("M-<up>"   . move-text-up)
+         ("M-<down>" . move-text-down)))
 
 (use-package multiple-cursors
   :straight t
