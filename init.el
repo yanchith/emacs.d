@@ -63,7 +63,9 @@
 
 (set-face-attribute 'font-lock-string-face nil :foreground "olive drab" :weight 'normal)
 
-;; Highlight things: warnings > builtins > keywords > types > other
+;; Highlight things: warnings > builtins > keywords > other.
+;; Types could be highlighted as well, but that does look very noisy in
+;; languages with a lot of them (e.g. Rust).
 (set-face-attribute 'font-lock-warning-face nil :foreground "DarkGoldenrod1" :weight 'bold)
 (set-face-attribute 'font-lock-builtin-face nil :foreground "DarkGoldenrod3" :weight 'bold)
 (set-face-attribute 'font-lock-keyword-face nil :foreground "DarkGoldenrod3" :weight 'normal)
