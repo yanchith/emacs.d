@@ -83,12 +83,14 @@
 ;; Disable cursor blinking
 (blink-cursor-mode -1)
 
-;; Don't blink matching parenthesis by default as it has a painfully
-;; slow interaction with multiple cursors when inserting closing
-;; parenthesis. For modes where we'd like to highlight matching
-;; parenthesis, show-smartparens-global-mode takes care of it while
-;; not slowing multiple cursors down
+;; Don't blink matching parenthesis by default as it has a painfully slow
+;; interaction with multiple cursors when inserting closing
+;; parenthesis. Instead, we highlight the matching paren with show-paren-mode.
+;; PERF: show-paren-mode is built into emacs and implemented in C. While
+;; `show-smartparens-mode' is more clever, it is also more laggy.
 (setq blink-matching-paren nil)
+(setq-default show-paren-delay 0)
+(show-paren-mode)
 
 ;; Don't highlight the current line
 (global-hl-line-mode -1)
@@ -311,11 +313,9 @@
   :config
   (require 'smartparens-config)
   (setq sp-base-key-bindings 'paredit
-        sp-autoskip-closing-pair 'always
+        sp-autoskip-closing-pair nil
         sp-hybrid-kill-entire-symbol nil)
-  (sp-use-paredit-bindings)
-  ;; Show matching parens everywhere this is hooked
-  (show-smartparens-global-mode +1))
+  (sp-use-paredit-bindings))
 
 (use-package rust-mode
   :straight t
