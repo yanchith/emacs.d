@@ -237,12 +237,6 @@
   (add-hook 'before-save-hook 'whitespace-cleanup)
   (global-whitespace-mode +1))
 
-;; Have saner regex syntax
-(use-package re-builder
-  :straight f
-  :config
-  (setq reb-re-syntax 'string))
-
 ;;;; Configure text editing packages
 
 ;; TODO: figure out a better keyboard shortcut for move-text
