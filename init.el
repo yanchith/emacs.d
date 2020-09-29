@@ -344,6 +344,11 @@
     (subword-mode +1))
   (add-hook 'glsl-mode-hook 'setup-glsl-mode))
 
+(use-package web-mode
+  :straight t
+  :mode (("\\.html'" . html-mode)
+         ("\\.css'" . html-mode)))
+
 ;;;; Configure macOS specific packages
 
 (use-package exec-path-from-shell

@@ -1,7 +1,6 @@
 (("company-mode" . "e1726c46f042adac1dc4ecf5066df6a336fbaf1d")
  ("dash.el" . "b92ab5a39b987e4fe69317b9d9fda452300baf20")
  ("emacs-async" . "36a10151e70e956e2f766ed9e65f4a9cfc8479b2")
- ("emacs-doom-themes" . "bd668b7687e862f12466a32e2779fb43aa66664c")
  ("emacsmirror-mirror" . "8fd63d29a4376d9cebe34a2e217fe150e8b82ceb")
  ("epl" . "78ab7a85c08222cd15582a298a364774e3282ce6")
  ("exec-path-from-shell" . "e5647b910900972bc59acea7b74e932ba0a94ce2")
@@ -24,5 +23,6 @@
  ("transient" . "f5d81ef0ed24be935f3c0192b746a1738d903d37")
  ("typescript.el" . "42a60e5c881082db2ec2c541a5c154308c4863e6")
  ("use-package" . "4fb1f9a68f1e7e7d614652afc017a6652fd029f1")
+ ("web-mode" . "da53553fd4e876ac121994cc48e54ab54fa3ace7")
  ("with-editor" . "efafd482c21b90decbb0b682ed3159c86014d4f3"))
 :beta
