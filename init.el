@@ -154,6 +154,7 @@
 
 (put 'list-buffers 'disabled t) ; "C-x C-b", occasionally hit this when trying to "C-x b"
 (put 'view-emacs-news 'disabled t) ; "C-h n", occasionally hit when navigating
+(put 'transpose-chars 'disabled t) ; "C-t", occasionally hit when opening a new tab in the browser
 
 ;;;; Font size
 
