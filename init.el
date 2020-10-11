@@ -318,7 +318,9 @@
   :straight t
   :mode ("\\.rs\\'" . rust-mode)
   :config
-  (setq rust-format-on-save nil)
+  (setq rust-format-on-save nil
+        rust-format-show-buffer nil
+        rust-format-goto-problem nil)
   (defun setup-rust-mode ()
     (eldoc-mode +1)
     (subword-mode +1))
