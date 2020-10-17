@@ -45,17 +45,18 @@
       ((eq system-type 'windows-nt) (set-frame-font "Liberation Mono-11"))
       ((eq system-type 'gnu/linux) (set-frame-font "Liberation Mono-11")))
 
-;; Do handmade-ish color theme
-
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+
+;; Do handmade-ish color theme
 
 ;; TODO: Configure faces for ivy/counsel, company and magit to be more in line
 ;; with this style
 
 (set-foreground-color "burlywood3")
-(set-background-color "#161616")
+(set-background-color "#222222")
 (set-cursor-color "#40FF40")
 
 (set-face-attribute 'font-lock-comment-face nil :foreground "gray50" :weight 'normal)
