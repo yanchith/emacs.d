@@ -153,9 +153,10 @@
 
 ;;;; Disable some enabled-by-default commands I hit accidentaly
 
-(put 'list-buffers 'disabled t) ; "C-x C-b", occasionally hit this when trying to "C-x b"
-(put 'view-emacs-news 'disabled t) ; "C-h n", occasionally hit when navigating
-(put 'transpose-chars 'disabled t) ; "C-t", occasionally hit when opening a new tab in the browser
+(global-unset-key (kbd "C-x C-b")) ;; 'list-buffers, hit when trying to "C-x b"
+(global-unset-key (kbd "C-h C-n")) ;; 'view-emacs-news, hit when navigating
+(global-unset-key (kbd "C-h n"))   ;; 'view-emacs-news, hit when navigating
+(global-unset-key (kbd "C-t"))     ;; 'transpose-chars, hit when opening a new browser tab
 
 ;;;; Font size
 
