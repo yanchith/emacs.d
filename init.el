@@ -337,6 +337,10 @@
     (subword-mode +1))
   (add-hook 'typescript-mode-hook 'setup-typescript-mode))
 
+(use-package php-mode
+  :straight t
+  :mode ("\\.php\\'" . php-mode))
+
 (use-package glsl-mode
   :straight t
   :mode (("\\.glsl\\'" . glsl-mode)

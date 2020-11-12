@@ -14,6 +14,7 @@
  ("melpa" . "4627ee00b9439d9dac9971ad1060af4bcf31446c")
  ("move-text" . "7cbc941a9150468609010a93c429117da2523903")
  ("multiple-cursors.el" . "b880554d04b8f61165afba7d4de19ac9e39bb7ab")
+ ("php-mode" . "d4bde281bfa1c8a127b2964b8018ea3f75a25a35")
  ("pkg-info" . "76ba7415480687d05a4353b27fea2ae02b8d9d61")
  ("rust-mode" . "ca7d99c6fd90fc1e636aa9d4020a2f077786a0c3")
  ("s.el" . "43ba8b563bee3426cead0e6d4ddc09398e1a349d")
