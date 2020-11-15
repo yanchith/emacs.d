@@ -7,6 +7,7 @@
  ("expand-region.el" . "ea6b4cbb9985ddae532bd2faf9bb00570c9f2781")
  ("f.el" . "1814209e2ff43cf2e6d38c4cd476218915f550fb")
  ("flycheck" . "806f2a8c21231a0dddd0a48d27fa4021729ee365")
+ ("flycheck-rust" . "a139cd53c5062697e9ed94ad80b803c37d999600")
  ("glsl-mode" . "b07112016436d9634cd4ef747f9af6b01366d136")
  ("gnu-elpa-mirror" . "0d87e08838f1aa25fb892d12f2361ee834e9cef8")
  ("let-alist" . "b299c78897cc307f9d5521927376fbd06a26f123")

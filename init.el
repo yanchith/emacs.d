@@ -328,6 +328,11 @@
     (subword-mode +1))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
 
+(use-package flycheck-rust
+  :straight t
+  :config
+  (add-hook 'flycheck-mode-hook 'flycheck-rust-setup))
+
 (use-package typescript-mode
   :straight t
   :mode ("\\.(js|jsx|ts|tsx)\\'")
