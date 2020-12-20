@@ -127,6 +127,13 @@
 
 ;;;; Customize editor behavior
 
+;; Always open files with UTF-8 and LF encoding by default
+
+(prefer-coding-system 'utf-8-unix)
+(set-default-coding-systems 'utf-8-unix)
+(set-terminal-coding-system 'utf-8-unix)
+(set-keyboard-coding-system 'utf-8-unix)
+
 ;; Give comments more space
 
 (setq-default fill-column 80)
