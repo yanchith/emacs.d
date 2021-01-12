@@ -98,6 +98,9 @@
 ;; Don't highlight the current line
 (global-hl-line-mode -1)
 
+;; Do not word wrap, instead just don't render invisible parts of long lines
+(setq-default truncate-lines t)
+
 ;; Show line numbers
 (global-display-line-numbers-mode t)
 
