@@ -81,7 +81,7 @@
 ;; :hook-ed with prog-mode (such as the very expensive flycheck) would
 ;; be loaded right from the start (bad), if we kept it that way.
 (setq initial-major-mode 'fundamental-mode
-      initial-scratch-message "The Spice must flow...\n\n")
+      initial-scratch-message "")
 
 ;; Disable cursor blinking
 (blink-cursor-mode -1)
