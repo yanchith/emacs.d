@@ -344,10 +344,12 @@
   (add-hook 'flycheck-mode-hook 'flycheck-rust-setup))
 
 (use-package typescript-mode
-  :straight t
-  :mode ("\\.(js|jsx|ts|tsx)\\'")
+  :straight tide
+  :mode ("\\.(js|jsx|ts|tsx)\\'" . typescript-mode)
   :config
   (defun setup-typescript-mode ()
+    (interactive)
+    (tide-setup)
     (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'typescript-mode-hook 'setup-typescript-mode))
@@ -368,6 +370,7 @@
          ("\\.geom\\'" . glsl-mode))
   :config
   (defun setup-glsl-mode ()
+    (interactive)
     (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'glsl-mode-hook 'setup-glsl-mode))
