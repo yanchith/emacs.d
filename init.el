@@ -354,10 +354,9 @@
     (subword-mode +1))
   (add-hook 'typescript-mode-hook 'setup-typescript-mode))
 
-;; TODO(yan): This doesn't build on linux for some reason. Fix.
-;; (use-package csharp-mode
-;;   :straight t
-;;   :mode ("\\.cs\\'" . csharp-mode))
+(use-package csharp-mode
+  :straight t
+  :mode ("\\.cs\\'" . csharp-mode))
 
 (use-package glsl-mode
   :straight t
