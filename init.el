@@ -358,10 +358,6 @@
   :straight t
   :mode ("\\.cs\\'" . csharp-mode))
 
-(use-package php-mode
-  :straight t
-  :mode ("\\.php\\'" . php-mode))
-
 (use-package glsl-mode
   :straight t
   :mode (("\\.glsl\\'" . glsl-mode)
