@@ -271,3 +271,21 @@ In magit commit:
 
 - `S-M-<up>`         move line or region up
 - `S-M-<down`        move line or region down
+
+### Tide
+
+- `M-.`              go to definition
+- `M-,`              pop go to definition (`xref-pop-marker-stack`)
+
+### Rust
+
+- `rust-compile`     compiles current cargo project and opens *compilation* buffer in other window
+
+In *compilation* buffer:
+
+- `C-p`                navigate to previous line
+- `C-n`                navigate to next line
+- `M-p`                navigate to previous compile error or link
+- `M-n`                navigate to next compile error or link
+- `C-o` or `<return>`  go to compile error or link in other window
+
