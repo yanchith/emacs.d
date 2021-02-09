@@ -2,6 +2,18 @@
 
 ## Installation
 
+### Linux
+
+Nothing special here. Install from the OS's package manager and enjoy.
+
+### Windows
+
+Use the official binary distribution. Set up a shortcut for `bin\runemacs.exe`
+and pin that. By default Emacs on Windows won't detect the `.emacs.d` config
+directory anywhere. There are multiple ways to point Emacs to it, the easiest
+being adding a `HOME` environment variable and Emacs will look for the config at
+`%HOME\.emacs.d`.
+
 ### macOS
 
 The `railwaycat/emacsmacport` version is compatible with `spectacle` snapping
@@ -30,13 +42,6 @@ There is also an official `emacs` formula:
 ``` shell
 $ brew install emacs
 ```
-
-### Windows
-
-Use the binary distribution. Set up a shortcut with paths pointing to the config directory:
-
-`D:\emacs-26.2-x86_64\bin\runemacs.exe --no-init-file --load=D:\emacs.d\init.el`
-
 ### External tools
 
 Some commands rely on `git` and `rg` being installed and in PATH.
@@ -77,7 +82,7 @@ Some commands rely on `git` and `rg` being installed and in PATH.
 - `C-n`         move to next line
 - `C-p`         move to previous line
 
-- `C-l`         move point to middle/top/back (cyccle) of window
+- `C-l`         move point to middle/top/back (cycle) of window
 
 - `M-<`         move to beginning of buffer
 - `M->`         move to end of buffer
@@ -108,15 +113,14 @@ Some commands rely on `git` and `rg` being installed and in PATH.
 - `C-k`         kill text from point to end of line
 - `M-k`         kill text from point to end of sentence
 
-- `C-<SPC>`     grow or shrink region with point movement
-- `C-w`         kill selected region
+- `C-<SPC>`     start region selection, grow or shrink region with point movement
+- `C-w`         kill selected region (ctrl + x)
 - `M-w`         kill text in region mark without removing (ctrl + c)
 
 - `C-y`         yank last
 - `M-y`         yank from kill ring (cycle)
 
 - `C-/`         undo
-- `C-S-/`       redo
 
 ## Search & Replace
 
@@ -142,9 +146,9 @@ Some commands rely on `git` and `rg` being installed and in PATH.
 
 ## File manipulation
 
-- `C-x C-f`     find or create a file and open it in a new buffer
-- `C-x s`       save files interactively
-- `C-x C-s`     save file
+- `C-x C-f`     find or create-in-memory a file and open it in a new buffer
+- `C-x s`       save all file visiting buffers interactively
+- `C-x C-s`     save current file visiting buffer
 - `C-x C-w`     save file as ...
 
 ## Buffers
@@ -200,7 +204,8 @@ lockfile and uses the newest versions instead. Running
 - `straight-freeze-versions` Save currently checked out versions to lockfile
 - `straight-thaw-versions`   Check out versions saved in lockfile (but
                              does not apply them)
-- `straight-fetch-all`       Fetch all git repos
+- `straight-pull-all`        Pull and rebuild all packages. Use `straight-freeze-versions`
+                             after to save the state
 
 ### Swiper
 
@@ -214,7 +219,9 @@ lockfile and uses the newest versions instead. Running
 - `C-c s g`     counsel-git-grep
 - `C-c s r`     counsel-rg
 
-- `(counsel) C-M-j` use literal search string instead of completion (useful for counsel-find-file)
+- `(counsel) C-M-j` use literal search string instead of completion (useful
+                    for `counsel-find-file`); alternatively navigate to
+                    search string
 
 ### Expand Region (very useful with Multiple Cursors below)
 
@@ -239,20 +246,28 @@ In magit status:
 - `(magit status) <tab>`    toggle section at point (diff)
 - `(magit status) <return>` visit section at point
 - `(magit status) d d`      diff file or group (e.g. staged or unstaged files)
-- `(magit status) s`        stage file at point
-- `(magit status) u`        unstage file at point
-- `(magit status) k`        discard changed in file at point
+- `(magit status) s`        stage file or hunk at point, or a selected line region
+- `(magit status) u`        unstage file or hunk at point, or a selected line region
+- `(magit status) k`        discard changes in file or hunk at point, or a selected line region
 - `(magit status) c c`      commit
+- `(magit status) c a`      amend previous commit
+- `(magit status) m m`      start a merge
+- `(magit status) r i`      start an interactive rebase
 - `(magit status) P p`      push to push-remote branch
-- `(magit status) P u`      push to upstream
+- `(magit status) P -f p`   push to push-remote branch using `--force-with-lease`
+- `(magit status) F u`      pull from upstream
+- `(magit status) f u`      fetch from upstream
+- `(magit status) f -p u`   fetch from upstream with pruning dead branches
 - `(magit status) b b`      checkout branch (`git checkout`)
 - `(magit status) b c`      checkout new branch (`git checkout -b`)
+- `(magit status) b s`      checkout new branch as spin-off, moving already commited changes
 
 In magit commit:
 
 - `(magit commit) C-c C-c`     commit (with-editor-finish)
+- `(magit commit) C-c C-k`     cancel (with-editor-cancel)
 
 ### Move text
 
-- `M-<up>`         move line or region up
-- `M-<down`        move line or region down
+- `M-S-<up>`         move line or region up
+- `M-S-<down`        move line or region down
