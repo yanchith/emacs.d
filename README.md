@@ -269,5 +269,5 @@ In magit commit:
 
 ### Move text
 
-- `M-S-<up>`         move line or region up
-- `M-S-<down`        move line or region down
+- `S-M-<up>`         move line or region up
+- `S-M-<down`        move line or region down

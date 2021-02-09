@@ -52,8 +52,8 @@
 
 ;; Do handmade-ish color theme
 
-;; TODO: Configure faces for ivy/counsel, company and magit to be more in line
-;; with this style
+;; TODO(yan): Configure faces for ivy/counsel, company and magit to be more in
+;; line with this style
 
 (set-foreground-color "burlywood3")
 (set-background-color "#222222")
@@ -252,7 +252,7 @@
 
 ;;;; Configure text editing packages
 
-;; TODO: figure out a better keyboard shortcut for move-text
+;; TODO(yan): figure out a better keyboard shortcut for move-text
 (use-package move-text
   :straight t
   :bind (("S-M-<up>"   . move-text-up)
@@ -401,4 +401,4 @@
 ;; Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold (megabytes 1))
 
-;; TODO: Spellchecking via Flyspell?
+;; TODO(yan): Spellchecking via Flyspell?
