@@ -39,6 +39,10 @@
 
 ;;;; Customize UI
 
+;; Make the initial frame a bit wider to make space for line numbers in the
+;; gutter and still be at have 80 chars space
+(when window-system (set-frame-size (selected-frame) 84 38))
+
 ;; Set the default font
 
 (cond ((eq system-type 'darwin) (set-frame-font "Liberation Mono-14"))
@@ -103,6 +107,9 @@
 
 ;; Show line numbers
 (global-display-line-numbers-mode t)
+;; TODO(yan): This is nice, but it flickers when moving point vertically at
+;; least on Windows, possibly due to repaint -_-
+;; (setq display-line-numbers-type 'relative)
 
 ;; Show line and column numbers, and file size indication in the
 ;; modeline
