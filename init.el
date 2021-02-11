@@ -305,7 +305,14 @@
          ("C-x C-f" . counsel-find-file)
          ("C-c f" . counsel-git)
          ("C-c s g" . counsel-git-grep)
-         ("C-c s r" . counsel-rg)))
+         ("C-c s r" . counsel-rg))
+  :config
+  ;; Original is "git ls-files -z --full-name --", it implicitle uses --cached.
+  ;;
+  ;; We add --others and --exclude-standard, which together resolve to untracked
+  ;; files. We now have to pass --chached explicitly, because it is no longer
+  ;; active if we pass other options.
+  (setq counsel-git-cmd "git ls-files -z --cached --others --exclude-standard --full-name --"))
 
 (use-package company
   :straight t
