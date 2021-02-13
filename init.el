@@ -370,7 +370,12 @@
 
 (use-package csharp-mode
   :straight t
-  :mode ("\\.cs\\'" . csharp-mode))
+  :mode ("\\.cs\\'" . csharp-mode)
+  :config
+  (defun setup-csharp-mode ()
+    (subword-mode +1))
+  (add-hook 'csharp-mode-hook 'setup-csharp-mode))
+
 
 (use-package glsl-mode
   :straight t
