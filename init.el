@@ -322,7 +322,12 @@
         company-show-numbers t
         company-tooltip-limit 10
         company-minimum-prefix-length 2
-        company-tooltip-align-annotations t))
+        company-tooltip-align-annotations t
+        ;; Don't ever, for any reason, downcase anything to anyone for any
+        ;; reason ever, no matter what, no matter where, or who, or who you are
+        ;; with, or where you are going, or where you've been... ever, for any
+        ;; reason whatsoever.
+        company-dabbrev-downcase nil))
 
 ;;;; Configure programming packages
 
