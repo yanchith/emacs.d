@@ -381,7 +381,6 @@
     (subword-mode +1))
   (add-hook 'csharp-mode-hook 'setup-csharp-mode))
 
-
 (use-package glsl-mode
   :straight t
   :mode (("\\.glsl\\'" . glsl-mode)
