@@ -45,9 +45,10 @@
 
 ;; Set the default font
 
-(cond ((eq system-type 'darwin) (set-frame-font "Liberation Mono-14"))
-      ((eq system-type 'windows-nt) (set-frame-font "Liberation Mono-11"))
-      ((eq system-type 'gnu/linux) (set-frame-font "Liberation Mono-11")))
+(if (find-font (font-spec :name "Liberation Mono"))
+    (cond ((eq system-type 'darwin) (set-frame-font "Liberation Mono-14"))
+          ((eq system-type 'windows-nt) (set-frame-font "Liberation Mono-11"))
+          ((eq system-type 'gnu/linux) (set-frame-font "Liberation Mono-11"))))
 
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
