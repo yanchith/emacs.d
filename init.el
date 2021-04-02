@@ -160,8 +160,9 @@
 (setq-default tab-width 4)
 (setq-default tab-stop-list (number-sequence 4 120 4))
 
-;; Change C indentation to respect our tab width
+;; Change indentation to respect our tab width
 (defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'sgml-basic-offset 'tab-width)
 
 ;; Newline at end of file
 (setq require-final-newline t)
