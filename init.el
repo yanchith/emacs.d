@@ -22,20 +22,20 @@
 
 ;; Define directories
 
-(defvar yanchith-dir-root (file-name-directory load-file-name)
+(defvar yan-dir-root (file-name-directory load-file-name)
   "The root dir of this config.")
 
-(defvar yanchith-dir-lisp (expand-file-name "lisp" yanchith-dir-root)
+(defvar yan-dir-lisp (expand-file-name "lisp" yan-dir-root)
   "This directory stores custom Lisp code.")
-(add-to-list 'load-path yanchith-dir-lisp)
+(add-to-list 'load-path yan-dir-lisp)
 
-(defvar yanchith-dir-savefile (expand-file-name "savefile" yanchith-dir-root)
+(defvar yan-dir-savefile (expand-file-name "savefile" yan-dir-root)
   "This directory stores all automatically generated save/history files.")
-(unless (file-exists-p yanchith-dir-savefile)
-  (make-directory yanchith-dir-savefile))
+(unless (file-exists-p yan-dir-savefile)
+  (make-directory yan-dir-savefile))
 
 ;; Store config changes made through the customize UI here
-(setq custom-file (expand-file-name "custom.el" yanchith-dir-root))
+(setq custom-file (expand-file-name "custom.el" yan-dir-root))
 
 ;;;; Customize UI
 
@@ -163,9 +163,22 @@
 (setq-default tab-width 4)
 (setq-default tab-stop-list (number-sequence 4 120 4))
 
-;; Change indentation to respect our tab width
+;; Change indentation to respect our tab width, but also see
+;; yan-set-indent-level functions below
 (defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'cperl-indent-level 'tab-width)
 (defvaralias 'sgml-basic-offset 'tab-width)
+(defvaralias 'js-indent-level 'tab-width)
+
+(defun yan-set-indent-level-2 ()
+  "Set global indentation level to 2."
+  (interactive)
+  (setq tab-width 2))
+
+(defun yan-set-indent-level-4 ()
+  "Set global indentation level to 4."
+  (interactive)
+  (setq tab-width 4))
 
 ;; Newline at end of file
 (setq require-final-newline t)
@@ -419,12 +432,12 @@
         mac-option-modifier 'meta
         ns-function-modifier 'hyper))
 
-(require 'yanchith)
-(global-set-key (kbd "C-a") 'yanchith-move-beginning-of-line)
-(global-set-key (kbd "C-j") 'yanchith-top-join-line)
-(global-set-key (kbd "C-c d") 'yanchith-duplicate-current-line-or-region)
-(global-set-key (kbd "M-p") 'yanchith-move-to-previous-blank-line)
-(global-set-key (kbd "M-n") 'yanchith-move-to-next-blank-line)
+(require 'yan)
+(global-set-key (kbd "C-a") 'yan-move-beginning-of-line)
+(global-set-key (kbd "C-j") 'yan-top-join-line)
+(global-set-key (kbd "C-c d") 'yan-duplicate-current-line-or-region)
+(global-set-key (kbd "M-p") 'yan-move-to-previous-blank-line)
+(global-set-key (kbd "M-n") 'yan-move-to-next-blank-line)
 
 ;; Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold (megabytes 1))

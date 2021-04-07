@@ -1,9 +1,9 @@
-;;; yanchith.el --- Helpers, stolen from crux -*- lexical-binding: t; -*-
+;;; yan.el --- Helpers, stolen from crux -*- lexical-binding: t; -*-
 ;;; Code:
 
 ;; Taken from crux (https://github.com/bbatsov/crux)
 
-(defun yanchith-move-beginning-of-line (arg)
+(defun yan-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
 
 Move point to the first non-whitespace character on this line.
@@ -26,12 +26,12 @@ point reaches the beginning or end of the buffer, stop there."
     (when (= orig-point (point))
       (move-beginning-of-line 1))))
 
-(defun yanchith-top-join-line ()
+(defun yan-top-join-line ()
   "Join the current line with the line beneath it."
   (interactive)
   (delete-indentation 1))
 
-(defun yanchith-duplicate-current-line-or-region (arg)
+(defun yan-duplicate-current-line-or-region (arg)
   "Duplicates the current line or region ARG times.
 If there's no region, the current line will be duplicated.  However, if
 there's a region, all lines that region covers will be duplicated."
@@ -48,13 +48,13 @@ there's a region, all lines that region covers will be duplicated."
 
 ;; Thank you, Casey Muratori <3
 
-(defun yanchith-move-to-previous-blank-line ()
+(defun yan-move-to-previous-blank-line ()
   "Move to the previous line containing nothing but whitespace."
   (interactive)
   (if (not (search-backward-regexp "^[ \t]*\n" nil t))
       (forward-line -1)))
 
-(defun yanchith-move-to-next-blank-line ()
+(defun yan-move-to-next-blank-line ()
   "Move to the next line containing nothing but whitespace."
   (interactive)
   (forward-line)
@@ -88,5 +88,5 @@ there's a region, all lines that region covers will be duplicated."
     (cons beg end)))
 
 
-(provide 'yanchith)
-;;; yanchith.el ends here
+(provide 'yan)
+;;; yan.el ends here
