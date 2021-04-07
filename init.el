@@ -169,6 +169,7 @@
 (defvaralias 'cperl-indent-level 'tab-width)
 (defvaralias 'sgml-basic-offset 'tab-width)
 (defvaralias 'js-indent-level 'tab-width)
+(defvaralias 'typescript-indent-level 'tab-width)
 
 (defun yan-set-indent-level-2 ()
   "Set global indentation level to 2."
