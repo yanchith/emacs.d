@@ -420,8 +420,8 @@
 
 (use-package web-mode
   :straight t
-  :mode (("\\.html'" . html-mode)
-         ("\\.css'" . html-mode)))
+  :mode (("\\.html\\'" . html-mode)
+         ("\\.css\\'" . html-mode)))
 
 ;;;; Configure macOS specific packages
 
