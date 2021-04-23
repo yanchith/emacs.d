@@ -169,7 +169,6 @@
 (defvaralias 'cperl-indent-level 'tab-width)
 (defvaralias 'sgml-basic-offset 'tab-width)
 (defvaralias 'js-indent-level 'tab-width)
-(defvaralias 'js2-basic-offset 'tab-width)
 (defvaralias 'typescript-indent-level 'tab-width)
 
 (defun yan-set-indent-level-2 ()
@@ -382,13 +381,12 @@
   :config
   (add-hook 'flycheck-mode-hook 'flycheck-rust-setup))
 
-(use-package js2-mode
-  :straight js2-mode
-  :mode ("\\.(js|jsx)\\'" . js2-mode))
-
 (use-package typescript-mode
   :straight tide
-  :mode ("\\.(ts|tsx)\\'" . typescript-mode)
+  :mode (("\\.js\\'" . typescript-mode)
+         ("\\.ts\\'" . typescript-mode)
+         ("\\.jsx\\'" . typescript-mode)
+         ("\\.tsx\\'" . typescript-mode))
   :config
   (defun setup-typescript-mode ()
     (interactive)
