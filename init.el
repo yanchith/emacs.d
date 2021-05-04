@@ -47,11 +47,11 @@
 
 (if (find-font (font-spec :name "Liberation Mono"))
     ;; What we want...
-    (cond ((eq system-type 'darwin) (set-frame-font "Liberation Mono-14"))
+    (cond ((eq system-type 'darwin) (set-frame-font "Liberation Mono-15"))
           ((eq system-type 'windows-nt) (set-frame-font "Liberation Mono-11"))
           ((eq system-type 'gnu/linux) (set-frame-font "Liberation Mono-11")))
   ;; What we get...
-  (cond ((eq system-type 'darwin) (set-frame-font "Monaco-14"))))
+  (cond ((eq system-type 'darwin) (set-frame-font "Monaco-15"))))
 
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -196,9 +196,10 @@
 
 ;;;; Font size
 
-;; Add ability to control emacs-wide text-scale if I find myself
-;; having to use a monitor where I can't set operating-system wide
+;; Add ability to control emacs-wide text-scale for presenting or if I find
+;; myself having to use a monitor where I can't set operating-system wide
 ;; scaling factor
+
 (define-globalized-minor-mode
     global-text-scale-mode
     text-scale-mode
@@ -210,14 +211,25 @@
        (setq-default text-scale-mode-amount (+ text-scale-mode-amount inc))
        (global-text-scale-mode 1))
 
-(global-set-key (kbd "C-M-0")
-                '(lambda () (interactive)
-                   (global-text-scale-adjust (- text-scale-mode-amount))
-                   (global-text-scale-mode -1)))
-(global-set-key (kbd "C-M-+")
-                '(lambda () (interactive) (global-text-scale-adjust 1)))
-(global-set-key (kbd "C-M--")
-                '(lambda () (interactive) (global-text-scale-adjust -1)))
+(defun yan-text-scale-inc ()
+  "Increase text scale."
+  (interactive)
+  (global-text-scale-adjust 1))
+
+(defun yan-text-scale-dec ()
+  "Decrese text scale."
+  (interactive)
+  (global-text-scale-adjust -1))
+
+(defun yan-text-scale-reset ()
+  "Reset text scale to default."
+  (interactive)
+  (global-text-scale-adjust (- text-scale-mode-amount))
+  (global-text-scale-mode -1))
+
+(global-set-key (kbd "C-M-0") 'yan-text-scale-reset)
+(global-set-key (kbd "C-M-+") 'yan-text-scale-inc)
+(global-set-key (kbd "C-M--") 'yan-text-scale-dec)
 
 ;;;; Misc customizations
 
