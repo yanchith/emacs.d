@@ -2,8 +2,8 @@
 
 ;;; Commentary:
 
-;; This is a `use-package' and `straight.el' based config focused on
-;; "minimal" functionality and good startup time.
+;; This is a `use-package' and `straight.el' based config focused on "minimal"
+;; functionality and good startup time. It requires emacs version 27.1 or newer.
 
 ;;; Code:
 
@@ -17,8 +17,18 @@
 ;; Increase GC threshold to 50MB for better throughput during init
 (setq gc-cons-threshold (megabytes 50))
 
-;; Increase large file limit to 50MB
-(setq large-file-warning-threshold (megabytes 50))
+;;;; Large file perf mitigations
+
+;; Warn before opening larger files
+(setq large-file-warning-threshold (megabytes 10))
+
+;; Disable RTL features
+(setq-default bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+
+;; Automatically mitigate (disable slow major and minor modes) when Emacs
+;; suspects long lines in the file.
+(global-so-long-mode 1)
 
 ;; Define directories
 
