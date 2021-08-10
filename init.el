@@ -28,6 +28,7 @@
 
 ;; Automatically mitigate (disable slow major and minor modes) when Emacs
 ;; suspects long lines in the file.
+(setq-default so-long-max-lines 500)
 (global-so-long-mode 1)
 
 ;; Define directories
