@@ -375,7 +375,9 @@
 
 (use-package flycheck
   :straight t
-  :hook (prog-mode . flycheck-mode))
+  ;; Only enable flycheck for specific setups. For rust, flycheck is too
+  ;; expensive, but for typescript it's great.
+  :hook (typescript-mode . flycheck-mode))
 
 (use-package smartparens
   :straight t
@@ -398,11 +400,6 @@
     (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
-
-(use-package flycheck-rust
-  :straight t
-  :config
-  (add-hook 'flycheck-mode-hook 'flycheck-rust-setup))
 
 (use-package typescript-mode
   :straight tide
