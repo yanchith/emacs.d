@@ -216,11 +216,12 @@
     text-scale-mode
     (lambda () (text-scale-mode 1)))
 
-(defun global-text-scale-adjust (inc) (interactive)
-       (text-scale-set 1)
-       (kill-local-variable 'text-scale-mode-amount)
-       (setq-default text-scale-mode-amount (+ text-scale-mode-amount inc))
-       (global-text-scale-mode 1))
+(defun global-text-scale-adjust (inc)
+  (interactive)
+  (text-scale-set 1)
+  (kill-local-variable 'text-scale-mode-amount)
+  (setq-default text-scale-mode-amount (+ text-scale-mode-amount inc))
+  (global-text-scale-mode 1))
 
 (defun yan-text-scale-inc ()
   "Increase text scale."
@@ -409,7 +410,6 @@
          ("\\.tsx\\'" . typescript-mode))
   :config
   (defun setup-typescript-mode ()
-    (interactive)
     (tide-setup)
     (eldoc-mode +1)
     (subword-mode +1))
@@ -431,10 +431,11 @@
          ("\\.geom\\'" . glsl-mode))
   :config
   (defun setup-glsl-mode ()
-    (interactive)
     (eldoc-mode +1)
     (subword-mode +1))
   (add-hook 'glsl-mode-hook 'setup-glsl-mode))
+
+(require 'wgsl-mode)
 
 ;;;; Configure macOS specific packages
 
