@@ -55,6 +55,18 @@
 ;; gutter and still be at have 80 chars space
 (when window-system (set-frame-size (selected-frame) 84 38))
 
+;; Customize actions Emacs tries when displaying a buffer in a "new other
+;; window" (e.g. magit, help, or compilation). This is almost the same as the
+;; default, except it doesn't contain
+;; display-buffer--maybe-pop-up-frame-or-window, which was causing it to do
+;; horizontal splits (after the doing the first vertical split) on monitors with
+;; larger screen real estate.
+(setq display-buffer-base-action '((display-buffer--maybe-same-window
+                                    display-buffer-reuse-window
+                                    display-buffer-use-some-window
+                                    display-buffer-in-previous-window
+                                    display-buffer-pop-up-frame)))
+
 ;; Set the default font
 
 (if (find-font (font-spec :name "Liberation Mono"))
@@ -246,6 +258,7 @@
 
 ;;;; Misc customizations
 
+;; TODO(yan): Audit
 ;; Store all backup and autosave files in the tmp dir
 (setq backup-directory-alist `((".*" . ,temporary-file-directory))
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
