@@ -214,6 +214,7 @@
 ;;;; Disable some enabled-by-default commands I hit accidentaly
 
 (global-unset-key (kbd "C-x C-b")) ;; 'list-buffers, hit when trying to "C-x b"
+(global-unset-key (kbd "C-x C-n")) ;; 'set-goal-column, hit when navigating
 (global-unset-key (kbd "C-h C-n")) ;; 'view-emacs-news, hit when navigating
 (global-unset-key (kbd "C-h n"))   ;; 'view-emacs-news, hit when navigating
 (global-unset-key (kbd "C-t"))     ;; 'transpose-chars, hit when opening a new browser tab
