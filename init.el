@@ -215,6 +215,8 @@
 
 (global-unset-key (kbd "C-x C-b")) ;; 'list-buffers, hit when trying to "C-x b"
 (global-unset-key (kbd "C-x C-n")) ;; 'set-goal-column, hit when navigating
+(global-unset-key (kbd "C-x C-l")) ;; 'downcase-region, hit when doing "C-x C-;"
+(global-unset-key (kbd "C-x C-u")) ;; 'capitalize-region, symmetrical to the above
 (global-unset-key (kbd "C-h C-n")) ;; 'view-emacs-news, hit when navigating
 (global-unset-key (kbd "C-h n"))   ;; 'view-emacs-news, hit when navigating
 (global-unset-key (kbd "C-t"))     ;; 'transpose-chars, hit when opening a new browser tab
