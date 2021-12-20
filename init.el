@@ -312,7 +312,7 @@
 (use-package whitespace
   :straight f
   :config
-  (setq whitespace-line-column 100
+  (setq whitespace-line-column 120
         whitespace-style '(face tabs trailing lines-tail))
   (add-hook 'before-save-hook 'whitespace-cleanup)
   (global-whitespace-mode +1))
