@@ -70,11 +70,9 @@
 ;; Set the default font
 
 (if (find-font (font-spec :name "Liberation Mono"))
-    ;; What we want...
     (cond ((eq system-type 'darwin) (set-frame-font "Liberation Mono-15"))
           ((eq system-type 'windows-nt) (set-frame-font "Liberation Mono-11"))
           ((eq system-type 'gnu/linux) (set-frame-font "Liberation Mono-11")))
-  ;; What we get...
   (cond ((eq system-type 'darwin) (set-frame-font "Monaco-15"))))
 
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -106,7 +104,6 @@
 (set-face-attribute 'font-lock-constant-face nil :foreground "burlywood3" :weight 'normal)
 (set-face-attribute 'font-lock-function-name-face nil :foreground "burlywood3" :weight 'normal)
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3" :weight 'normal)
-
 
 ;; PERF: The emacs default for initial-major-mode is
 ;; lisp-interaction-mode, which is a programming mode. Everything
@@ -210,6 +207,10 @@
 
 ;; Delete the selection with a keypress
 (delete-selection-mode t)
+
+;; confirm closing emacs
+
+(setq confirm-kill-emacs 'yes-or-no-p)
 
 ;;;; Disable some enabled-by-default commands I hit accidentaly
 
