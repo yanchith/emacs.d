@@ -57,15 +57,18 @@
 
 ;; Customize actions Emacs tries when displaying a buffer in a "new other
 ;; window" (e.g. magit, help, or compilation). This is almost the same as the
-;; default, except it doesn't contain
-;; display-buffer--maybe-pop-up-frame-or-window, which was causing it to do
-;; horizontal splits (after the doing the first vertical split) on monitors with
-;; larger screen real estate.
+;; default, except:
+;;
+;; - It doesn't contain display-buffer--maybe-pop-up-frame-or-window, which
+;;   causes it to do horizontal splits (after the doing the first vertical
+;;   split) on monitors with larger screen real estate.
+;;
+;; - It doesn't contain display-buffer-pop-up-frame, which causes it to create
+;;   new frames, if there not enough space left in the current frame.
 (setq display-buffer-base-action '((display-buffer--maybe-same-window
                                     display-buffer-reuse-window
                                     display-buffer-use-some-window
-                                    display-buffer-in-previous-window
-                                    display-buffer-pop-up-frame)))
+                                    display-buffer-in-previous-window)))
 
 ;; Set the default font
 
@@ -81,9 +84,6 @@
 
 
 ;; Do handmade-ish color theme
-
-;; TODO(yan): Configure faces for ivy/counsel, company and magit to be more in
-;; line with this style
 
 (set-foreground-color "burlywood3")
 (set-background-color "#222222")
@@ -132,8 +132,9 @@
 
 ;; Show line numbers
 (global-display-line-numbers-mode t)
-;; TODO(yan): This is nice, but it flickers when moving point vertically at
-;; least on Windows, possibly due to repaint -_-
+;; TODO(yan): This is nice, but it flickers when moving point vertically on
+;; Windows (and maybe elsewhere too?).
+;;
 ;; (setq display-line-numbers-type 'relative)
 
 ;; Show line and column numbers, and file size indication in the
@@ -480,4 +481,5 @@
 ;; Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold (megabytes 1))
 
-;; TODO(yan): Spellchecking via Flyspell?
+;; TODO(yan): Spellchecking via Flyspell? This is problematic on Windows,
+;; because it is tougher to get to ispell or aspell builds.
