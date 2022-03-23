@@ -129,6 +129,10 @@
 
 ;; Do not word wrap, instead just don't render invisible parts of long lines
 (setq-default truncate-lines t)
+(defun yan-toggle-truncate-lines ()
+  "Toggle truncation of lines."
+  (interactive)
+  (toggle-truncate-lines))
 
 ;; Show line numbers
 (global-display-line-numbers-mode t)
