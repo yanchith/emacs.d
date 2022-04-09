@@ -408,9 +408,8 @@
   :hook (prog-mode . smartparens-mode)
   :config
   (require 'smartparens-config)
-  (setq sp-base-key-bindings 'paredit
-        sp-autoskip-closing-pair 'always
-        sp-hybrid-kill-entire-symbol nil)
+  (setq sp-base-key-bindings nil
+        sp-autoskip-closing-pair t)
   (sp-use-paredit-bindings))
 
 (use-package rust-mode
