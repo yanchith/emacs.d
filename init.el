@@ -70,6 +70,15 @@
                                     display-buffer-use-some-window
                                     display-buffer-in-previous-window)))
 
+;;;; Customize keyboard on macOS
+
+(when (eq system-type 'darwin)
+  (setq mac-option-key-is-meta t
+        mac-command-key-is-meta nil
+        mac-command-modifier 'super
+        mac-option-modifier 'meta
+        ns-function-modifier 'hyper))
+
 ;; Set the default font
 
 (if (find-font (font-spec :name "Liberation Mono"))
@@ -458,21 +467,6 @@
   (add-hook 'glsl-mode-hook 'setup-glsl-mode))
 
 (require 'wgsl-mode)
-
-;;;; Configure macOS specific packages
-
-(use-package exec-path-from-shell
-  :if (eq system-type 'darwin)
-  :straight t
-  :config
-  (exec-path-from-shell-initialize))
-
-(when (eq system-type 'darwin)
-  (setq mac-option-key-is-meta t
-        mac-command-key-is-meta nil
-        mac-command-modifier 'super
-        mac-option-modifier 'meta
-        ns-function-modifier 'hyper))
 
 (require 'yan)
 (global-set-key (kbd "C-a") 'yan-move-beginning-of-line)
