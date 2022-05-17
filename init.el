@@ -95,8 +95,11 @@
 ;; Do handmade-ish color theme
 
 (set-foreground-color "burlywood3")
-(set-background-color "#222222")
+(set-background-color "#202020")
 (set-cursor-color "#40FF40")
+
+(set-face-attribute 'mode-line nil :foreground "grey80" :background "grey25")
+(set-face-attribute 'mode-line-inactive nil :foreground "grey80" :background "#202020")
 
 (set-face-attribute 'font-lock-comment-face nil :foreground "gray50" :weight 'normal)
 (set-face-attribute 'font-lock-doc-face nil :foreground "gray70" :weight 'normal)
