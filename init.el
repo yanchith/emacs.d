@@ -397,10 +397,11 @@
   :hook (prog-mode . company-mode)
   :config
   (setq company-idle-delay 0.2
+        company-minimum-prefix-length 3
         company-show-numbers t
         company-tooltip-limit 10
-        company-minimum-prefix-length 2
         company-tooltip-align-annotations t
+        company-abort-on-unique-match t
         ;; Don't ever, for any reason, downcase anything to anyone for any
         ;; reason ever, no matter what, no matter where, or who, or who you are
         ;; with, or where you are going, or where you've been... ever, for any
