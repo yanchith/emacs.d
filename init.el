@@ -392,6 +392,8 @@
   ;; active if we pass other options.
   (setq counsel-git-cmd "git ls-files -z --cached --others --exclude-standard --full-name --"))
 
+;; TODO(yan): Experiment with removing company, or only keeping it for languages
+;; with a good backend.
 (use-package company
   :straight t
   :hook (prog-mode . company-mode)
