@@ -117,10 +117,10 @@
 (set-face-attribute 'font-lock-function-name-face nil :foreground "burlywood3" :weight 'normal)
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3" :weight 'normal)
 
-;; PERF: The emacs default for initial-major-mode is
-;; lisp-interaction-mode, which is a programming mode. Everything
-;; :hook-ed with prog-mode (such as the very expensive flycheck) would
-;; be loaded right from the start (bad), if we kept it that way.
+;; PERF: The emacs default for initial-major-mode is lisp-interaction-mode,
+;; which is a programming mode. Everything :hook-ed with prog-mode (such as the
+;; very expensive flycheck) would be loaded right from the start, if we kept it
+;; that way.
 (setq initial-major-mode 'fundamental-mode
       initial-scratch-message "")
 
@@ -147,7 +147,10 @@
   (toggle-truncate-lines))
 
 ;; Show line numbers
-(global-display-line-numbers-mode t)
+
+;; NB: Enable this to see line numbers in gutters.
+;; (global-display-line-numbers-mode t)
+
 ;; TODO(yan): This is nice, but it flickers when moving point vertically on
 ;; Windows (and maybe elsewhere too?).
 ;;
