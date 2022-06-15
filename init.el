@@ -147,9 +147,7 @@
   (toggle-truncate-lines))
 
 ;; Show line numbers
-
-;; NB: Enable this to see line numbers in gutters.
-;; (global-display-line-numbers-mode t)
+(global-display-line-numbers-mode t)
 
 ;; TODO(yan): This is nice, but it flickers when moving point vertically on
 ;; Windows (and maybe elsewhere too?).
