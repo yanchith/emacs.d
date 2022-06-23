@@ -28,8 +28,8 @@
 
 ;; Automatically mitigate (disable slow major and minor modes) when Emacs
 ;; suspects long lines in the file.
-(setq-default so-long-max-lines 500) ; Search first 500 lines
-(setq-default so-long-threshold 500) ; Trigger so-long mode when a line is longer than 500 chars
+(setq-default so-long-max-lines 1000) ; Search first 1000 lines
+(setq-default so-long-threshold 1000) ; Trigger so-long mode when a line is longer than 1000 chars
 (global-so-long-mode 1)
 
 ;; Define directories
