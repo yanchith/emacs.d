@@ -239,6 +239,7 @@
 (global-unset-key (kbd "C-h C-n")) ;; 'view-emacs-news, hit when navigating
 (global-unset-key (kbd "C-h n"))   ;; 'view-emacs-news, hit when navigating
 (global-unset-key (kbd "C-t"))     ;; 'transpose-chars, hit when opening a new browser tab
+(global-unset-key (kbd "C-x m"))   ;; 'compose-mail, hit when opening going for C-c m l
 
 ;;;; Font size
 
