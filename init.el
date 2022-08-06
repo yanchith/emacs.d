@@ -91,6 +91,17 @@
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+;; Add font-lock-number-face, so we can target it and highlight numbers
+
+(require 'font-lock)
+
+(defun yan-copy-face (new-face face)
+  "Define NEW-FACE from existing FACE."
+  (copy-face face new-face)
+  (eval `(defvar ,new-face nil))
+  (set new-face new-face))
+
+(yan-copy-face 'font-lock-number-face 'font-lock-string-face)
 
 ;; Do handmade-ish color theme
 
@@ -105,6 +116,7 @@
 (set-face-attribute 'font-lock-doc-face nil :foreground "gray70" :weight 'normal)
 
 (set-face-attribute 'font-lock-string-face nil :foreground "olive drab" :weight 'normal)
+(set-face-attribute 'font-lock-number-face nil :foreground "#759fbf" :weight 'normal)
 
 ;; Highlight things: warnings > builtins > keywords > other.
 ;; Types could be highlighted as well, but that does look very noisy in
@@ -438,7 +450,26 @@
         rust-format-goto-problem nil)
   (defun setup-rust-mode ()
     (eldoc-mode +1)
-    (subword-mode +1))
+    (subword-mode +1)
+    ;; TODO(yan): This also highlights the int part tuple.0. If we could provide
+    ;; negative matchers here (or had negative lookbehind), we would be able to
+    ;; avoid it.
+    (font-lock-add-keywords
+     nil '(
+           ; Hex integer
+           ("\\<0[Xx][0-9A-Fa-f_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
+           ; Octal integer
+           ("\\<0[Oo][0-7_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
+           ; Binary integer
+           ("\\<0[Bb][01_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
+           ; Floating point number (full)
+           ("\\<[0-9_]+\\.[0-9_]+\\([Ee][+-][0-9]+\\)?\\(f\\(32\\|64\\)\\)?\\>" . font-lock-number-face)
+           ; Floating point number (integer + comma + no type suffix)
+           ("\\<[0-9_]+\\.\\>" . font-lock-number-face)
+           ; Floating point number (integer + scientific)
+           ("\\<[0-9_]+[Ee][-+][0-9]+\\(f\\(32\\|64\\)\\)?\\>" . font-lock-number-face)
+           ; Decimal integer
+           ("\\<[0-9_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face))))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
 
 (use-package typescript-mode
