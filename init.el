@@ -462,12 +462,14 @@
            ("\\<0[Oo][0-7_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
            ; Binary integer
            ("\\<0[Bb][01_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
-           ; Floating point number (full)
+           ; Floating point number (integer + comma + fractional + optional suffix)
            ("\\<[0-9_]+\\.[0-9_]+\\([Ee][+-][0-9]+\\)?\\(f\\(32\\|64\\)\\)?\\>" . font-lock-number-face)
-           ; Floating point number (integer + comma + no type suffix)
+           ; Floating point number (integer + comma + no suffix)
            ("\\<[0-9_]+\\.\\>" . font-lock-number-face)
-           ; Floating point number (integer + scientific)
+           ; Floating point number (integer + scientific + optional suffix)
            ("\\<[0-9_]+[Ee][-+][0-9]+\\(f\\(32\\|64\\)\\)?\\>" . font-lock-number-face)
+           ; Floating point number (integer + suffix)
+           ("\\<[0-9_]+f\\(32\\|64\\)\\>" . font-lock-number-face)
            ; Decimal integer
            ("\\<[0-9_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face))))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
