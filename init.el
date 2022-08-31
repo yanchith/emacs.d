@@ -106,7 +106,7 @@
 ;; Do handmade-ish color theme
 
 (set-foreground-color "burlywood3")
-(set-background-color "#202020")
+(set-background-color "#191919")
 (set-cursor-color "#40FF40")
 
 (set-face-attribute 'mode-line nil :foreground "grey80" :background "grey25")
