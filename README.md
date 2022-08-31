@@ -128,6 +128,7 @@ Some commands rely on `git` and `rg` being installed and in PATH.
 - `C-r`         start backwards i-search
 - `M-%`         start query replace
 - `C-M-%`       start regexp query replace
+- `C-x p r`     start project-wide regexp query replace
 
 ## Window management
 
