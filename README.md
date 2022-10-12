@@ -208,6 +208,11 @@ lockfile and uses the newest versions instead. Running
 - `straight-pull-all`        Pull and rebuild all packages. Use `straight-freeze-versions`
                              after to save the state
 
+### Smpartparens
+
+- `C-M-f`       forward-sexp
+- `C-M-b`       backward-sexp
+
 ### Swiper
 
 - `C-s`         swiper search (replaces i-search)
