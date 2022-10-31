@@ -356,12 +356,6 @@
 
 ;;;; Configure text editing packages
 
-;; TODO(yan): figure out a better keyboard shortcut for move-text
-(use-package move-text
-  :straight t
-  :bind (("S-M-<up>"   . move-text-up)
-         ("S-M-<down>" . move-text-down)))
-
 (use-package multiple-cursors
   :straight t
   :bind (("C-c m l" . mc/edit-lines)
@@ -411,8 +405,9 @@
   ;; active if we pass other options.
   (setq counsel-git-cmd "git ls-files -z --cached --others --exclude-standard --full-name --"))
 
-;; TODO(yan): Experiment with removing company, or only keeping it for languages
-;; with a good backend.
+;; We are experimenting with removing company. If this is unbearable, we can
+;; always bring it back, perhaps just selectively, for languages with good
+;; completion backends.
 ;;
 ;; (use-package company
 ;;   :straight t
