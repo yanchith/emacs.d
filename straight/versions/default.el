@@ -17,7 +17,6 @@
  ("pkg-info" . "76ba7415480687d05a4353b27fea2ae02b8d9d61")
  ("rust-mode" . "b4537b6f5fa65626c1bab944681b35769cab9b5c")
  ("s.el" . "e957dcb0677da18b2bb60ad867db5df5c35b5616")
- ("smartparens" . "8b6a3c3b31afd5b3f846e09859b5fc62eb06e7c1")
  ("straight.el" . "f21103d97d180fba0b6e2e86ebb0b6269219ef2c")
  ("swiper" . "b8be4913a661b557e0d3275726e36871556569d3")
  ("tide" . "4cf6a0d89da7f946565a425a632ee2410a40c7da")

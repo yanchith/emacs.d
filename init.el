@@ -139,17 +139,21 @@
 ;; Disable cursor blinking
 (blink-cursor-mode -1)
 
-;; Don't blink matching parenthesis by default as it has a painfully slow
+;; Don't highlight the current line
+(global-hl-line-mode -1)
+
+;; Configure parentheses behavior
+
+;; PERF: Don't blink matching parenthesis by default as it has a painfully slow
 ;; interaction with multiple cursors when inserting closing
 ;; parenthesis. Instead, we highlight the matching paren with show-paren-mode.
-;; PERF: show-paren-mode is built into emacs and implemented in C. While
-;; `show-smartparens-mode' is more clever, it is also more laggy.
 (setq blink-matching-paren nil)
 (setq-default show-paren-delay 0)
 (show-paren-mode)
 
-;; Don't highlight the current line
-(global-hl-line-mode -1)
+;; Enable electric-pair-mode to balance all parentheses
+(electric-pair-mode)
+
 
 ;; Do not word wrap, instead just don't render invisible parts of long lines
 (setq-default truncate-lines t)
@@ -432,15 +436,6 @@
   ;; Only enable flycheck for specific setups. For rust, flycheck is too
   ;; expensive, but for typescript it's great.
   :hook (typescript-mode . flycheck-mode))
-
-(use-package smartparens
-  :straight t
-  :hook (prog-mode . smartparens-mode)
-  :config
-  (require 'smartparens-config)
-  (setq sp-base-key-bindings nil
-        sp-autoskip-closing-pair t)
-  (sp-use-paredit-bindings))
 
 (use-package rust-mode
   :straight t
