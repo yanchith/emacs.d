@@ -158,6 +158,11 @@
   (interactive)
   (toggle-truncate-lines))
 
+(defun yan-toggle-word-wrap ()
+  "Toggle word wrap."
+  (interactive)
+  (toggle-word-wrap))
+
 ;; Show line numbers
 (global-display-line-numbers-mode t)
 
