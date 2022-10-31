@@ -455,18 +455,6 @@
         rust-format-show-buffer nil
         rust-format-goto-problem nil)
   (defun setup-rust-mode ()
-    ;; TODO(yan): For rust compilation to automatically pick up a workspace, we
-    ;; patch our local rust-mode in rust-cargo.el:47 with the following:
-    ;;
-    ;; (let ((ret (call-process rust-cargo-bin nil t nil "locate-project" "--workspace")))
-    ;;
-    ;; This way "cargo locate-project" tries to look up a workspace, and
-    ;; rust-mode spawns a compilation buffer with correct paths.
-    ;;
-    ;; There is an issue for this here:
-    ;; https://github.com/rust-lang/rust-mode/issues/456, drive it to
-    ;; completion.
-
     (eldoc-mode +1)
     (subword-mode +1)
     ;; TODO(yan): This also highlights the int part tuple.0. If we could provide
