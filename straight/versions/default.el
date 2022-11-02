@@ -12,6 +12,7 @@
  ("let-alist" . "592553db5929b54db40af0df90c5add0aaca045b")
  ("magit" . "87e68e0a8ea7803f0ffbc412b8a10f1fd2f75581")
  ("melpa" . "e3da6cf03b3fca63621dc9992924aeaa7d9a3a69")
+ ("move-text" . "b17f0f4cbe9d8a72e6d9765daf2e6cdc12b3f4ba")
  ("multiple-cursors.el" . "1e4842d1297241a5277bfd5c7bfab9e8711da60a")
  ("nongnu-elpa" . "b1d7b18ade583777b12b450e47f0cc763f7f9615")
  ("pkg-info" . "76ba7415480687d05a4353b27fea2ae02b8d9d61")

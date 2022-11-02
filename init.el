@@ -251,7 +251,9 @@
 
 (setq confirm-kill-emacs 'yes-or-no-p)
 
-;;;; Disable some enabled-by-default commands I hit accidentaly
+;;;; Disable some enabled-by-default commands
+
+;; I hit these accidentaly and don't want them
 
 (global-unset-key (kbd "C-x C-b")) ;; 'list-buffers, hit when trying to "C-x b"
 (global-unset-key (kbd "C-x C-n")) ;; 'set-goal-column, hit when navigating
@@ -261,6 +263,11 @@
 (global-unset-key (kbd "C-h n"))   ;; 'view-emacs-news, hit when navigating
 (global-unset-key (kbd "C-t"))     ;; 'transpose-chars, hit when opening a new browser tab
 (global-unset-key (kbd "C-x m"))   ;; 'compose-mail, hit when opening going for C-c m l
+
+;; I replaced these with something else
+
+(global-unset-key (kbd "C-M-p")) ;; Some balanced paren thing, replaced with move-text
+(global-unset-key (kbd "C-M-n")) ;; Some balanced paren thing, replaced with move-text
 
 ;;;; Font size
 
@@ -359,6 +366,11 @@
   (global-whitespace-mode +1))
 
 ;;;; Configure text editing packages
+
+(use-package move-text
+  :straight t
+  :bind (("C-M-p" . move-text-up)
+         ("C-M-n" . move-text-down)))
 
 (use-package multiple-cursors
   :straight t
