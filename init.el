@@ -390,7 +390,22 @@
   :bind (("C-c g g" . magit-status)
          ("C-c g l" . magit-log)
          ("C-c g f" . magit-log-buffer-file)
-         ("C-c g b" . magit-blame)))
+         ("C-c g b" . magit-blame))
+  :config
+  ;; PERF: This won't refresh magit's status buffer unless it is the current buffer.
+  (setq magit-refresh-status-buffer nil)
+
+  ;; PERF: This is one of the slower parts of refreshing the status buffer. Can we live without?
+  (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
+
+  ;; PERF: These are also slow, but kinda useful
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
+
+  ;; PERF: Showing a diff when commiting is slow, and we've already seen the
+  ;; diff in the status buffer anyway.
+  (remove-hook 'server-switch-hook 'magit-commit-diff)
+  (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff))
 
 ;;;; Configure autocomplete packages
 
