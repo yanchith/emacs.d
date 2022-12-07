@@ -392,13 +392,14 @@
          ("C-c g f" . magit-log-buffer-file)
          ("C-c g b" . magit-blame))
   :config
-  ;; PERF: This won't refresh magit's status buffer unless it is the current buffer.
+  ;; PERF: This won't refresh magit's status buffer unless it is the current
+  ;; buffer, speeding up some workflows.
   (setq magit-refresh-status-buffer nil)
 
-  ;; PERF: This is one of the slower parts of refreshing the status buffer. Can we live without?
-  (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
-
-  ;; PERF: These are also slow, but kinda useful
+  ;; PERF: These are the slower parts of refreshing the status buffer, but they
+  ;; look useful. Can we live without?
+  ;;
+  ;; (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
 
