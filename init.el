@@ -195,13 +195,6 @@
 ;; Enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; Have more useful frame title. Show either a file or a
-;; buffer name, if the buffer isn't visiting a file.
-(setq frame-title-format
-      '("" invocation-name " - "
-        (:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name)) "%b"))))
-
 ;;;; Customize editor behavior
 
 ;; Always open files with UTF-8 and LF encoding by default
