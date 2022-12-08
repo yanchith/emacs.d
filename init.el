@@ -356,14 +356,11 @@
         ;; Ignore special buffers
         uniquify-ignore-buffers-re "^\\*"))
 
-;; Loudly show trailing whitespace and clean it up on save
+;; Clean up whitespace on save, but don't visualize it
 (use-package whitespace
   :straight f
   :config
-  (setq whitespace-line-column 100
-        whitespace-style '(face tabs trailing lines-tail))
-  (add-hook 'before-save-hook 'whitespace-cleanup)
-  (global-whitespace-mode +1))
+  (add-hook 'before-save-hook 'whitespace-cleanup))
 
 ;;;; Configure text editing packages
 
