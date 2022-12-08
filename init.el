@@ -300,11 +300,14 @@
 ;; This still prompts for confirmation if buffer has unsaved changes
 (global-auto-revert-mode t)
 
+;; Use subword mode everywhere. We pretty much want it even for prose, if we
+;; ever include code snippets, etc.
+(global-subword-mode 1)
+
 ;;;; Bootstrap straight.el
 
-;; This produces a huge (2.5x) init time perf boost by not using
-;; find(1) on startup to detect whether a package needs rebuilding at
-;; init time.
+;; PERF: This produces a huge (2.5x) init time perf boost by not using find(1)
+;; on startup to detect whether a package needs rebuilding at init time.
 (setq straight-check-for-modifications '(check-on-save find-when-checking))
 
 (defvar bootstrap-version)
@@ -387,7 +390,7 @@
   (remove-hook 'server-switch-hook 'magit-commit-diff)
   (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff))
 
-;;;; Configure autocomplete packages
+;;;; Configure completion packages
 
 (use-package ivy
   :straight t
@@ -416,28 +419,11 @@
   ;; active if we pass other options.
   (setq counsel-git-cmd "git ls-files -z --cached --others --exclude-standard --full-name --"))
 
-;; We are experimenting with removing company. If this is unbearable, we can
-;; always bring it back, perhaps just selectively, for languages with good
-;; completion backends.
-;;
-;; (use-package company
-;;   :straight t
-;;   :hook (prog-mode . company-mode)
-;;   :config
-;;   (setq company-idle-delay 0.2
-;;         company-minimum-prefix-length 3
-;;         company-show-numbers t
-;;         company-tooltip-limit 10
-;;         company-tooltip-align-annotations t
-;;         company-abort-on-unique-match t
-;;         ;; Don't ever, for any reason, downcase anything to anyone for any
-;;         ;; reason ever, no matter what, no matter where, or who, or who you are
-;;         ;; with, or where you are going, or where you've been... ever, for any
-;;         ;; reason whatsoever.
-;;         company-dabbrev-downcase nil))
-
 ;;;; Configure programming packages
 
+;; TODO(yan): We currently just use flycheck for TS. We could remove it from
+;; here, but tide pulls it in anyway. Maybe we can replace tide with a simpler
+;; and smaller package?
 (use-package flycheck
   :straight t
   ;; Only enable flycheck for specific setups. For rust, flycheck is too
@@ -452,8 +438,6 @@
         rust-format-show-buffer nil
         rust-format-goto-problem nil)
   (defun setup-rust-mode ()
-    (eldoc-mode +1)
-    (subword-mode +1)
     ;; TODO(yan): This also highlights the int part tuple.0. If we could provide
     ;; negative matchers here (or had negative lookbehind), we would be able to
     ;; avoid it.
@@ -485,32 +469,23 @@
          ("\\.tsx\\'" . typescript-mode))
   :config
   (defun setup-typescript-mode ()
-    (tide-setup)
-    (eldoc-mode +1)
-    (subword-mode +1))
+    (tide-setup))
   (add-hook 'typescript-mode-hook 'setup-typescript-mode))
 
 (use-package csharp-mode
   :straight t
-  :mode ("\\.cs\\'" . csharp-mode)
-  :config
-  (defun setup-csharp-mode ()
-    (subword-mode +1))
-  (add-hook 'csharp-mode-hook 'setup-csharp-mode))
+  :mode ("\\.cs\\'" . csharp-mode))
 
 (use-package glsl-mode
   :straight t
   :mode (("\\.glsl\\'" . glsl-mode)
          ("\\.vert\\'" . glsl-mode)
          ("\\.frag\\'" . glsl-mode)
-         ("\\.geom\\'" . glsl-mode))
-  :config
-  (defun setup-glsl-mode ()
-    (eldoc-mode +1)
-    (subword-mode +1))
-  (add-hook 'glsl-mode-hook 'setup-glsl-mode))
+         ("\\.geom\\'" . glsl-mode)))
 
-(require 'wgsl-mode)
+(use-package wgsl-mode
+  :straight t
+  :mode ("\\.wgsl\\'" . wgsl-mode))
 
 (require 'yan)
 (global-set-key (kbd "C-a") 'yan-move-beginning-of-line)
