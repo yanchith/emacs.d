@@ -154,7 +154,6 @@
 ;; Enable electric-pair-mode to balance all parentheses
 (electric-pair-mode)
 
-
 ;; Do not word wrap, instead just don't render invisible parts of long lines
 (setq-default truncate-lines t)
 (defun yan-toggle-truncate-lines ()
@@ -169,11 +168,6 @@
 
 ;; Show line numbers
 (global-display-line-numbers-mode t)
-
-;; TODO(yan): This is nice, but it flickers when moving point vertically on
-;; Windows (and maybe elsewhere too?).
-;;
-;; (setq display-line-numbers-type 'relative)
 
 ;; Show line and column numbers, and file size indication in the
 ;; modeline
