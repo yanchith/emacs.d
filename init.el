@@ -14,7 +14,7 @@
   "Return the number of bytes in N megabytes."
   (* n 1024 1024))
 
-;; Increase GC threshold to 50MB for better throughput during init
+;; PERF: Increase GC threshold to 50MB for better throughput during init
 (setq gc-cons-threshold (megabytes 50))
 
 ;;;; Large file perf mitigations
@@ -519,7 +519,7 @@
 (global-set-key (kbd "M-p") 'yan-move-to-previous-blank-line)
 (global-set-key (kbd "M-n") 'yan-move-to-next-blank-line)
 
-;; Restore gc threshold for better interactivity and shorter pauses
+;; PERF: Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold (megabytes 1))
 
 ;; TODO(yan): Spellchecking via Flyspell? This is problematic on Windows,
