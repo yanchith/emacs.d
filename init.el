@@ -296,6 +296,12 @@
 
 ;;;; Misc customizations
 
+;; Store all backup and autosave files in the tmp dir. This appears to have no
+;; effect sometimes (a major mode does it for us?), but emacs by default creates
+;; name.txt~ backup files in the same directory, which we do not want.
+(setq backup-directory-alist `((".*" . ,temporary-file-directory))
+      auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+
 ;; Revert buffers automatically when underlying files are changed externally
 ;; This still prompts for confirmation if buffer has unsaved changes
 (global-auto-revert-mode t)
