@@ -14,7 +14,7 @@
   "Return the number of bytes in N megabytes."
   (* n 1024 1024))
 
-;; PERF: Increase GC threshold to 50MB for better throughput during init
+;; @Perf Increase GC threshold to 50MB for better throughput during init
 (setq gc-cons-threshold (megabytes 50))
 
 ;;;; Large file perf mitigations
@@ -129,7 +129,7 @@
 (set-face-attribute 'font-lock-function-name-face nil :foreground "burlywood3" :weight 'normal)
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3" :weight 'normal)
 
-;; PERF: The emacs default for initial-major-mode is lisp-interaction-mode,
+;; @Perf The emacs default for initial-major-mode is lisp-interaction-mode,
 ;; which is a programming mode. Everything :hook-ed with prog-mode (such as the
 ;; very expensive flycheck) would be loaded right from the start, if we kept it
 ;; that way.
@@ -144,7 +144,7 @@
 
 ;; Configure parentheses behavior
 
-;; PERF: Don't blink matching parenthesis by default as it has a painfully slow
+;; @Perf Don't blink matching parenthesis by default as it has a painfully slow
 ;; interaction with multiple cursors when inserting closing
 ;; parenthesis. Instead, we highlight the matching paren with show-paren-mode.
 (setq blink-matching-paren nil)
@@ -312,7 +312,7 @@
 
 ;;;; Bootstrap straight.el
 
-;; PERF: This produces a huge (2.5x) init time perf boost by not using find(1)
+;; @Perf This produces a huge (2.5x) init time perf boost by not using find(1)
 ;; on startup to detect whether a package needs rebuilding at init time.
 (setq straight-check-for-modifications '(check-on-save find-when-checking))
 
@@ -380,18 +380,18 @@
          ("C-c g f" . magit-log-buffer-file)
          ("C-c g b" . magit-blame))
   :config
-  ;; PERF: This won't refresh magit's status buffer unless it is the current
+  ;; @Perf This won't refresh magit's status buffer unless it is the current
   ;; buffer, speeding up some workflows.
   (setq magit-refresh-status-buffer nil)
 
-  ;; PERF: These are the slower parts of refreshing the status buffer, but they
+  ;; @Perf These are the slower parts of refreshing the status buffer, but they
   ;; look useful. Can we live without?
   ;;
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
   ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
 
-  ;; PERF: Showing a diff when commiting is slow, and we've already seen the
+  ;; @Perf Showing a diff when commiting is slow, and we've already seen the
   ;; diff in the status buffer anyway.
   (remove-hook 'server-switch-hook 'magit-commit-diff)
   (remove-hook 'with-editor-filter-visit-hook 'magit-commit-diff))
@@ -493,6 +493,9 @@
   :straight t
   :mode ("\\.wgsl\\'" . wgsl-mode))
 
+;; TODO(yan): @Perf Load lazily somehow to not slow down startup.
+(require 'jai-mode)
+
 (require 'yan)
 (global-set-key (kbd "C-a") 'yan-move-beginning-of-line)
 (global-set-key (kbd "C-j") 'yan-top-join-line)
@@ -500,7 +503,7 @@
 (global-set-key (kbd "M-p") 'yan-move-to-previous-blank-line)
 (global-set-key (kbd "M-n") 'yan-move-to-next-blank-line)
 
-;; PERF: Restore gc threshold for better interactivity and shorter pauses
+;; @Perf Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold (megabytes 1))
 
 ;; TODO(yan): Spellchecking via Flyspell? This is problematic on Windows,
