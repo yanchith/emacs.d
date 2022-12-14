@@ -493,8 +493,9 @@
   :straight t
   :mode ("\\.wgsl\\'" . wgsl-mode))
 
-;; TODO(yan): @Perf Load lazily somehow to not slow down startup.
-(require 'jai-mode)
+(use-package jai-mode
+  :straight f
+  :mode ("\\.jai\\'" . jai-mode))
 
 (require 'yan)
 (global-set-key (kbd "C-a") 'yan-move-beginning-of-line)
