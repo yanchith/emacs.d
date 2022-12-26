@@ -91,6 +91,11 @@
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+;; Add a bit of fringe padding and make it apply to all windows
+(setq-default left-fringe-width 20
+              right-fringe-width 20)
+(set-window-buffer nil (current-buffer))
+
 ;; Add font-lock-number-face, so we can target it and highlight numbers
 
 (require 'font-lock)
@@ -108,6 +113,8 @@
 (set-foreground-color "burlywood3")
 (set-background-color "#191919")
 (set-cursor-color "#40FF40")
+
+(set-face-attribute 'fringe nil :foreground nil :background nil)
 
 (set-face-attribute 'mode-line nil :foreground "grey80" :background "grey25")
 (set-face-attribute 'mode-line-inactive nil :foreground "grey80" :background "#202020")
