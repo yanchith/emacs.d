@@ -489,6 +489,12 @@
   :straight t
   :mode ("\\.cs\\'" . csharp-mode))
 
+;; TODO(yan): In both glsl-mode and jai-mode, and possibly others, M-b
+;; (backward-word) doesn't respect underscores and seeks back through the entire
+;; identifier, e.g. for Entity_Snake. M-f (forward-word) only respects the first
+;; underscore, and then seeks to the end. If we name it EntitySnake (and rely on
+;; subword mode), it works correctly.
+
 (use-package glsl-mode
   :straight t
   :mode (("\\.glsl\\'" . glsl-mode)
@@ -499,6 +505,12 @@
 (use-package wgsl-mode
   :straight t
   :mode ("\\.wgsl\\'" . wgsl-mode))
+
+;; TODO(yan): M-q (fill-paragraph) doesn't know about comments in jai-mode, and
+;; doesn't re-insert comment marks when it reflows a comment paragraph.
+;;
+;; TODO(yan): C-x C-; (comment-line) tries to comment single lines with
+;; multiline comments (/* */) instead of single line comments (//).
 
 (use-package jai-mode
   :straight f
