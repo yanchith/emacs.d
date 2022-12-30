@@ -497,7 +497,7 @@
          ("\\.geom\\'" . glsl-mode))
   :config
   (defun setup-glsl-mode ()
-    ;; Override default, so we get forward-word and backward-word stopping on _.
+    ;; Override default, so we get M-f and M-b stopping on _.
     (modify-syntax-entry ?_ "."))
   (add-hook 'glsl-mode-hook 'setup-glsl-mode))
 
@@ -505,18 +505,17 @@
   :straight t
   :mode ("\\.wgsl\\'" . wgsl-mode))
 
-;; TODO(yan): M-q (fill-paragraph) doesn't know about comments in jai-mode, and
-;; doesn't re-insert comment marks when it reflows a comment paragraph.
-;;
-;; TODO(yan): C-x C-; (comment-line) tries to comment single lines with
-;; multiline comments (/* */) instead of single line comments (//).
-
 (use-package jai-mode
   :straight f
   :mode ("\\.jai\\'" . jai-mode)
   :config
   (defun setup-jai-mode ()
-    ;; Override default, so we get forward-word and backward-word stopping on _.
+    ;; Override default, so we both get the default comment style we want, and
+    ;; also make M-q (fill-paragraph) work well with the usual, C-style,
+    ;; comments.
+    (setq comment-start "// "
+          comment-end "")
+    ;; Override default, so we get M-f and M-b stopping on _.
     ;;
     ;; Note: Even though we actually vendor jai-mode, we might some day not
     ;; vendor it, so let's layer our changes in here instead of modifyin it.
