@@ -489,18 +489,17 @@
   :straight t
   :mode ("\\.cs\\'" . csharp-mode))
 
-;; TODO(yan): In both glsl-mode and jai-mode, and possibly others, M-b
-;; (backward-word) doesn't respect underscores and seeks back through the entire
-;; identifier, e.g. for Entity_Snake. M-f (forward-word) only respects the first
-;; underscore, and then seeks to the end. If we name it EntitySnake (and rely on
-;; subword mode), it works correctly.
-
 (use-package glsl-mode
   :straight t
   :mode (("\\.glsl\\'" . glsl-mode)
          ("\\.vert\\'" . glsl-mode)
          ("\\.frag\\'" . glsl-mode)
-         ("\\.geom\\'" . glsl-mode)))
+         ("\\.geom\\'" . glsl-mode))
+  :config
+  (defun setup-glsl-mode ()
+    ;; Override default, so we get forward-word and backward-word stopping on _.
+    (modify-syntax-entry ?_ "."))
+  (add-hook 'glsl-mode-hook 'setup-glsl-mode))
 
 (use-package wgsl-mode
   :straight t
@@ -514,7 +513,15 @@
 
 (use-package jai-mode
   :straight f
-  :mode ("\\.jai\\'" . jai-mode))
+  :mode ("\\.jai\\'" . jai-mode)
+  :config
+  (defun setup-jai-mode ()
+    ;; Override default, so we get forward-word and backward-word stopping on _.
+    ;;
+    ;; Note: Even though we actually vendor jai-mode, we might some day not
+    ;; vendor it, so let's layer our changes in here instead of modifyin it.
+    (modify-syntax-entry ?_ "."))
+  (add-hook 'jai-mode-hook 'setup-jai-mode))
 
 (require 'yan)
 (global-set-key (kbd "C-a") 'yan-move-beginning-of-line)
