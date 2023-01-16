@@ -124,14 +124,14 @@
 (set-face-attribute 'font-lock-comment-face nil :foreground "gray50" :weight 'normal)
 (set-face-attribute 'font-lock-doc-face nil :foreground "gray70" :weight 'normal)
 
-(set-face-attribute 'font-lock-string-face nil :foreground "#9AA72D" :weight 'normal)
+(set-face-attribute 'font-lock-string-face nil :foreground "#98C379" :weight 'normal)
 (set-face-attribute 'font-lock-number-face nil :foreground "#759FBF" :weight 'normal)
 
 ;; Highlight things: warnings > builtins > keywords > other.
 ;; Types could be highlighted as well, but that does look very noisy in
 ;; languages with a lot of them (e.g. Rust).
-(set-face-attribute 'font-lock-warning-face nil :foreground "DarkGoldenrod1" :weight 'normal)
-(set-face-attribute 'font-lock-builtin-face nil :foreground "DarkGoldenrod3" :weight 'normal)
+(set-face-attribute 'font-lock-warning-face nil :foreground "#FF7535" :weight 'bold)
+(set-face-attribute 'font-lock-builtin-face nil :foreground "#F06525" :weight 'bold)
 (set-face-attribute 'font-lock-keyword-face nil :foreground "#F06525" :weight 'normal)
 (set-face-attribute 'font-lock-type-face nil :foreground "burlywood3" :weight 'normal)
 (set-face-attribute 'font-lock-constant-face nil :foreground "burlywood3" :weight 'normal)
