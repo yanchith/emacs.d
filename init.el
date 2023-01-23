@@ -108,14 +108,16 @@
 
 (yan-copy-face 'font-lock-number-face 'font-lock-string-face)
 
-;; Do handmade-ish color theme
+;; Attempt at a color theme
+
+;; TODO(yan): Move this theme to a file
 
 (set-foreground-color "burlywood3")
 (set-background-color "#191919")
-(set-cursor-color "#50FFA0")
+(set-cursor-color "#50ffa0")
 
 (set-face-attribute 'region nil :background "#202522")
-(set-face-attribute 'minibuffer-prompt nil :foreground "#F06525" :weight 'normal)
+(set-face-attribute 'minibuffer-prompt nil :foreground "#f06525" :weight 'normal)
 (set-face-attribute 'fringe nil :foreground nil :background nil)
 
 (set-face-attribute 'mode-line nil :foreground "grey80" :background "grey25")
@@ -124,15 +126,15 @@
 (set-face-attribute 'font-lock-comment-face nil :foreground "gray50" :weight 'normal)
 (set-face-attribute 'font-lock-doc-face nil :foreground "gray70" :weight 'normal)
 
-(set-face-attribute 'font-lock-string-face nil :foreground "#98C379" :weight 'normal)
-(set-face-attribute 'font-lock-number-face nil :foreground "#759FBF" :weight 'normal)
+(set-face-attribute 'font-lock-string-face nil :foreground "#98c379" :weight 'normal)
+(set-face-attribute 'font-lock-number-face nil :foreground "#759fbf" :weight 'normal)
 
 ;; Highlight things: warnings > builtins > keywords > other.
 ;; Types could be highlighted as well, but that does look very noisy in
 ;; languages with a lot of them (e.g. Rust).
-(set-face-attribute 'font-lock-warning-face nil :foreground "#FF7535" :weight 'bold)
-(set-face-attribute 'font-lock-builtin-face nil :foreground "#F06525" :weight 'bold)
-(set-face-attribute 'font-lock-keyword-face nil :foreground "#F06525" :weight 'normal)
+(set-face-attribute 'font-lock-warning-face nil :foreground "#ff7535" :weight 'bold)
+(set-face-attribute 'font-lock-builtin-face nil :foreground "#f06525" :weight 'bold)
+(set-face-attribute 'font-lock-keyword-face nil :foreground "#f06525" :weight 'normal)
 (set-face-attribute 'font-lock-type-face nil :foreground "burlywood3" :weight 'normal)
 (set-face-attribute 'font-lock-constant-face nil :foreground "burlywood3" :weight 'normal)
 (set-face-attribute 'font-lock-function-name-face nil :foreground "burlywood3" :weight 'normal)
