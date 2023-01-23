@@ -96,50 +96,6 @@
               right-fringe-width 20)
 (set-window-buffer nil (current-buffer))
 
-;; Add font-lock-number-face, so we can target it and highlight numbers
-
-(require 'font-lock)
-
-(defun yan-copy-face (new-face face)
-  "Define NEW-FACE from existing FACE."
-  (copy-face face new-face)
-  (eval `(defvar ,new-face nil))
-  (set new-face new-face))
-
-(yan-copy-face 'font-lock-number-face 'font-lock-string-face)
-
-;; Attempt at a color theme
-
-;; TODO(yan): Move this theme to a file
-
-(set-foreground-color "burlywood3")
-(set-background-color "#191919")
-(set-cursor-color "#50ffa0")
-
-(set-face-attribute 'region nil :background "#202522")
-(set-face-attribute 'minibuffer-prompt nil :foreground "#f06525" :weight 'normal)
-(set-face-attribute 'fringe nil :foreground nil :background nil)
-
-(set-face-attribute 'mode-line nil :foreground "grey80" :background "grey25")
-(set-face-attribute 'mode-line-inactive nil :foreground "grey80" :background "#202020")
-
-(set-face-attribute 'font-lock-comment-face nil :foreground "gray50" :weight 'normal)
-(set-face-attribute 'font-lock-doc-face nil :foreground "gray70" :weight 'normal)
-
-(set-face-attribute 'font-lock-string-face nil :foreground "#98c379" :weight 'normal)
-(set-face-attribute 'font-lock-number-face nil :foreground "#759fbf" :weight 'normal)
-
-;; Highlight things: warnings > builtins > keywords > other.
-;; Types could be highlighted as well, but that does look very noisy in
-;; languages with a lot of them (e.g. Rust).
-(set-face-attribute 'font-lock-warning-face nil :foreground "#ff7535" :weight 'bold)
-(set-face-attribute 'font-lock-builtin-face nil :foreground "#f06525" :weight 'bold)
-(set-face-attribute 'font-lock-keyword-face nil :foreground "#f06525" :weight 'normal)
-(set-face-attribute 'font-lock-type-face nil :foreground "burlywood3" :weight 'normal)
-(set-face-attribute 'font-lock-constant-face nil :foreground "burlywood3" :weight 'normal)
-(set-face-attribute 'font-lock-function-name-face nil :foreground "burlywood3" :weight 'normal)
-(set-face-attribute 'font-lock-variable-name-face nil :foreground "burlywood3" :weight 'normal)
-
 ;; @Perf The emacs default for initial-major-mode is lisp-interaction-mode,
 ;; which is a programming mode. Everything :hook-ed with prog-mode (such as the
 ;; very expensive flycheck) would be loaded right from the start, if we kept it
@@ -532,6 +488,11 @@
 (global-set-key (kbd "C-c d") 'yan-duplicate-current-line-or-region)
 (global-set-key (kbd "M-p") 'yan-move-to-previous-blank-line)
 (global-set-key (kbd "M-n") 'yan-move-to-next-blank-line)
+
+;;;; Attempt at a color theme
+
+(require 'abu-theme)
+(load-theme 'abu t)
 
 ;; @Perf Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold (megabytes 1))
