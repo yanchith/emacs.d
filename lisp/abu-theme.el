@@ -34,7 +34,7 @@
  ;; Types could be highlighted as well, but that does look very noisy in
  ;; languages with a lot of them (e.g. Rust).
  `(font-lock-warning-face       ((t (:foreground "#f06525" :bold t))))
- `(font-lock-builtin-face       ((t (:foreground "#e95410"))))
+ `(font-lock-builtin-face       ((t (:foreground "#e95410" :bold t))))
  `(font-lock-keyword-face       ((t (:foreground "#e95410"))))
  `(font-lock-comment-face       ((t (:foreground "#7d7d7d"))))
  `(font-lock-type-face          ((t (:foreground "#burlywood3"))))
