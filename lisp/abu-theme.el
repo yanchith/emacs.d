@@ -59,6 +59,9 @@
  `(rainbow-delimiters-depth-8-face ((t (:foreground "#e1e1e1"))))
  `(rainbow-delimiters-depth-9-face ((t (:foreground "#ffffff"))))
 
+ ;; mc
+ `(mc/cursor-face ((t (:background "#5d6b63"))))
+
  ;; swiper and ivy
  `(swiper-line-face ((t (:background nil))))
 
