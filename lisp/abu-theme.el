@@ -23,8 +23,8 @@
 
  `(fringe ((t (:foreground nil :background nil))))
 
- `(modeline ((t (:background "gray80" :foreground "gray25"))))
- `(modeline-inactive ((t (:background "gray80" :foreground "#202020"))))
+ `(mode-line          ((t (:background "#090909" :foreground "#a0a0a0"))))
+ `(mode-line-inactive ((t (:background "#131313" :foreground "#a0a0a0"))))
 
  `(show-paren-match-face ((t (:background "#536058"))))
 
