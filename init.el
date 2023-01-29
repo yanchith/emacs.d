@@ -17,6 +17,9 @@
 ;; @Perf Increase GC threshold to 50MB for better throughput during init
 (setq gc-cons-threshold (megabytes 50))
 
+;; To prevent the flash of white, set the same color as theme would, but earlier.
+(set-background-color "#191919")
+
 ;;;; Large file perf mitigations
 
 ;; Warn before opening larger files
