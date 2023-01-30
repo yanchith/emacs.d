@@ -312,9 +312,7 @@
   :config
   (setq uniquify-buffer-name-style 'forward
         uniquify-separator "/"
-        ;; Rename after killing uniquified
         uniquify-after-kill-buffer-p t
-        ;; Ignore special buffers
         uniquify-ignore-buffers-re "^\\*"))
 
 ;; Clean up whitespace on save, but don't visualize it
@@ -388,23 +386,10 @@
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg))
   :config
-  ;; Original is "git ls-files -z --full-name --", it implicitle uses --cached.
-  ;;
-  ;; We add --others and --exclude-standard, which together resolve to untracked
-  ;; files. We now have to pass --chached explicitly, because it is no longer
-  ;; active if we pass other options.
+  ;; Search both tracked and untracked files with counsel-git
   (setq counsel-git-cmd "git ls-files -z --cached --others --exclude-standard --full-name --"))
 
 ;;;; Configure programming packages
-
-;; TODO(yan): We currently just use flycheck for TS. We could remove it from
-;; here, but tide pulls it in anyway. Maybe we can replace tide with a simpler
-;; and smaller package?
-(use-package flycheck
-  :straight t
-  ;; Only enable flycheck for specific setups. For rust, flycheck is too
-  ;; expensive, but for typescript it's great.
-  :hook (typescript-mode . flycheck-mode))
 
 (use-package rust-mode
   :straight t
@@ -437,16 +422,14 @@
            ("\\<[0-9_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face))))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
 
+;; TODO(yan): @Cleanup typescript-mode has stopped major development and they
+;; recommend people using the builtin TS mode in Emacs 29.
 (use-package typescript-mode
-  :straight tide
+  :straight t
   :mode (("\\.js\\'" . typescript-mode)
          ("\\.ts\\'" . typescript-mode)
          ("\\.jsx\\'" . typescript-mode)
-         ("\\.tsx\\'" . typescript-mode))
-  :config
-  (defun setup-typescript-mode ()
-    (tide-setup))
-  (add-hook 'typescript-mode-hook 'setup-typescript-mode))
+         ("\\.tsx\\'" . typescript-mode)))
 
 (use-package csharp-mode
   :straight t
@@ -481,7 +464,9 @@
     ;; Override default, so we get M-f and M-b stopping on _.
     ;;
     ;; Note: Even though we actually vendor jai-mode, we might some day not
-    ;; vendor it, so let's layer our changes in here instead of modifyin it.
+    ;; vendor it, so let's layer our changes in here instead of modifying it.
+    ;;
+    ;; TODO(yan): This breaks syntax highlighting for some things. Can we fix?
     (modify-syntax-entry ?_ "."))
   (add-hook 'jai-mode-hook 'setup-jai-mode))
 
