@@ -399,6 +399,8 @@
         rust-format-show-buffer nil
         rust-format-goto-problem nil)
   (defun setup-rust-mode ()
+    ;; Unset wrapping with dbg! macro from the keymap.
+    (local-unset-key (kbd "C-c C-d"))
     ;; TODO(yan): This also highlights the int part tuple.0. If we could provide
     ;; negative matchers here (or had negative lookbehind), we would be able to
     ;; avoid it.
