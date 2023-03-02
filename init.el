@@ -391,6 +391,8 @@
 
 ;;;; Configure programming packages
 
+;; TODO(yan): @Cleanup Emacs 29 is getting a rust-ts-mode. Maybe it will be good
+;; enough for us, if we add a shurtcuts (fmt, check).
 (use-package rust-mode
   :straight t
   :mode ("\\.rs\\'" . rust-mode)
@@ -425,7 +427,8 @@
   (add-hook 'rust-mode-hook 'setup-rust-mode))
 
 ;; TODO(yan): @Cleanup typescript-mode has stopped major development and they
-;; recommend people using the builtin TS mode in Emacs 29.
+;; recommend people using the builtin, tree-sitter-based typescript-ts-mode and
+;; tsx-ts-mode mode in Emacs 29.
 (use-package typescript-mode
   :straight t
   :mode (("\\.js\\'" . typescript-mode)
@@ -433,6 +436,8 @@
          ("\\.jsx\\'" . typescript-mode)
          ("\\.tsx\\'" . typescript-mode)))
 
+;; TODO(yan): @Cleanup We don't use many C# features. Maybe the new Emacs 29
+;; csharp-ts-mode will be enough for us?
 (use-package csharp-mode
   :straight t
   :mode ("\\.cs\\'" . csharp-mode))
