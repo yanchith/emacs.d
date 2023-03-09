@@ -335,6 +335,8 @@
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/unmark-next-like-this)))
 
+;; TODO(yan): @Cleanup This could be replaced with our own thing once we have
+;; tree-sitter in Emacs 29.
 (use-package expand-region
   :straight t
   :bind ("C-:" . er/expand-region))
