@@ -136,9 +136,6 @@
   (interactive)
   (toggle-word-wrap))
 
-;; Show line numbers
-(global-display-line-numbers-mode t)
-
 ;; Show line and column numbers, and file size indication in the
 ;; modeline
 (line-number-mode t)
