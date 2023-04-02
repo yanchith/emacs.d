@@ -7,7 +7,7 @@
  ("f.el" . "af7d37c619010b576fd22b50c62c71ff33093f3c")
  ("glsl-mode" . "9b2e5f28e489a1f73c4aed734105618ac0dc0c43")
  ("gnu-elpa-mirror" . "3d084e32698b38a0960c69ecc77c35ee561bee98")
- ("magit" . "dd2e870b134bd292e470c830a42ce59a4396cdb7")
+ ("magit" . "558050c46c0d807602b69cad80df2ea856fd310f")
  ("melpa" . "be033f3e734930b9c7c8e62a0db22f097fd889ab")
  ("move-text" . "cbcd0e5a316f26a8e8ef67ea0e633a43b045aa1e")
  ("multiple-cursors.el" . "6956e8e12ee191d7c80d042ae8ff495286fcbe38")
