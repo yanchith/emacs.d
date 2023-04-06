@@ -14,6 +14,10 @@ directory anywhere. There are multiple ways to point Emacs to it, the easiest
 being adding a `HOME` environment variable and Emacs will look for the config at
 `%HOME\.emacs.d`.
 
+You can enable native compilation of Emacs Lisp by having `libgccjit`. Get it
+with MSYS2: `pacman -S mingw-w64-x86_64-libgccjit` and add it to PATH:
+`C:\msys64\mingw64\bin`.
+
 ### macOS
 
 The `railwaycat/emacsmacport` version is compatible with `spectacle` snapping
@@ -294,4 +298,3 @@ In *compilation* buffer:
 - `M-p`                navigate to previous compile error or link
 - `M-n`                navigate to next compile error or link
 - `C-o` or `<return>`  go to compile error or link in other window
-
