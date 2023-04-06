@@ -17,8 +17,12 @@
 ;; @Perf Increase GC threshold to 50MB for better throughput during init
 (setq gc-cons-threshold (megabytes 50))
 
-;; To prevent the flash of white, set the same color as theme would, but earlier.
+;; To prevent a flash of white on startup, set the same color as theme would,
+;; but earlier. However, since the config may still fail, also set the
+;; foreground color to our theme's, so that we at least get visible text (the default text is
+;; black), if it does fail.
 (set-background-color "#191919")
+(set-foreground-color "burlywood")
 
 ;;;; Large file perf mitigations
 
