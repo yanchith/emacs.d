@@ -100,6 +100,9 @@ Some commands rely on `git` and `rg` being installed and in PATH.
 
 - `C-u C-<SPC>` move to previous mark (many operations leave marks in buffers)
 
+- `C-M-f`       forward-sexp
+- `C-M-b`       backward-sexp
+
 ## Numeric parameter
 
 - `C-<num>`, `C-u <num>` set numeric parameter
@@ -132,7 +135,6 @@ Some commands rely on `git` and `rg` being installed and in PATH.
 - `C-r`         start backwards i-search
 - `M-%`         start query replace
 - `C-M-%`       start regexp query replace
-- `C-x p r`     start project-wide regexp query replace
 
 ## Window management
 
@@ -158,12 +160,16 @@ Some commands rely on `git` and `rg` being installed and in PATH.
 
 ## Buffers
 
-- `C-x C-b`     list all open buffers
 - `C-x b`       switch to a buffer
 - `C-x k`       kill a buffer
-- `C-x <right>` open next buffer
-- `C-x <left>`  open previous buffer
 - `C-x C-q`     toggle read-only for current buffer
+
+## Projects (project.el)
+
+- `C-x p p`     switch to a project
+- `C-x p f`     switch to a project file
+- `C-x p b`     switch to a project buffer
+- `C-x p r`     start project-wide regexp query replace
 
 ## Misc
 
@@ -212,11 +218,6 @@ lockfile and uses the newest versions instead. Running
 - `straight-pull-all`        Pull and rebuild all packages. Use `straight-freeze-versions`
                              after to save the state
 
-### Smpartparens
-
-- `C-M-f`       forward-sexp
-- `C-M-b`       backward-sexp
-
 ### Swiper
 
 - `C-s`         swiper search (replaces i-search)
@@ -225,7 +226,6 @@ lockfile and uses the newest versions instead. Running
 
 - `M-x`         counsel powered M-x
 - `C-x C-f`     counsel-find-file
-- `C-c f`       counsel-git (find file in git repo)
 - `C-c s g`     counsel-git-grep
 - `C-c s r`     counsel-rg
 
@@ -279,13 +279,8 @@ In magit commit:
 
 ### Move text
 
-- `S-M-<up>`         move line or region up
-- `S-M-<down`        move line or region down
-
-### Tide
-
-- `M-.`              go to definition
-- `M-,`              pop go to definition (`xref-pop-marker-stack`)
+- `C-M-p`        move line or region up
+- `C-M-n`        move line or region down
 
 ### Rust
 

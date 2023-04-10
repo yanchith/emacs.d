@@ -387,12 +387,19 @@
   :straight t
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
-         ("C-c f" . counsel-git)
+         ;; TODO(yan): @Cleanup I switched to project.el to find files in a
+         ;; project, so I don't need this anymore?
+         ;;
+         ;; ("C-c f" . counsel-git)
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg))
-  :config
-  ;; Search both tracked and untracked files with counsel-git
-  (setq counsel-git-cmd "git ls-files -z --cached --others --exclude-standard --full-name --"))
+  ;; TODO(yan): @Cleanup I switched to project.el to find files in a project, so
+  ;; I don't need this anymore?
+  ;;
+  ;; :config
+  ;; ;; Search both tracked and untracked files with counsel-git
+  ;; (setq counsel-git-cmd "git ls-files -z --cached --others --exclude-standard --full-name --")
+  )
 
 ;;;; Configure programming packages
 

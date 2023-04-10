@@ -8,6 +8,12 @@ straight/
 .cache/
 .log/
 
+# project.el projects
+projects
+
+# compiled lisp files
+eln-cache/
+
 auto-save-list/
 savefile/
 transient/
@@ -16,5 +22,4 @@ eshell/
 .mc-lists.el
 .lsp-session-v1
 recentf
-projectile-bookmarks.eld
 custom.el
