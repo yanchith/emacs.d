@@ -144,7 +144,26 @@
 ;; modeline
 (line-number-mode t)
 (column-number-mode t)
-(size-indication-mode t)
+;; (size-indication-mode t)
+
+;; Display less things in the modeline
+
+(defvar clean-mode-line-alist
+  `((ivy-mode . "")
+    (subword-mode . "")
+    (eldoc-mode . "")))
+
+(defun clean-mode-line ()
+  (dolist (cleaner clean-mode-line-alist)
+    (let* ((mode (car cleaner))
+           (mode-str (cdr cleaner))
+           (old-mode-str (cdr (assq mode minor-mode-alist))))
+      (when old-mode-str
+        (setcar old-mode-str mode-str))
+      (when (eq mode major-mode)
+        (setq mode-name mode-str)))))
+
+(add-hook 'after-change-major-mode-hook 'clean-mode-line)
 
 ;; Disable sounds, startup screen, prettify scrolling
 (setq ring-bell-function 'ignore
@@ -239,7 +258,6 @@
     (lambda () (text-scale-mode 1)))
 
 (defun global-text-scale-adjust (inc)
-  (interactive)
   (text-scale-set 1)
   (kill-local-variable 'text-scale-mode-amount)
   (setq-default text-scale-mode-amount (+ text-scale-mode-amount inc))
