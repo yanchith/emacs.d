@@ -529,11 +529,22 @@
   (if (search-forward-regexp "^[ \t]*\n" nil t)
       (forward-line -1)))
 
+(defun yan-move-beginning-of-line ()
+  "Move cursor to beginning of text in the current line, or to
+beginning of the current line, if already at beginning of text"
+  (interactive)
+  (let ((orig-point (point)))
+    (move-beginning-of-line nil)
+    (search-forward-regexp "^[[:space:]]*" (line-end-position) t)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
 (defun yan-top-join-line ()
   "Join the current line with the line beneath it."
   (interactive)
   (delete-indentation 1))
 
+(global-set-key (kbd "C-a") 'yan-move-beginning-of-line)
 (global-set-key (kbd "M-p") 'yan-move-to-previous-blank-line)
 (global-set-key (kbd "M-n") 'yan-move-to-next-blank-line)
 (global-set-key (kbd "C-j") 'yan-top-join-line)
