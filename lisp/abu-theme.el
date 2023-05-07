@@ -48,18 +48,6 @@
  `(font-lock-comment-face        ((t (:foreground "gray50"))))
  `(font-lock-doc-face            ((t (:foreground "gray70"))))
 
- ;; rainbow-delimiters
-
- ;; `(rainbow-delimiters-depth-1-face ((t (:foreground "#990000"))))
- ;; `(rainbow-delimiters-depth-2-face ((t (:foreground "#383838"))))
- ;; `(rainbow-delimiters-depth-3-face ((t (:foreground "#505050"))))
- ;; `(rainbow-delimiters-depth-4-face ((t (:foreground "#6c6c6c"))))
- ;; `(rainbow-delimiters-depth-5-face ((t (:foreground "#888888"))))
- ;; `(rainbow-delimiters-depth-6-face ((t (:foreground "#a7a7a7"))))
- ;; `(rainbow-delimiters-depth-7-face ((t (:foreground "#c4c4c4"))))
- ;; `(rainbow-delimiters-depth-8-face ((t (:foreground "#e1e1e1"))))
- ;; `(rainbow-delimiters-depth-9-face ((t (:foreground "#ffffff"))))
-
  ;; mc
  `(mc/cursor-face ((t (:background "#5d6b63"))))
 

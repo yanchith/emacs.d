@@ -514,12 +514,29 @@
     (modify-syntax-entry ?_ "."))
   (add-hook 'jai-mode-hook 'setup-jai-mode))
 
-(require 'yan)
-(global-set-key (kbd "C-a") 'yan-move-beginning-of-line)
-(global-set-key (kbd "C-j") 'yan-top-join-line)
-(global-set-key (kbd "C-c d") 'yan-duplicate-current-line-or-region)
+;;;; Define and bind a few navigation and editing functions
+
+(defun yan-move-to-previous-blank-line ()
+  "Move to the previous line containing nothing but whitespace."
+  (interactive)
+  (if (not (search-backward-regexp "^[ \t]*\n" nil t))
+      (forward-line -1)))
+
+(defun yan-move-to-next-blank-line ()
+  "Move to the next line containing nothing but whitespace."
+  (interactive)
+  (forward-line)
+  (if (search-forward-regexp "^[ \t]*\n" nil t)
+      (forward-line -1)))
+
+(defun yan-top-join-line ()
+  "Join the current line with the line beneath it."
+  (interactive)
+  (delete-indentation 1))
+
 (global-set-key (kbd "M-p") 'yan-move-to-previous-blank-line)
 (global-set-key (kbd "M-n") 'yan-move-to-next-blank-line)
+(global-set-key (kbd "C-j") 'yan-top-join-line)
 
 ;;;; Attempt at a color theme
 
