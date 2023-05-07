@@ -3,7 +3,8 @@
 ;;; Commentary:
 
 ;; This is a `use-package' and `straight.el' based config focused on "minimal"
-;; functionality and good startup time. It requires emacs version 27.1 or newer.
+;; functionality and good startup time. The config targets the Emacs version I
+;; use, which is usually the latest stable, unless I forget to update.
 
 ;;; Code:
 
@@ -323,7 +324,7 @@
 (straight-use-package 'use-package)
 (eval-when-compile (require 'use-package))
 
-;;;; Configure built-in packages
+;;;; Configure ubiquitous packages
 
 ;; Make unique and more meaningful names for buffers with the same name
 (use-package uniquify
@@ -339,8 +340,6 @@
   :straight f
   :config
   (add-hook 'before-save-hook 'whitespace-cleanup))
-
-;;;; Configure text editing packages
 
 (use-package move-text
   :straight t
