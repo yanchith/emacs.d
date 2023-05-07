@@ -181,7 +181,6 @@ Some commands rely on `git` and `rg` being installed and in PATH.
 - `M-n`         move to next completely blank line
 - `M-p`         move to previous completely blank line
 - `C-a`         toggle between beginning of line and first non-whitespace character
-- `C-c d`       duplicate current line
 - `C-j`         join next line to this one
 
 ## Major modes
