@@ -410,26 +410,16 @@
 
 (use-package counsel
   :straight t
-  :bind (("M-x" . counsel-M-x)
+  :bind (("M-x"     . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
-         ;; TODO(yan): @Cleanup I switched to project.el to find files in a
-         ;; project, so I don't need this anymore?
-         ;;
-         ;; ("C-c f" . counsel-git)
          ("C-c s g" . counsel-git-grep)
-         ("C-c s r" . counsel-rg))
-  ;; TODO(yan): @Cleanup I switched to project.el to find files in a project, so
-  ;; I don't need this anymore?
-  ;;
-  ;; :config
-  ;; ;; Search both tracked and untracked files with counsel-git
-  ;; (setq counsel-git-cmd "git ls-files -z --cached --others --exclude-standard --full-name --")
-  )
+         ("C-c s r" . counsel-rg)))
 
 ;;;; Configure programming packages
 
 ;; TODO(yan): @Cleanup Emacs 29 is getting a rust-ts-mode. Maybe it will be good
-;; enough for us, if we add a shurtcuts (fmt, check).
+;; enough for us, if we add a shortcut for formatting and teach it about rustc's
+;; error output.
 (use-package rust-mode
   :straight t
   :mode ("\\.rs\\'" . rust-mode)
@@ -442,7 +432,7 @@
     (local-unset-key (kbd "C-c C-d"))
     ;; TODO(yan): This also highlights the int part tuple.0. If we could provide
     ;; negative matchers here (or had negative lookbehind), we would be able to
-    ;; avoid it.
+    ;; avoid it. Maybe this will just work with treesitter?
     (font-lock-add-keywords
      nil '(
            ; Hex integer
