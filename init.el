@@ -306,6 +306,10 @@
 ;; on startup to detect whether a package needs rebuilding at init time.
 (setq straight-check-for-modifications '(check-on-save find-when-checking))
 
+;; XXX: @Cleanup @Hack This makes straight work on Emacs 29, but we should
+;; probably just upgrade to a newer straight, or something.
+(setq native-comp-deferred-compilation-deny-list nil)
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -462,11 +466,15 @@
          ("\\.jsx\\'" . typescript-mode)
          ("\\.tsx\\'" . typescript-mode)))
 
+;; XXX: Emacs 29 comes with csharp-mode built-in, but is it the one based on
+;; treesitter?
+;;
 ;; TODO(yan): @Cleanup We don't use many C# features. Maybe the new Emacs 29
 ;; csharp-ts-mode will be enough for us?
-(use-package csharp-mode
-  :straight t
-  :mode ("\\.cs\\'" . csharp-mode))
+;;
+;; (use-package csharp-mode
+;;   :straight t
+;;   :mode ("\\.cs\\'" . csharp-mode))
 
 (use-package glsl-mode
   :straight t
