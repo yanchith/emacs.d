@@ -206,8 +206,6 @@
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
 (defvaralias 'sgml-basic-offset 'tab-width)
-(defvaralias 'js-indent-level 'tab-width)
-(defvaralias 'typescript-indent-level 'tab-width)
 
 (defun yan-set-indent-level-2 ()
   "Set global indentation level to 2."
@@ -420,61 +418,34 @@
 
 ;;;; Configure programming packages
 
-;; TODO(yan): @Cleanup Emacs 29 is getting a rust-ts-mode. Maybe it will be good
-;; enough for us, if we add a shortcut for formatting and teach it about rustc's
-;; error output.
-(use-package rust-mode
-  :straight t
-  :mode ("\\.rs\\'" . rust-mode)
-  :config
-  (setq rust-format-on-save nil
-        rust-format-show-buffer nil
-        rust-format-goto-problem nil)
-  (defun setup-rust-mode ()
-    ;; Unset wrapping with dbg! macro from the keymap.
-    (local-unset-key (kbd "C-c C-d"))
-    ;; TODO(yan): This also highlights the int part tuple.0. If we could provide
-    ;; negative matchers here (or had negative lookbehind), we would be able to
-    ;; avoid it. Maybe this will just work with treesitter?
-    (font-lock-add-keywords
-     nil '(
-           ; Hex integer
-           ("\\<0[Xx][0-9A-Fa-f_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
-           ; Octal integer
-           ("\\<0[Oo][0-7_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
-           ; Binary integer
-           ("\\<0[Bb][01_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
-           ; Floating point number (integer + comma + fractional + optional suffix)
-           ("\\<[0-9_]+\\.[0-9_]+\\([Ee][+-][0-9]+\\)?\\(f\\(32\\|64\\)\\)?\\>" . font-lock-number-face)
-           ; Floating point number (integer + comma + no suffix)
-           ("\\<[0-9_]+\\.\\>" . font-lock-number-face)
-           ; Floating point number (integer + scientific + optional suffix)
-           ("\\<[0-9_]+[Ee][-+][0-9]+\\(f\\(32\\|64\\)\\)?\\>" . font-lock-number-face)
-           ; Floating point number (integer + suffix)
-           ("\\<[0-9_]+f\\(32\\|64\\)\\>" . font-lock-number-face)
-           ; Decimal integer
-           ("\\<[0-9_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face))))
-  (add-hook 'rust-mode-hook 'setup-rust-mode))
-
-;; TODO(yan): @Cleanup typescript-mode has stopped major development and they
-;; recommend people using the builtin, tree-sitter-based typescript-ts-mode and
-;; tsx-ts-mode mode in Emacs 29.
-(use-package typescript-mode
-  :straight t
-  :mode (("\\.js\\'" . typescript-mode)
-         ("\\.ts\\'" . typescript-mode)
-         ("\\.jsx\\'" . typescript-mode)
-         ("\\.tsx\\'" . typescript-mode)))
-
-;; XXX: Emacs 29 comes with csharp-mode built-in, but is it the one based on
-;; treesitter?
+;; XXX: Explain setup. Where can the syntax DLL live? Can we have it in our
+;; config instead of the bin directory?
 ;;
-;; TODO(yan): @Cleanup We don't use many C# features. Maybe the new Emacs 29
-;; csharp-ts-mode will be enough for us?
+;; XXX: Add parsing of rustc output for compile
 ;;
-;; (use-package csharp-mode
-;;   :straight t
-;;   :mode ("\\.cs\\'" . csharp-mode))
+;; XXX: Highlight doc comments if possible
+(use-package rust-ts-mode
+  :straight f
+  :mode ("\\.rs\\'"))
+
+;; XXX: Explain setup. Where can the syntax DLL live? Can we have it in our
+;; config instead of the bin directory?
+;;
+;; XXX: This *Warnings*s about missing grammar for .tsx, but works for typescript
+(use-package typescript-ts-mode
+  :straight f
+  :mode (("\\.js\\'" . typescript-ts-mode)
+         ("\\.ts\\'" . typescript-ts-mode)
+         ("\\.jsx\\'" . typescript-ts-mode)
+         ("\\.tsx\\'" . typescript-ts-mode)))
+;; TODO(yan): This doesn't update across buffers. We have to set it anew for every buffer.
+(defvaralias 'typescript-ts-mode-indent-offset 'tab-width)
+
+;; TODO(yan): There's also a csharp-ts-mode, which can be useful, if we find a
+;; good way to distribute the syntax.
+(use-package csharp-mode
+  :straight f
+  :mode ("\\.cs\\'" . csharp-mode))
 
 (use-package glsl-mode
   :straight t
