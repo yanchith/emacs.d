@@ -419,12 +419,74 @@
 ;; XXX: Explain setup. Where can the syntax DLL live? Can we have it in our
 ;; config instead of the bin directory?
 ;;
-;; XXX: Add parsing of rustc output for compile
-;;
 ;; XXX: Highlight doc comments if possible
 (use-package rust-ts-mode
   :straight f
-  :mode ("\\.rs\\'"))
+  :mode ("\\.rs\\'")
+  :config
+  (defun setup-rust-ts-mode ()
+    ;; Add shorthand commands for compiling
+    ;;
+    ;; TODO(yan): Add workspace version of these functions,
+    ;; e.g. rust-check-workspace that detect the correct Cargo.toml with cargo
+    ;; locate-project --workspace and set the default compilation directory
+    ;; there. Until then, we have to manually run this from workspace root.
+    ;; Alternatively, we could try discovering the workspace root from
+    ;; project.el.
+    (defun rust-check ()
+      (interactive)
+      (let ((default-directory (file-name-directory (locate-dominating-file default-directory "Cargo.toml"))))
+        (compile "cargo check")))
+
+    (defun rust-clippy ()
+      (interactive)
+      (let ((default-directory (file-name-directory (locate-dominating-file default-directory "Cargo.toml"))))
+        (compile "cargo clippy")))
+
+    (defun rust-build ()
+      (interactive)
+      (let ((default-directory (file-name-directory (locate-dominating-file default-directory "Cargo.toml"))))
+        (compile "cargo build")))
+
+    ;; Setup parsing of rustc output int the compilation buffer
+    (defvar rustc-compilation-location
+      (let ((file "\\([^\n]+\\)")
+            (start-line "\\([0-9]+\\)")
+            (start-col "\\([0-9]+\\)"))
+        (concat "\\(" file ":" start-line ":" start-col "\\)")))
+
+    (defvar rustc-compilation-regexps
+      (let ((re (concat "^\\(?:error\\|\\(warning\\)\\|\\(note\\)\\)[^\0]+?--> "
+                        rustc-compilation-location)))
+        (cons re '(4 5 6 (1 . 2) 3)))
+      "Specifications for matching errors in rustc invocations.
+       See `compilation-error-regexp-alist' for help on their format.")
+
+    (defvar rustc-colon-compilation-regexps
+      (let ((re (concat "^ *::: " rustc-compilation-location)))
+        (cons re '(2 3 4 0 1)))
+      "Specifications for matching `:::` hints in rustc invocations.
+       See `compilation-error-regexp-alist' for help on their format.")
+
+    (defvar rustc-refs-compilation-regexps
+      (let ((re "^\\([0-9]+\\)[[:space:]]*|"))
+        (cons re '(nil 1 nil 0 1)))
+      "Specifications for matching code references in rustc invocations.
+       See `compilation-error-regexp-alist' for help on their format.")
+
+    (eval-after-load 'compile
+      '(progn
+         (add-to-list 'compilation-error-regexp-alist-alist
+                      (cons 'rustc-refs rustc-refs-compilation-regexps))
+         (add-to-list 'compilation-error-regexp-alist 'rustc-refs)
+         (add-to-list 'compilation-error-regexp-alist-alist
+                      (cons 'rustc rustc-compilation-regexps))
+         (add-to-list 'compilation-error-regexp-alist 'rustc)
+         (add-to-list 'compilation-error-regexp-alist-alist
+                      (cons 'rustc-colon rustc-colon-compilation-regexps))
+         (add-to-list 'compilation-error-regexp-alist 'rustc-colon))))
+
+  (add-hook 'rust-ts-mode-hook 'setup-rust-ts-mode))
 
 ;; XXX: Explain setup. Where can the syntax DLL live? Can we have it in our
 ;; config instead of the bin directory?
