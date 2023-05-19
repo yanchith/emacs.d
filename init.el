@@ -355,8 +355,6 @@
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/unmark-next-like-this)))
 
-;; TODO(yan): @Cleanup This could be replaced with our own thing once we have
-;; tree-sitter in Emacs 29.
 (use-package expand-region
   :straight t
   :bind ("C-:" . er/expand-region))
@@ -441,11 +439,11 @@
 ;; TODO(yan): This doesn't update across buffers. We have to set it anew for every buffer.
 (defvaralias 'typescript-ts-mode-indent-offset 'tab-width)
 
-;; TODO(yan): There's also a csharp-ts-mode, which can be useful, if we find a
-;; good way to distribute the syntax.
-(use-package csharp-mode
+;; XXX: Explain setup. Where can the syntax DLL live? Can we have it in our
+;; config instead of the bin directory?
+(use-package csharp-ts-mode
   :straight f
-  :mode ("\\.cs\\'" . csharp-mode))
+  :mode ("\\.cs\\'" . csharp-ts-mode))
 
 (use-package glsl-mode
   :straight t
