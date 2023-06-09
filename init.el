@@ -419,7 +419,11 @@
 ;; XXX: Explain setup. Where can the syntax DLL live? Can we have it in our
 ;; config instead of the bin directory?
 ;;
-;; XXX: Highlight doc comments if possible
+;; XXX: Highlight doc comments if possible. They don't seem parsed and treated
+;; specially by rust-ts-mode.
+;;
+;; XXX: Built-in macros like vec! or compile_error! get highlighted, but user
+;; macros don't.
 (use-package rust-ts-mode
   :straight f
   :mode ("\\.rs\\'")
