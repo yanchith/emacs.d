@@ -416,9 +416,14 @@
 
 ;;;; Configure programming packages
 
-;; XXX: Explain setup. Where can the syntax DLL live? Can we have it in our
-;; config instead of the bin directory?
+;; XXX: Treesitter setup:
 ;;
+;; - Where can the syntax DLL live? Can we have it in our config instead of the
+;;  bin directory? Does treesit-extra-load-path help with distributing the
+;;  binaries ourselves?
+;;
+;; - We also need the syntax DLLs for every platform.
+
 ;; XXX: Highlight doc comments if possible. They don't seem parsed and treated
 ;; specially by rust-ts-mode.
 ;;
@@ -492,9 +497,6 @@
 
   (add-hook 'rust-ts-mode-hook 'setup-rust-ts-mode))
 
-;; XXX: Explain setup. Where can the syntax DLL live? Can we have it in our
-;; config instead of the bin directory?
-;;
 ;; XXX: This *Warnings*s about missing grammar for .tsx, but works for typescript
 (use-package typescript-ts-mode
   :straight f
@@ -505,8 +507,6 @@
 ;; TODO(yan): This doesn't update across buffers. We have to set it anew for every buffer.
 (defvaralias 'typescript-ts-mode-indent-offset 'tab-width)
 
-;; XXX: Explain setup. Where can the syntax DLL live? Can we have it in our
-;; config instead of the bin directory?
 (use-package csharp-ts-mode
   :straight f
   :mode ("\\.cs\\'" . csharp-ts-mode))
