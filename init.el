@@ -304,10 +304,6 @@
 ;; on startup to detect whether a package needs rebuilding at init time.
 (setq straight-check-for-modifications '(check-on-save find-when-checking))
 
-;; XXX: @Cleanup @Hack This makes straight work on Emacs 29, but we should
-;; probably just upgrade to a newer straight, or something.
-(setq native-comp-deferred-compilation-deny-list nil)
-
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -416,13 +412,8 @@
 
 ;;;; Configure programming packages
 
-;; XXX: Treesitter setup:
-;;
-;; - Where can the syntax DLL live? Can we have it in our config instead of the
-;;  bin directory? Does treesit-extra-load-path help with distributing the
-;;  binaries ourselves?
-;;
-;; - We also need the syntax DLLs for every platform.
+;; XXX: Get Treesitter syntax DLLs for all platforms and put them in
+;; .emacs.d/treesitter.
 
 ;; XXX: Highlight doc comments if possible. They don't seem parsed and treated
 ;; specially by rust-ts-mode.
@@ -497,7 +488,9 @@
 
   (add-hook 'rust-ts-mode-hook 'setup-rust-ts-mode))
 
-;; XXX: This *Warnings*s about missing grammar for .tsx, but works for typescript
+;; XXX: This *Warnings*s about missing grammar for .tsx, but works for typescript.
+;;
+;; Warning (treesit): Cannot activate tree-sitter, because language grammar for tsx is unavailable (not-found): (libtree-sitter-tsx libtree-sitter-tsx.dll) No such file or directory
 (use-package typescript-ts-mode
   :straight f
   :mode (("\\.js\\'" . typescript-ts-mode)
