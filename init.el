@@ -150,8 +150,7 @@
 ;; Display less things in the modeline
 
 (defvar clean-mode-line-alist
-  `((ivy-mode . "")
-    (subword-mode . "")
+  `((subword-mode . "")
     (eldoc-mode . "")))
 
 (defun clean-mode-line ()
@@ -388,31 +387,28 @@
 
 ;;;; Configure completion packages
 
-(use-package ivy
+(use-package vertico
   :straight t
-  ;; Some things we don't want to setup explicit triggers for use ivy, like
-  ;; project.el, and also, we pretty much need ivy first thing away when we
-  ;; enter emacs, so might as well load it eagerly.
-  ;;
-  ;; TODO(yan): @Perf This costs about 40ms of startup. Perhaps vertico/consult
-  ;; is faster?
-  :demand t
-  :bind (("C-x b" . ivy-switch-buffer)
-         ("C-x 4 b" . ivy-switch-buffer-other-window))
+  :init
+  (vertico-mode))
+
+(use-package consult
+  :straight t
+  :bind (("M-g g"   . consult-goto-line) ;; Replacement for the orig. goto-line
+         ("M-s l"   . consult-line)      ;; This is like swiper, only weirder and worse, until you install orderless.
+         ("M-s g"   . consult-git-grep)
+         ("M-s r"   . consult-ripgrep))
   :config
-  (setq ivy-use-selectable-prompt t)
-  (ivy-mode 1))
+  (setq consult-line-start-from-top t))
 
-(use-package swiper
+(use-package orderless ;; This makes vertico and consult actually usable
   :straight t
-  :bind ("C-s" . swiper))
-
-(use-package counsel
-  :straight t
-  :bind (("M-x"     . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-         ("C-c s g" . counsel-git-grep)
-         ("C-c s r" . counsel-rg)))
+  :config
+  (setq completion-styles '(orderless basic)
+        ;; I don't really understand why this is important, but the orderless
+        ;; people say it is. Basically emacs requires basic completion style
+        ;; somewhere, for something.
+        completion-category-overrides '((file (styles basic partial-completion)))))
 
 ;;;; Configure programming packages
 

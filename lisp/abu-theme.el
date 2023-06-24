@@ -51,26 +51,26 @@
  ;; mc
  `(mc/cursor-face ((t (:background "#5d6b63"))))
 
- ;; swiper and ivy
- `(swiper-line-face ((t (:background nil))))
+ ;; isearch, vertico, consult and orderless
 
- `(swiper-background-match-face-1 ((t (:background "#343c37"))))
- `(swiper-background-match-face-2 ((t (:background "#3e4842"))))
- `(swiper-background-match-face-3 ((t (:background "#48544d"))))
- `(swiper-background-match-face-4 ((t (:background "#536058"))))
+ `(isearch ((t (:background "#536058"))))
+ `(isearch-group-1 ((t (:background "#536058"))))
+ `(isearch-group-2 ((t (:background "#3e4842"))))
 
- ;; TODO(yan): If I set these, they for some reason multiply with the background
- ;; faces, making the match unreadable.
- ;;
- ;; `(swiper-match-face-1 ((t (:background "#343c37"))))
- ;; `(swiper-match-face-2 ((t (:background "#3e4842"))))
- ;; `(swiper-match-face-3 ((t (:background "#48544d"))))
- ;; `(swiper-match-face-4 ((t (:background "#536058"))))
+ ;; This is actually an isearch face, or at least it is defined in isearch.el
+ `(lazy-highlight ((t (:background "#3e4842"))))
 
- `(ivy-minibuffer-match-face-1 ((t (:background "#343c37"))))
- `(ivy-minibuffer-match-face-2 ((t (:background "#3e4842"))))
- `(ivy-minibuffer-match-face-3 ((t (:background "#48544d"))))
- `(ivy-minibuffer-match-face-4 ((t (:background "#536058")))))
+ ;; Defined by emacs and used heavily by vertico. This highlights the selected
+ ;; line in the autocomplete, so we give it the same color as the cursor.
+ `(highlight ((t (:background "#202522"))))
+
+ `(consult-highlight-match ((t (:background "#536058"))))
+
+ `(orderless-match-face-0 ((t (:background "#343c37"))))
+ `(orderless-match-face-1 ((t (:background "#3e4842"))))
+ `(orderless-match-face-2 ((t (:background "#48544d"))))
+ `(orderless-match-face-3 ((t (:background "#536058"))))
+ )
 
 ;;;###autoload
 (when load-file-name
