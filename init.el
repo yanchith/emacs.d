@@ -400,7 +400,11 @@
          ("C-c s g" . consult-git-grep)
          ("C-c s r" . consult-ripgrep))
   :config
-  (setq consult-async-refresh-delay 0.05))
+  ;; TODO(yan): Set these debounces to 0/nil once
+  ;; https://github.com/minad/vertico/issues/375 gets fixed?
+  (setq consult-async-refresh-delay 0.1
+        consult-async-input-debounce 0.1
+        consult-async-input-throttle 0.1))
 
 (use-package orderless ;; This makes vertico and consult actually usable
   :straight t
