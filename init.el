@@ -390,6 +390,7 @@
 (use-package vertico
   :straight t
   :init
+  (setq vertico-cycle t)
   (vertico-mode))
 
 (use-package consult
@@ -397,9 +398,7 @@
   :bind (("M-g g"   . consult-goto-line) ;; Replacement for the orig. goto-line
          ("M-s l"   . consult-line)      ;; This is like swiper, only weirder and worse, until you install orderless.
          ("M-s g"   . consult-git-grep)
-         ("M-s r"   . consult-ripgrep))
-  :config
-  (setq consult-line-start-from-top t))
+         ("M-s r"   . consult-ripgrep)))
 
 (use-package orderless ;; This makes vertico and consult actually usable
   :straight t
