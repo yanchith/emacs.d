@@ -13,7 +13,7 @@
 
 (custom-theme-set-faces
  'abu
- ;; Frame
+ ;;;; Frame
 
  `(default ((t (:foreground "burlywood3" :background "#191919"))))
  `(cursor  ((t (:background "#50ffa0"))))
@@ -28,7 +28,7 @@
 
  `(show-paren-match-face ((t (:background "#536058"))))
 
- ;; Main
+ ;;;; Code
 
  ;; Highlight things: warnings > builtins > keywords > other.
  ;; Types could be highlighted as well, but that does look very noisy in
@@ -48,21 +48,31 @@
  `(font-lock-comment-face        ((t (:foreground "gray50"))))
  `(font-lock-doc-face            ((t (:foreground "gray70"))))
 
- ;; mc
+ ;;;; mc
  `(mc/cursor-face ((t (:background "#5d6b63"))))
 
- `(ivy-current-match ((t (:foreground "burlywood3" :background "#202522"))))
+ ;;;; ivy and swiper
+
+ ;; Customizing these is kind of difficult, because they multiply colors...
+
+ ;; TODO(yan): This somehow multiplies with ivy-minibuffer-match-face-{1,2,3,4},
+ ;; which is not very pleasant. Also, it overrides the foreground of the
+ ;; selected line. This is overall not worth customizing, so we stay with the
+ ;; isearch palette here.
+ ;;
+ ;; `(ivy-current-match ((t (:foreground "burlywood3" :background "#202522"))))
+
  `(ivy-minibuffer-match-face-1 ((t (:background "#343c37"))))
  `(ivy-minibuffer-match-face-2 ((t (:background "#3e4842"))))
  `(ivy-minibuffer-match-face-3 ((t (:background "#48544d"))))
  `(ivy-minibuffer-match-face-4 ((t (:background "#536058"))))
 
 
- ;; swiper and ivy
- `(swiper-line-face ((t (:background "#202522"))))
+ `(swiper-line-face ((t (:background nil)))) ;; This was too aggressive
 
  ;; TODO(yan): If I set these, they for some reason multiply with the background
- ;; faces, making the match unreadable.
+ ;; faces, making the match unreadable. Staying with the isearch palette for
+ ;; now.
  ;;
  ;; `(swiper-match-face-1 ((t (:background "#343c37"))))
  ;; `(swiper-match-face-2 ((t (:background "#3e4842"))))
