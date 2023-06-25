@@ -150,7 +150,8 @@
 ;; Display less things in the modeline
 
 (defvar clean-mode-line-alist
-  `((subword-mode . "")
+  `((ivy-mode . "")
+    (subword-mode . "")
     (eldoc-mode . "")))
 
 (defun clean-mode-line ()
@@ -387,33 +388,62 @@
 
 ;;;; Configure completion packages
 
-(use-package vertico
+(use-package ivy
   :straight t
-  :init
-  (setq vertico-cycle t)
-  (vertico-mode))
-
-(use-package consult
-  :straight t
-  :bind (("M-g g"   . consult-goto-line) ;; Replacement for the orig. goto-line
-         ("C-c s l" . consult-line)      ;; This is like swiper, only weirder and worse, until you install orderless.
-         ("C-c s g" . consult-git-grep)
-         ("C-c s r" . consult-ripgrep))
+  ;; Some things we don't want to setup explicit triggers for use ivy, like
+  ;; project.el, and also, we pretty much need ivy first thing away when we
+  ;; enter emacs, so might as well load it eagerly.
+  ;;
+  ;; TODO(yan): @Perf This costs about 40ms of startup. Perhaps vertico/consult
+  ;; is faster?
+  :demand t
+  :bind (("C-x b" . ivy-switch-buffer)
+         ("C-x 4 b" . ivy-switch-buffer-other-window))
   :config
-  ;; TODO(yan): Set these debounces to 0/nil once
-  ;; https://github.com/minad/vertico/issues/375 gets fixed?
-  (setq consult-async-refresh-delay 0.1
-        consult-async-input-debounce 0.1
-        consult-async-input-throttle 0.1))
+  (setq ivy-use-selectable-prompt t)
+  (ivy-mode 1))
 
-(use-package orderless ;; This makes vertico and consult actually usable
+(use-package swiper
   :straight t
-  :config
-  (setq completion-styles '(orderless basic)
-        ;; I don't really understand why this is important, but the orderless
-        ;; people say it is. Basically emacs requires basic completion style
-        ;; somewhere, for something.
-        completion-category-overrides '((file (styles basic partial-completion)))))
+  :bind ("C-s" . swiper))
+
+(use-package counsel
+  :straight t
+  :bind (("M-x"     . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+         ("C-c s g" . counsel-git-grep)
+         ("C-c s r" . counsel-rg)))
+
+;; TODO(yan): vertico et al have a few issues. Until they can be resolved, I'll
+;; keep using the ivy ecosystem.
+
+;; (use-package vertico
+;;   :straight t
+;;   :init
+;;   (setq vertico-cycle t)
+;;   (vertico-mode))
+
+;; (use-package consult
+;;   :straight t
+;;   :bind (("M-g g"   . consult-goto-line) ;; Replacement for the orig. goto-line
+;;          ("C-c s l" . consult-line)      ;; This is like swiper, only weirder and worse, until you install orderless.
+;;          ("C-c s g" . consult-git-grep)
+;;          ("C-c s r" . consult-ripgrep))
+;;   :config
+;;   ;; TODO(yan): Set these debounces to 0/nil once
+;;   ;; https://github.com/minad/vertico/issues/375 gets fixed?
+;;   (setq consult-async-refresh-delay 0.1
+;;         consult-async-input-debounce 0.1
+;;         consult-async-input-throttle 0.1))
+
+;; (use-package orderless ;; This makes vertico and consult actually usable
+;;   :straight t
+;;   :config
+;;   (setq completion-styles '(orderless basic)
+;;         ;; I don't really understand why this is important, but the orderless
+;;         ;; people say it is. Basically emacs requires basic completion style
+;;         ;; somewhere, for something.
+;;         completion-category-overrides '((file (styles basic partial-completion)))))
 
 ;;;; Configure programming packages
 
