@@ -1,5 +1,5 @@
 (deftheme abu
-  "just a theme")
+  "just a phase")
 
 ;; Add font-lock-number-face, so we can target it and highlight numbers
 (require 'font-lock)
@@ -15,7 +15,9 @@
  'abu
  ;;;; Frame
 
- `(default ((t (:foreground "burlywood3" :background "#191919"))))
+ `(default         ((t (:foreground "burlywood3" :background "#191919"))))
+ `(vertical-border ((t (:foreground "#090909"    :background "#191919"))))
+
  `(cursor  ((t (:background "#50ffa0"))))
  `(region  ((t (:background "#202522"))))
 
