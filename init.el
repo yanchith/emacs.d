@@ -390,14 +390,9 @@
 
 (use-package ivy
   :straight t
-  ;; Some things we don't want to setup explicit triggers for use ivy, like
-  ;; project.el, and also, we pretty much need ivy first thing away when we
-  ;; enter emacs, so might as well load it eagerly.
-  ;;
-  ;; TODO(yan): @Perf This costs about 40ms of startup. Perhaps vertico/consult
-  ;; is faster?
-  :demand t
-  :bind (("C-x b" . ivy-switch-buffer)
+  ;; TODO(yan): @Perf This costs about 40ms of startup.
+  :demand t ;; We pretty much need ivy the moment we start
+  :bind (("C-x b"   . ivy-switch-buffer)
          ("C-x 4 b" . ivy-switch-buffer-other-window))
   :config
   (setq ivy-use-selectable-prompt t)
