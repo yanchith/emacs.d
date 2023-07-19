@@ -1,12 +1,13 @@
-;;; init.el --- My humble emacs config
-
-;;; Commentary:
-
 ;; This is a `use-package' and `straight.el' based config focused on "minimal"
 ;; functionality and good startup time. The config targets the Emacs version I
 ;; use, which is usually the latest stable, unless I forget to update.
 
-;;; Code:
+;; To prevent a flash of white on startup, set the same color as theme would,
+;; but earlier. However, since the config may still fail, also set the
+;; foreground color to our theme's, so that we at least get visible text (the default text is
+;; black), if it does fail.
+(set-background-color "#191919")
+(set-foreground-color "burlywood")
 
 ;; Always load newest byte code
 (setq load-prefer-newer t)
@@ -17,13 +18,6 @@
 
 ;; @Perf Increase GC threshold to 50MB for better throughput during init
 (setq gc-cons-threshold (megabytes 50))
-
-;; To prevent a flash of white on startup, set the same color as theme would,
-;; but earlier. However, since the config may still fail, also set the
-;; foreground color to our theme's, so that we at least get visible text (the default text is
-;; black), if it does fail.
-(set-background-color "#191919")
-(set-foreground-color "burlywood")
 
 ;;;; Large file perf mitigations
 
