@@ -432,16 +432,17 @@
 
 ;;;; Configure programming packages
 
-;; TODO(yan): Get Treesitter syntax DLLs for languages we care about for all
-;; platforms and put them in .emacs.d/tree-sitter.
-
 ;; TODO(yan): Emacs 29 has rust-ts-mode, but it needs more work to set up:
+;;
+;; (These can likely be fixed by updating to a new grammar from https://github.com/tree-sitter/tree-sitter-rust)
 ;;
 ;; - It needs to highlight doc comments
 ;; - It needs to highlight all macro invocations, not just the builtin ones
-;; - It needs to understand rustc's error output in the compilation buffer so it can jump to places
-;; - It needs to be able to format a file/buffer
 ;; - Sometimes it incorrectly indents with C-i
+;;
+;; (These we have to do manually)
+;;
+;; - It needs to be able run rustfmt on an open buffer
 ;;
 (use-package rust-ts-mode
   :straight f
