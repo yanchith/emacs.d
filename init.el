@@ -437,15 +437,23 @@
 
 ;; XXX: Highlight doc comments if possible. They don't seem parsed and treated
 ;; specially by rust-ts-mode.
-;;
+
 ;; XXX: Built-in macros like vec! or compile_error! get highlighted, but user
 ;; macros don't.
+
+;; XXX: We are missing the functionality to rustfmt the current buffer from rust-mode.
 (use-package rust-ts-mode
   :straight f
   :mode ("\\.rs\\'")
   :config
   (defun setup-rust-ts-mode ()
-    ;; Add shorthand commands for compiling
+    ;; Add shorthand commands for formatting the project.
+    (defun rust-fmt ()
+      (interactive)
+      (let ((default-directory (file-name-directory (locate-dominating-file default-directory "Cargo.toml"))))
+        (compile "cargo fmt")))
+
+    ;; Add shorthand commands for compiling.
     ;;
     ;; TODO(yan): Add workspace version of these functions,
     ;; e.g. rust-check-workspace that detect the correct Cargo.toml with cargo
