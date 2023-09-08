@@ -443,6 +443,8 @@
 ;; - It needs to be able to format a file/buffer
 ;; - Sometimes it incorrectly indents with C-i
 ;;
+;; XXX: Syntax highlighting in rust-mode (not rust-ts-mode) is completely broken in Emacs 29.1.
+;;
 (use-package rust-mode
   :straight t
   :mode ("\\.rs\\'" . rust-mode)
@@ -476,7 +478,8 @@
            ("\\<[0-9_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face))))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
 
-;; XXX: This *Warnings*s about missing grammar for .tsx, but works for typescript.
+;; TODO(yan): @Cleanup This *Warnings*s about missing grammar for .tsx, but
+;; works for typescript. Maybe we need to just find and include the grammar?
 ;;
 ;; Warning (treesit): Cannot activate tree-sitter, because language grammar for tsx is unavailable (not-found): (libtree-sitter-tsx libtree-sitter-tsx.dll) No such file or directory
 (use-package typescript-ts-mode
