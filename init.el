@@ -433,7 +433,7 @@
 ;;;; Configure programming packages
 
 ;; TODO(yan): Get Treesitter syntax DLLs for languages we care about for all
-;; platforms and put them in .emacs.d/treesitter.
+;; platforms and put them in .emacs.d/tree-sitter.
 
 ;; TODO(yan): Emacs 29 has rust-ts-mode, but it needs more work to set up:
 ;;
@@ -441,6 +441,7 @@
 ;; - It needs to highlight all macro invocations, not just the builtin ones
 ;; - It needs to understand rustc's error output in the compilation buffer so it can jump to places
 ;; - It needs to be able to format a file/buffer
+;; - Sometimes it incorrectly indents with C-i
 ;;
 (use-package rust-mode
   :straight t
@@ -486,10 +487,6 @@
          ("\\.tsx\\'" . typescript-ts-mode)))
 ;; TODO(yan): This doesn't update across buffers. We have to set it anew for every buffer.
 (defvaralias 'typescript-ts-mode-indent-offset 'tab-width)
-
-(use-package csharp-ts-mode
-  :straight f
-  :mode ("\\.cs\\'" . csharp-ts-mode))
 
 (use-package glsl-mode
   :straight t
