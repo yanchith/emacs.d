@@ -11,7 +11,7 @@
  ("move-text" . "cbcd0e5a316f26a8e8ef67ea0e633a43b045aa1e")
  ("multiple-cursors.el" . "234806c832994cadedb42596fe235e91bbd59e8c")
  ("nongnu-elpa" . "7be7879e3ea01401ff51a515da882e79148392ea")
- ("rust-mode" . "22fff6a049402584e7120146c3db141c6f530bf6")
+ ("rust-mode" . "9c26dc1195ec05309ee15c014631fb9abd6cf5d2")
  ("s.el" . "dda84d38fffdaf0c9b12837b504b402af910d01d")
  ("straight.el" . "ff63b154bef1ef8d92c141bd189001bff74f6982")
  ("swiper" . "595d44264420d989e420351ea25b3c99528547c0")
