@@ -443,45 +443,82 @@
 ;; - It needs to be able to format a file/buffer
 ;; - Sometimes it incorrectly indents with C-i
 ;;
-;; XXX: Syntax highlighting in rust-mode (not rust-ts-mode) is completely broken in Emacs 29.1.
-;;
-(use-package rust-mode
-  :straight t
-  :mode ("\\.rs\\'" . rust-mode)
+(use-package rust-ts-mode
+  :straight f
+  :mode ("\\.rs\\'")
   :config
-  (setq rust-format-on-save nil
-        rust-format-show-buffer nil
-        rust-format-goto-problem nil)
-  (defun setup-rust-mode ()
-    ;; Unset wrapping with dbg! macro from the keymap.
-    (local-unset-key (kbd "C-c C-d"))
-    ;; TODO(yan): This also highlights the int part tuple.0. If we could provide
-    ;; negative matchers here (or had negative lookbehind), we would be able to
-    ;; avoid it. Maybe this will just work with treesitter?
-    (font-lock-add-keywords
-     nil '(
-           ; Hex integer
-           ("\\<0[Xx][0-9A-Fa-f_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
-           ; Octal integer
-           ("\\<0[Oo][0-7_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
-           ; Binary integer
-           ("\\<0[Bb][01_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
-           ; Floating point number (integer + comma + fractional + optional suffix)
-           ("\\<[0-9_]+\\.[0-9_]+\\([Ee][+-][0-9]+\\)?\\(f\\(32\\|64\\)\\)?\\>" . font-lock-number-face)
-           ; Floating point number (integer + comma + no suffix)
-           ("\\<[0-9_]+\\.\\>" . font-lock-number-face)
-           ; Floating point number (integer + scientific + optional suffix)
-           ("\\<[0-9_]+[Ee][-+][0-9]+\\(f\\(32\\|64\\)\\)?\\>" . font-lock-number-face)
-           ; Floating point number (integer + suffix)
-           ("\\<[0-9_]+f\\(32\\|64\\)\\>" . font-lock-number-face)
-           ; Decimal integer
-           ("\\<[0-9_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face))))
-  (add-hook 'rust-mode-hook 'setup-rust-mode))
+  (defun setup-rust-ts-mode ()
+    ;; Add shorthand commands for formatting the project.
+    (defun rust-fmt ()
+      (interactive)
+      (let ((default-directory (file-name-directory (locate-dominating-file default-directory "Cargo.toml"))))
+        (compile "cargo fmt")))
 
-;; TODO(yan): @Cleanup This *Warnings*s about missing grammar for .tsx, but
-;; works for typescript. Maybe we need to just find and include the grammar?
-;;
-;; Warning (treesit): Cannot activate tree-sitter, because language grammar for tsx is unavailable (not-found): (libtree-sitter-tsx libtree-sitter-tsx.dll) No such file or directory
+    ;; Add shorthand commands for compiling.
+    ;;
+    ;; TODO(yan): Add workspace version of these functions,
+    ;; e.g. rust-check-workspace that detect the correct Cargo.toml with cargo
+    ;; locate-project --workspace and set the default compilation directory
+    ;; there. Until then, we have to manually run this from workspace root.
+    ;; Alternatively, we could try discovering the workspace root from
+    ;; project.el.
+    ;;
+    ;; TODO(yan): Also add the --all-targets versions of these functions.
+    (defun rust-check ()
+      (interactive)
+      (let ((default-directory (file-name-directory (locate-dominating-file default-directory "Cargo.toml"))))
+        (compile "cargo check")))
+
+    (defun rust-clippy ()
+      (interactive)
+      (let ((default-directory (file-name-directory (locate-dominating-file default-directory "Cargo.toml"))))
+        (compile "cargo clippy")))
+
+    (defun rust-build ()
+      (interactive)
+      (let ((default-directory (file-name-directory (locate-dominating-file default-directory "Cargo.toml"))))
+        (compile "cargo build")))
+
+    ;; Setup parsing of rustc output int the compilation buffer
+    (defvar rustc-compilation-location
+      (let ((file "\\([^\n]+\\)")
+            (start-line "\\([0-9]+\\)")
+            (start-col "\\([0-9]+\\)"))
+        (concat "\\(" file ":" start-line ":" start-col "\\)")))
+
+    (defvar rustc-compilation-regexps
+      (let ((re (concat "^\\(?:error\\|\\(warning\\)\\|\\(note\\)\\)[^\0]+?--> "
+                        rustc-compilation-location)))
+        (cons re '(4 5 6 (1 . 2) 3)))
+      "Specifications for matching errors in rustc invocations.
+       See `compilation-error-regexp-alist' for help on their format.")
+
+    (defvar rustc-colon-compilation-regexps
+      (let ((re (concat "^ *::: " rustc-compilation-location)))
+        (cons re '(2 3 4 0 1)))
+      "Specifications for matching `:::` hints in rustc invocations.
+       See `compilation-error-regexp-alist' for help on their format.")
+
+    (defvar rustc-refs-compilation-regexps
+      (let ((re "^\\([0-9]+\\)[[:space:]]*|"))
+        (cons re '(nil 1 nil 0 1)))
+      "Specifications for matching code references in rustc invocations.
+       See `compilation-error-regexp-alist' for help on their format.")
+
+    (eval-after-load 'compile
+      '(progn
+         (add-to-list 'compilation-error-regexp-alist-alist
+                      (cons 'rustc-refs rustc-refs-compilation-regexps))
+         (add-to-list 'compilation-error-regexp-alist 'rustc-refs)
+         (add-to-list 'compilation-error-regexp-alist-alist
+                      (cons 'rustc rustc-compilation-regexps))
+         (add-to-list 'compilation-error-regexp-alist 'rustc)
+         (add-to-list 'compilation-error-regexp-alist-alist
+                      (cons 'rustc-colon rustc-colon-compilation-regexps))
+         (add-to-list 'compilation-error-regexp-alist 'rustc-colon))))
+
+  (add-hook 'rust-ts-mode-hook 'setup-rust-ts-mode))
+
 (use-package typescript-ts-mode
   :straight f
   :mode (("\\.js\\'" . typescript-ts-mode)
