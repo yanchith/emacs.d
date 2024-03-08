@@ -209,6 +209,11 @@
 (defvaralias 'js-indent-level 'tab-width)
 (defvaralias 'typescript-indent-level 'tab-width)
 
+(defun yan-set-indent-level-1 ()
+  "Set global indentation level to 1."
+  (interactive)
+  (setq tab-width 1))
+
 (defun yan-set-indent-level-2 ()
   "Set global indentation level to 2."
   (interactive)
@@ -528,6 +533,11 @@
     ;; TODO(yan): This breaks syntax highlighting for some things. Can we fix?
     (modify-syntax-entry ?_ "."))
   (add-hook 'jai-mode-hook 'setup-jai-mode))
+
+(use-package lua-mode
+  :straight t
+  :mode (("\\.lua\\'" . lua-mode)
+         ("\\.p8\\'"  . lua-mode)))
 
 ;;;; Define and bind a few navigation and editing functions
 
