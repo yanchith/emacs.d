@@ -539,6 +539,14 @@
   :mode (("\\.lua\\'" . lua-mode)
          ("\\.p8\\'"  . lua-mode)))
 
+;;;; Configure macOS specific packages
+
+(use-package exec-path-from-shell
+  :if (eq system-type 'darwin)
+  :straight t
+  :config
+  (exec-path-from-shell-initialize))
+
 ;;;; Define and bind a few navigation and editing functions
 
 (defun yan-move-to-previous-blank-line ()
