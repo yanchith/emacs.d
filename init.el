@@ -359,8 +359,6 @@
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/unmark-next-like-this)))
 
-;; TODO(yan): @Cleanup This could be replaced with our own thing once we have
-;; tree-sitter in Emacs 29.
 (use-package expand-region
   :straight t
   :bind ("C-:" . er/expand-region))
@@ -415,42 +413,11 @@
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
-;; TODO(yan): vertico et al have a few issues. Until they can be resolved, I'll
-;; keep using the ivy ecosystem.
-
-;; (use-package vertico
-;;   :straight t
-;;   :init
-;;   (setq vertico-cycle t)
-;;   (vertico-mode))
-
-;; (use-package consult
-;;   :straight t
-;;   :bind (("M-g g"   . consult-goto-line) ;; Replacement for the orig. goto-line
-;;          ("C-c s l" . consult-line)      ;; This is like swiper, only weirder and worse, until you install orderless.
-;;          ("C-c s g" . consult-git-grep)
-;;          ("C-c s r" . consult-ripgrep))
-;;   :config
-;;   ;; TODO(yan): Set these debounces to 0/nil once
-;;   ;; https://github.com/minad/vertico/issues/375 gets fixed?
-;;   (setq consult-async-refresh-delay 0.1
-;;         consult-async-input-debounce 0.1
-;;         consult-async-input-throttle 0.1))
-
-;; (use-package orderless ;; This makes vertico and consult actually usable
-;;   :straight t
-;;   :config
-;;   (setq completion-styles '(orderless basic)
-;;         ;; I don't really understand why this is important, but the orderless
-;;         ;; people say it is. Basically emacs requires basic completion style
-;;         ;; somewhere, for something.
-;;         completion-category-overrides '((file (styles basic partial-completion)))))
-
 ;;;; Configure programming packages
 
-;; TODO(yan): @Cleanup Emacs 29 is getting a rust-ts-mode. Maybe it will be good
-;; enough for us, if we add a shortcut for formatting and teach it about rustc's
-;; error output.
+;; TODO(yan): @Cleanup Emacs 29 is getting a rust-ts-mode. Maybe it will be good enough for us, if
+;; we add a shortcut for formatting and teach it about rustc's error output. We just need to build
+;; the treesitter grammars for all platforms we use.
 (use-package rust-mode
   :straight t
   :mode ("\\.rs\\'" . rust-mode)
@@ -461,9 +428,6 @@
   (defun setup-rust-mode ()
     ;; Unset wrapping with dbg! macro from the keymap.
     (local-unset-key (kbd "C-c C-d"))
-    ;; TODO(yan): This also highlights the int part tuple.0. If we could provide
-    ;; negative matchers here (or had negative lookbehind), we would be able to
-    ;; avoid it. Maybe this will just work with treesitter?
     (font-lock-add-keywords
      nil '(
            ; Hex integer
@@ -484,9 +448,9 @@
            ("\\<[0-9_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face))))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
 
-;; TODO(yan): @Cleanup typescript-mode has stopped major development and they
-;; recommend people using the builtin, tree-sitter-based typescript-ts-mode and
-;; tsx-ts-mode mode in Emacs 29.
+;; TODO(yan): @Cleanup typescript-mode has stopped major development and they recommend people using
+;; the builtin, tree-sitter-based typescript-ts-mode and tsx-ts-mode mode in Emacs 29. We just need
+;; to build the treesitter grammars for all platforms we use.
 (use-package typescript-mode
   :straight t
   :mode (("\\.js\\'" . typescript-mode)
@@ -494,8 +458,8 @@
          ("\\.jsx\\'" . typescript-mode)
          ("\\.tsx\\'" . typescript-mode)))
 
-;; TODO(yan): @Cleanup We don't use many C# features. Maybe the new Emacs 29
-;; csharp-ts-mode will be enough for us?
+;; TODO(yan): @Cleanup We don't use many C# features. Maybe the new Emacs 29 csharp-ts-mode will be
+;; enough for us? We just need to build the treesitter grammars for all platforms we use.
 (use-package csharp-mode
   :straight t
   :mode ("\\.cs\\'" . csharp-mode))
@@ -590,6 +554,3 @@ beginning of the current line, if already at beginning of text"
 
 ;; @Perf Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold (megabytes 1))
-
-;; TODO(yan): Spellchecking via Flyspell? This is problematic on Windows,
-;; because it is tougher to get to ispell or aspell builds.
