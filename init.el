@@ -185,7 +185,7 @@
 
 ;; Give comments more space
 
-(setq-default fill-column 80)
+(setq-default fill-column 100)
 
 ;; Smart tab behavior - indent or complete
 (setq tab-always-indent 'complete)
@@ -200,6 +200,14 @@
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
 (defvaralias 'sgml-basic-offset 'tab-width)
+(defvaralias 'js-indent-level 'tab-width)
+(defvaralias 'typescript-indent-level 'tab-width)
+(defvaralias 'lua-indent-level 'tab-width)
+
+(defun yan-set-indent-level-1 ()
+  "Set global indentation level to 1."
+  (interactive)
+  (setq tab-width 1))
 
 (defun yan-set-indent-level-2 ()
   "Set global indentation level to 2."
@@ -399,40 +407,9 @@
          ("C-c s g" . counsel-git-grep)
          ("C-c s r" . counsel-rg)))
 
-;; TODO(yan): vertico et al have a few issues. Until they can be resolved, I'll
-;; keep using the ivy ecosystem.
-
-;; (use-package vertico
-;;   :straight t
-;;   :init
-;;   (setq vertico-cycle t)
-;;   (vertico-mode))
-
-;; (use-package consult
-;;   :straight t
-;;   :bind (("M-g g"   . consult-goto-line) ;; Replacement for the orig. goto-line
-;;          ("C-c s l" . consult-line)      ;; This is like swiper, only weirder and worse, until you install orderless.
-;;          ("C-c s g" . consult-git-grep)
-;;          ("C-c s r" . consult-ripgrep))
-;;   :config
-;;   ;; TODO(yan): Set these debounces to 0/nil once
-;;   ;; https://github.com/minad/vertico/issues/375 gets fixed?
-;;   (setq consult-async-refresh-delay 0.1
-;;         consult-async-input-debounce 0.1
-;;         consult-async-input-throttle 0.1))
-
-;; (use-package orderless ;; This makes vertico and consult actually usable
-;;   :straight t
-;;   :config
-;;   (setq completion-styles '(orderless basic)
-;;         ;; I don't really understand why this is important, but the orderless
-;;         ;; people say it is. Basically emacs requires basic completion style
-;;         ;; somewhere, for something.
-;;         completion-category-overrides '((file (styles basic partial-completion)))))
-
 ;;;; Configure programming packages
 
-;; TODO(yan): Emacs 29 has rust-ts-mode, but it needs more work to set up:
+;; TODO(jt): Emacs 29 has rust-ts-mode, but it needs more work to set up:
 ;;
 ;; (These can likely be fixed by updating to a new grammar from https://github.com/tree-sitter/tree-sitter-rust)
 ;;
@@ -451,20 +428,19 @@
   (defun setup-rust-ts-mode ()
     ;; Add shorthand commands for formatting the project.
     (defun rust-fmt ()
+      ;; TODO(jt): Format just the file?
       (interactive)
       (let ((default-directory (file-name-directory (locate-dominating-file default-directory "Cargo.toml"))))
         (compile "cargo fmt")))
 
     ;; Add shorthand commands for compiling.
     ;;
-    ;; TODO(yan): Add workspace version of these functions,
-    ;; e.g. rust-check-workspace that detect the correct Cargo.toml with cargo
-    ;; locate-project --workspace and set the default compilation directory
-    ;; there. Until then, we have to manually run this from workspace root.
-    ;; Alternatively, we could try discovering the workspace root from
-    ;; project.el.
+    ;; TODO(jt): Add workspace version of these functions, e.g. rust-check-workspace that detect the
+    ;; correct Cargo.toml with cargo locate-project --workspace and set the default compilation
+    ;; directory there. Until then, we have to manually run this from workspace root.
+    ;; Alternatively, we could try discovering the workspace root from project.el.
     ;;
-    ;; TODO(yan): Also add the --all-targets versions of these functions.
+    ;; TODO(jt): Also add the --all-targets versions of these functions.
     (defun rust-check ()
       (interactive)
       (let ((default-directory (file-name-directory (locate-dominating-file default-directory "Cargo.toml"))))
@@ -526,8 +502,11 @@
          ("\\.ts\\'" . typescript-ts-mode)
          ("\\.jsx\\'" . typescript-ts-mode)
          ("\\.tsx\\'" . typescript-ts-mode)))
-;; TODO(yan): This doesn't update across buffers. We have to set it anew for every buffer.
-(defvaralias 'typescript-ts-mode-indent-offset 'tab-width)
+
+;; TODO(jt): @Cleanup Can we use csharp-ts-mode, if we get the grammar?
+(use-package csharp-mode
+  :straight t
+  :mode ("\\.cs\\'" . csharp-mode))
 
 (use-package glsl-mode
   :straight t
@@ -560,9 +539,22 @@
     ;; Note: Even though we actually vendor jai-mode, we might some day not
     ;; vendor it, so let's layer our changes in here instead of modifying it.
     ;;
-    ;; TODO(yan): This breaks syntax highlighting for some things. Can we fix?
+    ;; TODO(jt): This breaks syntax highlighting for some things. Can we fix?
     (modify-syntax-entry ?_ "."))
   (add-hook 'jai-mode-hook 'setup-jai-mode))
+
+(use-package lua-mode
+  :straight t
+  :mode (("\\.lua\\'" . lua-mode)
+         ("\\.p8\\'"  . lua-mode)))
+
+;;;; Configure macOS specific packages
+
+(use-package exec-path-from-shell
+  :if (eq system-type 'darwin)
+  :straight t
+  :config
+  (exec-path-from-shell-initialize))
 
 ;;;; Define and bind a few navigation and editing functions
 
@@ -606,6 +598,3 @@ beginning of the current line, if already at beginning of text"
 
 ;; @Perf Restore gc threshold for better interactivity and shorter pauses
 (setq gc-cons-threshold (megabytes 1))
-
-;; TODO(yan): Spellchecking via Flyspell? This is problematic on Windows,
-;; because it is tougher to get to ispell or aspell builds.
