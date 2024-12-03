@@ -30,7 +30,6 @@
  `(font-lock-warning-face       ((t (:foreground "#f06525" :bold t))))
  `(font-lock-builtin-face       ((t (:foreground "#e95410" :bold t))))
  `(font-lock-keyword-face       ((t (:foreground "#e95410"))))
- `(font-lock-comment-face       ((t (:foreground "#7d7d7d"))))
  `(font-lock-type-face          ((t (:foreground "burlywood3"))))
  `(font-lock-constant-face      ((t (:foreground "burlywood3"))))
  `(font-lock-function-name-face ((t (:foreground "burlywood3"))))
