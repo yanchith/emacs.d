@@ -413,6 +413,8 @@
 ;;
 ;; macro_rules! not highlighted
 ;; user-created macros not highlighted
+;; question-mark operator not highlighted
+;; sometimes mishighlights (code is comments, comments are code...)
 ;;
 ;; Additionally, compared to the v28 config, it needs to be able run rustfmt on an open buffer
 (use-package rust-ts-mode
