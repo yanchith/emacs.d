@@ -414,18 +414,7 @@
 ;; macro_rules! not highlighted
 ;; user-created macros not highlighted
 ;;
-;; -- old issue list below --
-;;
-;; (These can likely be fixed by updating to a new grammar from https://github.com/tree-sitter/tree-sitter-rust)
-;;
-;; - It needs to highlight doc comments [fixed]
-;; - It needs to highlight all macro invocations, not just the builtin ones
-;; - Sometimes it incorrectly indents with C-i [fixed?]
-;;
-;; (These we have to do manually)
-;;
-;; - It needs to be able run rustfmt on an open buffer
-;;
+;; Additionally, compared to the v28 config, it needs to be able run rustfmt on an open buffer
 (use-package rust-ts-mode
   :straight f
   :mode ("\\.rs\\'")
