@@ -415,6 +415,8 @@
 ;; user-created macros not highlighted
 ;; question-mark operator not highlighted
 ;; sometimes mishighlights (code is comments, comments are code...)
+;; numbers in attributes (e.g. #[repr(C, align = 4)]) not highlighted
+;; strings in attributes not highlighted
 ;;
 ;; Additionally, compared to the v28 config, it needs to be able run rustfmt on an open buffer
 (use-package rust-ts-mode
