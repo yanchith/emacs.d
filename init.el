@@ -411,13 +411,14 @@
 
 ;; TODO(jt): Emacs 29 has rust-ts-mode, but it needs more work to set up:
 ;;
-;; macro_rules! not highlighted
-;; user-created macros not highlighted
-;; question-mark operator not highlighted
-;; sometimes mishighlights (code is comments, comments are code...)
-;; numbers in attributes (e.g. #[repr(C, align = 4)]) not highlighted
-;; strings in attributes not highlighted
-;; attributes in macro invocations (e.g quote! { #[repr(C)] struct S(u32) })
+;; - macro_rules! not highlighted
+;; - user-created macros not highlighted
+;; - question-mark operator not highlighted
+;; - sometimes mishighlights (code is comments, comments are code...)
+;; - numbers in attributes (e.g. #[repr(C, align = 4)]) not highlighted
+;; - strings in attributes not highlighted
+;; - attributes in macro invocations (e.g quote! { #[repr(C)] struct S(u32) })
+;; - sometimes (so far once) completely breaks and highlights the entire file incorrecly
 ;;
 ;; Additionally, compared to the v28 config, it needs to be able run rustfmt on an open buffer
 (use-package rust-ts-mode
