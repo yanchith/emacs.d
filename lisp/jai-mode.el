@@ -1,5 +1,3 @@
-;; jai-mode.el - very basic jai mode
-
 (require 'cl)
 (require 'rx)
 (require 'js)
@@ -48,19 +46,16 @@
   '("null" "true" "false"))
 
 (defconst jai-typenames
-  '("int" "u64" "u32" "u16" "u8"
-    "s64" "s32" "s16" "s8" "float"
-    "float32" "float64" "string"
-    "bool"))
+  '("int" "u64" "u32" "u16" "u8" "s64" "s32" "s16" "s8"
+    "float" "float32" "float64"
+    "string" "bool"))
 
 (defun jai-wrap-word-rx (s)
   (concat "\\<" s "\\>"))
 
 (defun jai-keywords-rx (keywords)
-  "build keyword regexp"
   (jai-wrap-word-rx (regexp-opt keywords t)))
 
-(defconst jai-hat-type-rx (rx (group (and "^" (1+ word)))))
 (defconst jai-dollar-type-rx (rx (group "$" (or (1+ word) (opt "$")))))
 (defconst jai-number-rx
   (rx (and
@@ -78,7 +73,7 @@
     ;; single quote characters
     ("\\('[[:word:]]\\)\\>" 1 font-lock-constant-face)
 
-    ;; Variables
+    ;; Builtins
     (,(jai-keywords-rx jai-builtins) 1 font-lock-variable-name-face)
 
     ;; Constants
@@ -94,11 +89,10 @@
     ("\\\".*\\\"" . font-lock-string-face)
 
     ;; Numbers
-    (,(jai-wrap-word-rx jai-number-rx) . font-lock-constant-face)
+    (,(jai-wrap-word-rx jai-number-rx) . font-lock-number-face)
 
     ;; Types
     (,(jai-keywords-rx jai-typenames) 1 font-lock-type-face)
-    (,jai-hat-type-rx 1 font-lock-type-face)
     (,jai-dollar-type-rx 1 font-lock-type-face)
 
     ("---" . font-lock-constant-face)
@@ -156,19 +150,6 @@
 
 (defalias 'jai-parent-mode
  (if (fboundp 'prog-mode) 'prog-mode 'fundamental-mode))
-
-;; imenu hookup
-(add-hook 'jai-mode-hook
-      (lambda ()
-        (setq imenu-generic-expression
-          '(
-            ("type" "^\\(.*:*.*\\) : " 1)
-	    ("function" "^\\(.*\\) :: " 1)
-	    ("struct" "^\\(.*\\) *:: *\\(struct\\)\\(.*\\){" 1)
-	    )
-        )
-      )
-)
 
 ;; NOTE: taken from the scala-indent package and modified for Jai.
 ;;   Still uses the js-indent-line as a base, which will have to be
