@@ -469,12 +469,7 @@
   :mode (("\\.glsl\\'" . glsl-mode)
          ("\\.vert\\'" . glsl-mode)
          ("\\.frag\\'" . glsl-mode)
-         ("\\.geom\\'" . glsl-mode))
-  :config
-  (defun setup-glsl-mode ()
-    ;; Override default, so we get M-f and M-b stopping on _.
-    (modify-syntax-entry ?_ "."))
-  (add-hook 'glsl-mode-hook 'setup-glsl-mode))
+         ("\\.geom\\'" . glsl-mode)))
 
 (use-package wgsl-mode
   :straight t
@@ -489,14 +484,7 @@
     ;; also make M-q (fill-paragraph) work well with the usual, C-style,
     ;; comments.
     (setq comment-start "// "
-          comment-end "")
-    ;; Override default, so we get M-f and M-b stopping on _.
-    ;;
-    ;; Note: Even though we actually vendor jai-mode, we might some day not
-    ;; vendor it, so let's layer our changes in here instead of modifying it.
-    ;;
-    ;; TODO(yan): This breaks syntax highlighting for some things. Can we fix?
-    (modify-syntax-entry ?_ "."))
+          comment-end ""))
   (add-hook 'jai-mode-hook 'setup-jai-mode))
 
 (use-package lua-mode
