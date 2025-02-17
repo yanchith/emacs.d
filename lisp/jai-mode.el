@@ -35,14 +35,14 @@
     table))
 
 (defconst jai-builtins
-  '("cast" "it" "type_info" "size_of"))
+  '("cast" "it" "it_index" "type_info" "size_of"))
 
 (defconst jai-keywords
   '("if" "ifx" "else" "then" "while" "for" "switch" "case" "struct" "enum"
     "return" "new" "remove" "continue" "break" "defer" "inline" "no_inline"
-    "using" "SOA"))
+    "using"))
 
-(defconst jai-constants
+(defconst jai-literals
   '("null" "true" "false"))
 
 (defconst jai-typenames
@@ -74,10 +74,10 @@
     ("\\('[[:word:]]\\)\\>" 1 font-lock-constant-face)
 
     ;; Builtins
-    (,(jai-keywords-rx jai-builtins) 1 font-lock-variable-name-face)
+    (,(jai-keywords-rx jai-builtins) 1 font-lock-builtin-face)
 
     ;; Constants
-    (,(jai-keywords-rx jai-constants) 1 font-lock-constant-face)
+    (,(jai-keywords-rx jai-literals) 1 font-lock-builtin-face)
 
     ;; Hash directives
     ("#\\w+" . font-lock-preprocessor-face)
