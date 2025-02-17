@@ -302,10 +302,6 @@
 ;; This still prompts for confirmation if buffer has unsaved changes
 (global-auto-revert-mode t)
 
-;; Use subword mode everywhere. We pretty much want it even for prose, if we
-;; ever include code snippets, etc.
-(global-subword-mode 1)
-
 ;;;; Bootstrap straight.el
 
 ;; @Perf This produces a huge (2.5x) init time perf boost by not using find(1)
@@ -428,6 +424,7 @@
   (defun setup-rust-mode ()
     ;; Unset wrapping with dbg! macro from the keymap.
     (local-unset-key (kbd "C-c C-d"))
+    (modify-syntax-entry ?_ "w" rust-mode-syntax-table)
     (font-lock-add-keywords
      nil '(
            ; Hex integer
