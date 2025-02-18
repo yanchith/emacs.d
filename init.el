@@ -302,6 +302,10 @@
 ;; This still prompts for confirmation if buffer has unsaved changes
 (global-auto-revert-mode t)
 
+;; TODO(jt): Bring back global subword mode and for languages with underscore make a syntax table
+;; for move-forward-word that treats underscores as punctuation. This is easy in theory, but never
+;; actually works.
+
 ;;;; Bootstrap straight.el
 
 ;; @Perf This produces a huge (2.5x) init time perf boost by not using find(1)
@@ -424,7 +428,6 @@
   (defun setup-rust-mode ()
     ;; Unset wrapping with dbg! macro from the keymap.
     (local-unset-key (kbd "C-c C-d"))
-    (modify-syntax-entry ?_ "w" rust-mode-syntax-table)
     (font-lock-add-keywords
      nil '(
            ; Hex integer
