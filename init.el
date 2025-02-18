@@ -40,6 +40,7 @@
 (setq-default so-long-threshold 1000) ; Trigger so-long mode when a line is longer than 1000 chars
 (global-so-long-mode 1)
 
+
 ;; Define directories
 
 (defvar yan-dir-root (file-name-directory load-file-name)
@@ -468,7 +469,11 @@
   :mode (("\\.glsl\\'" . glsl-mode)
          ("\\.vert\\'" . glsl-mode)
          ("\\.frag\\'" . glsl-mode)
-         ("\\.geom\\'" . glsl-mode)))
+         ("\\.geom\\'" . glsl-mode))
+  :config
+  (defun setup-glsl-mode ()
+    (modify-syntax-entry ?_ "." glsl-mode-syntax-table)) ;; Let forward-word/backword-word stop on underscores.
+  (add-hook 'glsl-mode-hook 'setup-glsl-mode))
 
 (use-package wgsl-mode
   :straight t
@@ -479,6 +484,7 @@
   :mode ("\\.jai\\'" . jai-mode)
   :config
   (defun setup-jai-mode ()
+    (modify-syntax-entry ?_ "." jai-mode-syntax-table) ;; Let forward-word/backword-word stop on underscores.
     ;; Override default, so we both get the default comment style we want, and
     ;; also make M-q (fill-paragraph) work well with the usual, C-style,
     ;; comments.
