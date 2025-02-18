@@ -302,9 +302,8 @@
 ;; This still prompts for confirmation if buffer has unsaved changes
 (global-auto-revert-mode t)
 
-;; TODO(jt): Bring back global subword mode and for languages with underscore make a syntax table
-;; for move-forward-word that treats underscores as punctuation. This is easy in theory, but never
-;; actually works.
+;; TODO(jt): Make stopping at underscores for move-forward-word work for JAI and GLSL.
+(global-subword-mode 1)
 
 ;;;; Bootstrap straight.el
 
