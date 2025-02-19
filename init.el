@@ -484,7 +484,6 @@
   :mode ("\\.jai\\'" . jai-mode)
   :config
   (defun setup-jai-mode ()
-    (modify-syntax-entry ?_ "." jai-mode-syntax-table) ;; Let forward-word/backword-word stop on underscores.
     ;; Override default, so we both get the default comment style we want, and
     ;; also make M-q (fill-paragraph) work well with the usual, C-style,
     ;; comments.

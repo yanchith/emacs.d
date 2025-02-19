@@ -8,11 +8,8 @@
     (modify-syntax-entry ?\" "\"" table)
     (modify-syntax-entry ?\\ "\\" table)
 
-    ;; additional symbols
-    (modify-syntax-entry ?_ "w" table)
-
-    (modify-syntax-entry ?' "." table)
-    (modify-syntax-entry ?: "." table)
+    (modify-syntax-entry ?'  "." table)
+    (modify-syntax-entry ?:  "." table)
     (modify-syntax-entry ?+  "." table)
     (modify-syntax-entry ?-  "." table)
     (modify-syntax-entry ?%  "." table)
@@ -38,23 +35,22 @@
   '("cast" "it" "it_index" "type_info" "size_of"))
 
 (defconst jai-keywords
-  '("if" "ifx" "else" "then" "while" "for" "switch" "case" "struct" "enum"
-    "return" "new" "remove" "continue" "break" "defer" "inline" "no_inline"
+  '("if" "ifx" "else" "then" "while" "for" "switch" "case"
+    "struct" "enum" "enum_flags"
+    "return" "remove" "continue" "break" "defer"
+    "inline" "no_inline"
     "using"))
 
 (defconst jai-literals
   '("null" "true" "false"))
 
 (defconst jai-typenames
-  '("int" "u64" "u32" "u16" "u8" "s64" "s32" "s16" "s8"
+  '("int" "s8" "s16" "s32" "s64" "u8" "u16" "u32" "u64"
     "float" "float32" "float64"
     "string" "bool"))
 
 (defun jai-wrap-word-rx (s)
   (concat "\\<" s "\\>"))
-
-(defun jai-keywords-rx (keywords)
-  (jai-wrap-word-rx (regexp-opt keywords t)))
 
 (defconst jai-dollar-type-rx (rx (group "$" (or (1+ word) (opt "$")))))
 (defconst jai-number-rx
@@ -68,22 +64,17 @@
 (defconst jai-font-lock-defaults
   `(
     ;; Keywords
-    (,(jai-keywords-rx jai-keywords) 1 font-lock-keyword-face)
-
-    ;; single quote characters
-    ("\\('[[:word:]]\\)\\>" 1 font-lock-constant-face)
+    (,(regexp-opt jai-keywords 'symbols) . font-lock-keyword-face)
 
     ;; Builtins
-    (,(jai-keywords-rx jai-builtins) 1 font-lock-builtin-face)
+    (,(regexp-opt jai-builtins 'symbols) . font-lock-builtin-face)
 
-    ;; Constants
-    (,(jai-keywords-rx jai-literals) 1 font-lock-builtin-face)
+    ;; Literals
+    (,(regexp-opt jai-literals 'symbols) . font-lock-builtin-face)
 
-    ;; Hash directives
-    ("#\\w+" . font-lock-preprocessor-face)
-
-    ;; At directives
-    ("@\\w+" . font-lock-preprocessor-face)
+    ;; Directives
+    ("#[_A-Za-z0-9]+" . font-lock-preprocessor-face)
+    ("@[_A-Za-z0-9]+" . font-lock-preprocessor-face)
 
     ;; Strings
     ("\\\".*\\\"" . font-lock-string-face)
@@ -92,7 +83,7 @@
     (,(jai-wrap-word-rx jai-number-rx) . font-lock-number-face)
 
     ;; Types
-    (,(jai-keywords-rx jai-typenames) 1 font-lock-type-face)
+    (,(regexp-opt jai-typenames 'symbols) . font-lock-type-face)
     (,jai-dollar-type-rx 1 font-lock-type-face)
 
     ("---" . font-lock-constant-face)
