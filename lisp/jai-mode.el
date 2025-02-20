@@ -41,7 +41,7 @@
     "inline" "no_inline"
     "using"))
 
-(defconst jai-literals
+(defconst jai-constants
   '("null" "true" "false"))
 
 (defconst jai-typenames
@@ -70,23 +70,18 @@
     (,(regexp-opt jai-builtins 'symbols) . font-lock-builtin-face)
 
     ;; Literals
-    (,(regexp-opt jai-literals 'symbols) . font-lock-builtin-face)
+    ("\\\".*\\\"" . font-lock-string-face)
+    (,(jai-wrap-word-rx jai-number-rx) . font-lock-number-face)
+    (,(regexp-opt jai-constants 'symbols) . font-lock-builtin-face)
+    ("---" . font-lock-builtin-face)
 
     ;; Directives
     ("#[_A-Za-z0-9]+" . font-lock-preprocessor-face)
     ("@[_A-Za-z0-9]+" . font-lock-preprocessor-face)
 
-    ;; Strings
-    ("\\\".*\\\"" . font-lock-string-face)
-
-    ;; Numbers
-    (,(jai-wrap-word-rx jai-number-rx) . font-lock-number-face)
-
     ;; Types
     (,(regexp-opt jai-typenames 'symbols) . font-lock-type-face)
-    (,jai-dollar-type-rx 1 font-lock-type-face)
-
-    ("---" . font-lock-constant-face)
+    (,jai-dollar-type-rx 1 font-lock-preprocessor-face)
     ))
 
 (defconst jai--defun-rx "\(.*\).*\{")
