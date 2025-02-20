@@ -19,7 +19,7 @@
  `(vertical-border ((t (:foreground "#090909"    :background "#191919"))))
 
  `(cursor  ((t (:background "#50ffa0"))))
- `(region  ((t (:background "#202522"))))
+ `(region  ((t (:background "#343c37"))))
 
  `(minibuffer-prompt ((t (:foreground "#f06525"))))
 
