@@ -89,11 +89,6 @@
     ("---" . font-lock-constant-face)
     ))
 
-;; add setq-local for older emacs versions
-(unless (fboundp 'setq-local)
-  (defmacro setq-local (var val)
-    `(set (make-local-variable ',var) ,val)))
-
 (defconst jai--defun-rx "\(.*\).*\{")
 
 (defmacro jai-paren-level ()
@@ -139,9 +134,6 @@
         (skip-chars-forward "^}")
         (forward-char)))))
 
-(defalias 'jai-parent-mode
- (if (fboundp 'prog-mode) 'prog-mode 'fundamental-mode))
-
 ;; NOTE: taken from the scala-indent package and modified for Jai.
 ;;   Still uses the js-indent-line as a base, which will have to be
 ;;   replaced when the language is more mature.
@@ -156,7 +148,7 @@
   )
 
 ;;;###autoload
-(define-derived-mode jai-mode jai-parent-mode "Jai"
+(define-derived-mode jai-mode prog-mode "Jai"
  :syntax-table jai-mode-syntax-table
  :group 'jai
  (setq bidi-paragraph-direction 'left-to-right)
