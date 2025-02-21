@@ -52,7 +52,6 @@
 (defun jai-wrap-word-rx (s)
   (concat "\\<" s "\\>"))
 
-(defconst jai-dollar-type-rx (rx (group "$" (or (1+ word) (opt "$")))))
 (defconst jai-number-rx
   (rx (and
        symbol-start
@@ -81,7 +80,7 @@
 
     ;; Types
     (,(regexp-opt jai-typenames 'symbols) . font-lock-type-face)
-    (,jai-dollar-type-rx 1 font-lock-preprocessor-face)
+    ("$[_A-Za-z][_a-Za-z0-9]*$?" . font-lock-preprocessor-face)
     ))
 
 (defconst jai--defun-rx "\(.*\).*\{")
