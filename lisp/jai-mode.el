@@ -32,7 +32,10 @@
     table))
 
 (defconst jai-builtins
-  '("cast" "it" "it_index" "type_info" "size_of"))
+  '("cast"
+    "it" "it_index"
+    "type_info" "size_of" "initializer_of"
+    "type_of" "is_constant" "code_of"))
 
 (defconst jai-keywords
   '("if" "ifx" "else" "then" "while" "for" "switch" "case"
