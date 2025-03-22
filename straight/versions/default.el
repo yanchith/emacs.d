@@ -17,7 +17,7 @@
  ("rust-mode" . "542f1755d8929ca83564322d7030d558f3392fe1")
  ("s.el" . "dda84d38fffdaf0c9b12837b504b402af910d01d")
  ("straight.el" . "44a866f28f3ded6bcd8bc79ddc73b8b5044de835")
- ("swiper" . "abb9e1e5649bcd078a2a75bcb27abb42311b4f86")
+ ("swiper" . "33b82a09db63abba6fa248ae027e343dda11b368")
  ("transient" . "823f24a4901c78f9e45138991c7a2137b7c98e88")
  ("typescript.el" . "481df3ad2cdf569d8e6697679669ff6206fbd2f9")
  ("use-package" . "a6e856418d2ebd053b34e0ab2fda328abeba731c")
