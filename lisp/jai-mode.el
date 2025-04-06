@@ -65,6 +65,10 @@
 
 (defconst jai-font-lock-defaults
   `(
+    ;; Let directives and notes take precedence over keywords, so that we correctly hightlight #if and @if.
+    ("#[_A-Za-z0-9]+" . font-lock-preprocessor-face)
+    ("@[_A-Za-z0-9]+" . font-lock-preprocessor-face)
+
     ;; Keywords
     (,(regexp-opt jai-keywords 'symbols) . font-lock-keyword-face)
 
@@ -76,10 +80,6 @@
     (,(jai-wrap-word-rx jai-number-rx) . font-lock-number-face)
     (,(regexp-opt jai-constants 'symbols) . font-lock-builtin-face)
     ("---" . font-lock-builtin-face)
-
-    ;; Directives
-    ("#[_A-Za-z0-9]+" . font-lock-preprocessor-face)
-    ("@[_A-Za-z0-9]+" . font-lock-preprocessor-face)
 
     ;; Types
     (,(regexp-opt jai-typenames 'symbols) . font-lock-type-face)
