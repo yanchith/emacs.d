@@ -83,7 +83,7 @@
 
     ;; Types
     (,(regexp-opt jai-typenames 'symbols) . font-lock-type-face)
-    ("$[_A-Za-z][_a-Za-z0-9]*$?" . font-lock-preprocessor-face)
+    ("$[_A-Za-z][_A-Za-z0-9]*$?" . font-lock-preprocessor-face)
     ))
 
 (defconst jai--defun-rx "\(.*\).*\{")
