@@ -1,6 +1,9 @@
 ;; This is a `use-package' and `straight.el' based config focused on "minimal"
 ;; functionality and good startup time. The config targets the Emacs version I
 ;; use, which is usually the latest stable, unless I forget to update.
+;;
+;; TODO(jt): Can we get rid of straight.el, and just somehow vendor the packages we use, and maybe
+;; load them with package-install, or something that's built into Emacs.
 
 ;; Always load newest byte code
 (setq load-prefer-newer t)
@@ -383,7 +386,6 @@
 
 (use-package ivy
   :straight t
-  ;; TODO(yan): @Perf This costs about 40ms of startup.
   :demand t ;; We pretty much need ivy the moment we start
   :bind (("C-x b"   . ivy-switch-buffer)
          ("C-x 4 b" . ivy-switch-buffer-other-window))
