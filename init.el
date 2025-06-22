@@ -404,7 +404,7 @@
 
 ;;;; Configure programming packages
 
-;; XXX: Emacs 29+ has rust-ts-mode, but it needs more work to set up.
+;; TODO(jt): Emacs 29+ has rust-ts-mode, but it needs more work to feel good.
 ;;
 ;; It has highlighting issues:
 ;;
@@ -460,14 +460,6 @@
          (add-to-list 'compilation-error-regexp-alist 'rustc-colon))))
 
   (add-hook 'rust-ts-mode-hook 'setup-rust-ts-mode))
-
-;; XXX: Install grammars.
-(use-package typescript-ts-mode
-  :straight f
-  :mode (("\\.js\\'" . typescript-ts-mode)
-         ("\\.ts\\'" . typescript-ts-mode)
-         ("\\.jsx\\'" . typescript-ts-mode)
-         ("\\.tsx\\'" . typescript-ts-mode)))
 
 (use-package glsl-mode
   :straight t
