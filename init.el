@@ -1,12 +1,6 @@
-;;; init.el --- My humble emacs config
-
-;;; Commentary:
-
 ;; This is a `use-package' and `straight.el' based config focused on "minimal"
 ;; functionality and good startup time. The config targets the Emacs version I
 ;; use, which is usually the latest stable, unless I forget to update.
-
-;;; Code:
 
 ;; Always load newest byte code
 (setq load-prefer-newer t)
@@ -32,7 +26,7 @@
 
 ;; Disable RTL features
 (setq-default bidi-paragraph-direction 'left-to-right)
-(setq bidi-inhibit-bpa t)
+(setq-default bidi-inhibit-bpa t)
 
 ;; Automatically mitigate (disable slow major and minor modes) when Emacs
 ;; suspects long lines in the file.
@@ -200,7 +194,6 @@
 ;; Don't use tabs to indent, but set them to appear at 4 spaces
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
-(setq-default tab-stop-list (number-sequence 4 120 4))
 
 ;; Change indentation to respect our tab width, but also see
 ;; yan-set-indent-level functions below
@@ -299,11 +292,7 @@
 (setq backup-directory-alist `((".*" . ,temporary-file-directory))
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
-;; Revert buffers automatically when underlying files are changed externally
-;; This still prompts for confirmation if buffer has unsaved changes
 (global-auto-revert-mode t)
-
-;; TODO(jt): Make stopping at underscores for move-forward-word work for JAI and GLSL.
 (global-subword-mode 1)
 
 ;;;; Bootstrap straight.el
