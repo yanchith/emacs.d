@@ -292,11 +292,7 @@
 (setq backup-directory-alist `((".*" . ,temporary-file-directory))
       auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
-;; Revert buffers automatically when underlying files are changed externally
-;; This still prompts for confirmation if buffer has unsaved changes
 (global-auto-revert-mode t)
-
-;; TODO(jt): Make stopping at underscores for move-forward-word work for JAI and GLSL.
 (global-subword-mode 1)
 
 ;;;; Bootstrap straight.el
@@ -408,38 +404,70 @@
 
 ;;;; Configure programming packages
 
-;; TODO(yan): @Cleanup Emacs 29 is getting a rust-ts-mode. Maybe it will be good enough for us, if
-;; we add a shortcut for formatting and teach it about rustc's error output. We just need to build
-;; the treesitter grammars for all platforms we use.
-(use-package rust-mode
-  :straight t
-  :mode ("\\.rs\\'" . rust-mode)
+;; XXX: Emacs 29+ has rust-ts-mode, but it needs more work to set up.
+;;
+;; It has highlighting issues:
+;;
+;; - macro_rules! not highlighted
+;; - macro invocations of user-created macros not highlighted
+;; - question-mark operator not highlighted
+;; - numbers in attributes (e.g. #[repr(C, align = 4)]) not highlighted
+;; - strings in attributes not highlighted
+;; - attributes in macro invocations not highlighted (e.g quote! { #[repr(C)] struct S(u32) })
+;;
+;; Additionally, we want a way to run rustfmt on the current buffer.
+;;
+(use-package rust-ts-mode
+  :straight f
+  :mode ("\\.rs\\'")
   :config
-  (setq rust-format-on-save nil
-        rust-format-show-buffer nil
-        rust-format-goto-problem nil)
-  (defun setup-rust-mode ()
-    ;; Unset wrapping with dbg! macro from the keymap.
-    (local-unset-key (kbd "C-c C-d"))
-    (font-lock-add-keywords
-     nil '(
-           ; Hex integer
-           ("\\<0[Xx][0-9A-Fa-f_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
-           ; Octal integer
-           ("\\<0[Oo][0-7_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
-           ; Binary integer
-           ("\\<0[Bb][01_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face)
-           ; Floating point number (integer + comma + fractional + optional suffix)
-           ("\\<[0-9_]+\\.[0-9_]+\\([Ee][+-][0-9]+\\)?\\(f\\(32\\|64\\)\\)?\\>" . font-lock-number-face)
-           ; Floating point number (integer + comma + no suffix)
-           ("\\<[0-9_]+\\.\\>" . font-lock-number-face)
-           ; Floating point number (integer + scientific + optional suffix)
-           ("\\<[0-9_]+[Ee][-+][0-9]+\\(f\\(32\\|64\\)\\)?\\>" . font-lock-number-face)
-           ; Floating point number (integer + suffix)
-           ("\\<[0-9_]+f\\(32\\|64\\)\\>" . font-lock-number-face)
-           ; Decimal integer
-           ("\\<[0-9_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face))))
-  (add-hook 'rust-mode-hook 'setup-rust-mode))
+  (defun setup-rust-ts-mode ()
+    (defvar rustc-compilation-location
+      (let ((file "\\([^\n]+\\)")
+            (start-line "\\([0-9]+\\)")
+            (start-col "\\([0-9]+\\)"))
+        (concat "\\(" file ":" start-line ":" start-col "\\)")))
+
+    (defvar rustc-compilation-regexps
+      (let ((re (concat "^\\(?:error\\|\\(warning\\)\\|\\(note\\)\\)[^\0]+?--> "
+                        rustc-compilation-location)))
+        (cons re '(4 5 6 (1 . 2) 3)))
+      "Specifications for matching errors in rustc invocations.
+       See `compilation-error-regexp-alist' for help on their format.")
+
+    (defvar rustc-colon-compilation-regexps
+      (let ((re (concat "^ *::: " rustc-compilation-location)))
+        (cons re '(2 3 4 0 1)))
+      "Specifications for matching `:::` hints in rustc invocations.
+       See `compilation-error-regexp-alist' for help on their format.")
+
+    (defvar rustc-refs-compilation-regexps
+      (let ((re "^\\([0-9]+\\)[[:space:]]*|"))
+        (cons re '(nil 1 nil 0 1)))
+      "Specifications for matching code references in rustc invocations.
+       See `compilation-error-regexp-alist' for help on their format.")
+
+    (eval-after-load 'compile
+      '(progn
+         (add-to-list 'compilation-error-regexp-alist-alist
+                      (cons 'rustc-refs rustc-refs-compilation-regexps))
+         (add-to-list 'compilation-error-regexp-alist 'rustc-refs)
+         (add-to-list 'compilation-error-regexp-alist-alist
+                      (cons 'rustc rustc-compilation-regexps))
+         (add-to-list 'compilation-error-regexp-alist 'rustc)
+         (add-to-list 'compilation-error-regexp-alist-alist
+                      (cons 'rustc-colon rustc-colon-compilation-regexps))
+         (add-to-list 'compilation-error-regexp-alist 'rustc-colon))))
+
+  (add-hook 'rust-ts-mode-hook 'setup-rust-ts-mode))
+
+;; XXX: Install grammars.
+(use-package typescript-ts-mode
+  :straight f
+  :mode (("\\.js\\'" . typescript-ts-mode)
+         ("\\.ts\\'" . typescript-ts-mode)
+         ("\\.jsx\\'" . typescript-ts-mode)
+         ("\\.tsx\\'" . typescript-ts-mode)))
 
 (use-package glsl-mode
   :straight t
