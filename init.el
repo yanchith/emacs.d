@@ -1,12 +1,6 @@
-;;; init.el --- My humble emacs config
-
-;;; Commentary:
-
 ;; This is a `use-package' and `straight.el' based config focused on "minimal"
 ;; functionality and good startup time. The config targets the Emacs version I
 ;; use, which is usually the latest stable, unless I forget to update.
-
-;;; Code:
 
 ;; Always load newest byte code
 (setq load-prefer-newer t)
@@ -32,7 +26,7 @@
 
 ;; Disable RTL features
 (setq-default bidi-paragraph-direction 'left-to-right)
-(setq bidi-inhibit-bpa t)
+(setq-default bidi-inhibit-bpa t)
 
 ;; Automatically mitigate (disable slow major and minor modes) when Emacs
 ;; suspects long lines in the file.
@@ -200,7 +194,6 @@
 ;; Don't use tabs to indent, but set them to appear at 4 spaces
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
-(setq-default tab-stop-list (number-sequence 4 120 4))
 
 ;; Change indentation to respect our tab width, but also see
 ;; yan-set-indent-level functions below
@@ -447,22 +440,6 @@
            ; Decimal integer
            ("\\<[0-9_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face))))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
-
-;; TODO(yan): @Cleanup typescript-mode has stopped major development and they recommend people using
-;; the builtin, tree-sitter-based typescript-ts-mode and tsx-ts-mode mode in Emacs 29. We just need
-;; to build the treesitter grammars for all platforms we use.
-(use-package typescript-mode
-  :straight t
-  :mode (("\\.js\\'" . typescript-mode)
-         ("\\.ts\\'" . typescript-mode)
-         ("\\.jsx\\'" . typescript-mode)
-         ("\\.tsx\\'" . typescript-mode)))
-
-;; TODO(yan): @Cleanup We don't use many C# features. Maybe the new Emacs 29 csharp-ts-mode will be
-;; enough for us? We just need to build the treesitter grammars for all platforms we use.
-(use-package csharp-mode
-  :straight t
-  :mode ("\\.cs\\'" . csharp-mode))
 
 (use-package glsl-mode
   :straight t
