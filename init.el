@@ -483,6 +483,8 @@
   :mode ("\\.jai\\'" . jai-mode)
   :config
   (defun setup-jai-mode ()
+    ;; XXX: This stopped working in Emacs 30. Sigh. I give up?
+    ;;
     ;; Override default, so we both get the default comment style we want, and
     ;; also make M-q (fill-paragraph) work well with the usual, C-style,
     ;; comments.
