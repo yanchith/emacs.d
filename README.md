@@ -20,32 +20,8 @@ with MSYS2: `pacman -S mingw-w64-x86_64-libgccjit` and add it to PATH:
 
 ### macOS
 
-The `railwaycat/emacsmacport` version is compatible with `spectacle` snapping
-(some emacs distribution have an undesired space left around the borders after
-snapping).
+Download and install Emacs for Mac https://emacsformacosx.com/
 
-Install it from `homebrew`:
-
-``` shell
-$ brew tap railwaycat/emacsmacport
-$ brew install emacs-mac
-```
-
-Alternatively, the `d12frosted/emacs-plus` is recommended by `spacemacs`.
-Previously it had issues with `spectacle`snapping, but those may have been
-resolved meanwhile, or could be resolved by using the appropriate `brew install`
-flags.
-
-``` shell
-$ brew tap d12frosted/emacs-plus
-$ brew install emacs-plus
-```
-
-There is also an official `emacs` formula:
-
-``` shell
-$ brew install emacs
-```
 ### External tools
 
 Some commands rely on `git` and `rg` being installed and in PATH.
