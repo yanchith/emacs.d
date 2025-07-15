@@ -97,6 +97,9 @@
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+;; On macOS, we can't *truly* make Emacs occupy the full screen without frame-resize-pixelwise.
+(setq frame-resize-pixelwise t)
+
 ;; Add a bit of fringe padding and make it apply to all windows
 (setq-default left-fringe-width 20
               right-fringe-width 20)
