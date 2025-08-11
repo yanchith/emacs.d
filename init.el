@@ -405,7 +405,11 @@
   :bind (("M-x"     . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
          ("C-c s g" . counsel-git-grep)
-         ("C-c s r" . counsel-rg)))
+         ("C-c s r" . counsel-rg))
+  ;; TODO(jt): This should work to ignore some files in counsel-find-file, but it totally doesn't.
+  :config
+  (setq counsel-find-file-ignore-regexp "^.+\\(\\.wav\\|\\.ogg\\)$")
+)
 
 ;;;; Configure programming packages
 
