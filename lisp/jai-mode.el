@@ -40,9 +40,11 @@
 (defconst jai-keywords
   '("if" "ifx" "else" "then" "while" "for" "switch" "case"
     "struct" "enum" "enum_flags"
-    "return" "remove" "continue" "break" "defer"
+    "return" "remove" "continue" "break"
+    "defer"
     "inline" "no_inline"
-    "using"))
+    "using"
+    "push_context"))
 
 (defconst jai-constants
   '("null" "true" "false"))
