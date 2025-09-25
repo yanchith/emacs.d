@@ -39,7 +39,7 @@
 
 (defconst jai-keywords
   '("if" "ifx" "else" "then" "while" "for" "switch" "case"
-    "struct" "enum" "enum_flags"
+    "struct" "union" "enum" "enum_flags"
     "return" "remove" "continue" "break"
     "defer"
     "inline" "no_inline"
