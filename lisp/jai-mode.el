@@ -32,7 +32,7 @@
     table))
 
 (defconst jai-builtins
-  '("cast"
+  '("cast" "xx"
     "it" "it_index"
     "type_info" "size_of" "initializer_of"
     "type_of" "is_constant" "code_of"))
