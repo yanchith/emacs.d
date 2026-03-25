@@ -132,14 +132,10 @@
 
 ;; Do not word wrap, instead just don't render invisible parts of long lines
 (setq-default truncate-lines t)
-(defun yan-toggle-truncate-lines ()
-  "Toggle truncation of lines."
+(defun yan-toggle-truncate ()
+  "Set buffer-wide word wrap and truncation of lines"
   (interactive)
-  (toggle-truncate-lines))
-
-(defun yan-toggle-word-wrap ()
-  "Toggle word wrap."
-  (interactive)
+  (toggle-truncate-lines)
   (toggle-word-wrap))
 
 ;; Show line and column numbers, and file size indication in the
