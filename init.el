@@ -206,18 +206,28 @@
 (defvaralias 'typescript-indent-level 'tab-width)
 (defvaralias 'lua-indent-level 'tab-width)
 
+(defun yan-set-indent-tabs ()
+  "Set indentation to tabs"
+  (interactive)
+  (setq indent-tabs-mode t))
+
+(defun yan-set-indent-spaces ()
+  "Set indentation to spaces"
+  (interactive)
+  (setq indent-tabs-mode nil))
+
 (defun yan-set-indent-level-1 ()
-  "Set global indentation level to 1."
+  "Set indentation level to 1."
   (interactive)
   (setq tab-width 1))
 
 (defun yan-set-indent-level-2 ()
-  "Set global indentation level to 2."
+  "Set indentation level to 2."
   (interactive)
   (setq tab-width 2))
 
 (defun yan-set-indent-level-4 ()
-  "Set global indentation level to 4."
+  "Set indentation level to 4."
   (interactive)
   (setq tab-width 4))
 
