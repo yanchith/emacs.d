@@ -460,7 +460,8 @@
   :mode (("\\.js\\'" . typescript-mode)
          ("\\.ts\\'" . typescript-mode)
          ("\\.jsx\\'" . typescript-mode)
-         ("\\.tsx\\'" . typescript-mode)))
+         ("\\.tsx\\'" . typescript-mode)
+         ("\\.svelte\\'" . typescript-mode)))
 
 ;; TODO(yan): @Cleanup We don't use many C# features. Maybe the new Emacs 29 csharp-ts-mode will be
 ;; enough for us? We just need to build the treesitter grammars for all platforms we use.
