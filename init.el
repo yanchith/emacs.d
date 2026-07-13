@@ -118,6 +118,9 @@
 ;; Don't highlight the current line
 (global-hl-line-mode -1)
 
+;; Make dired listings shorter by omitting groups. Unfortunately, other things can't be omitted.
+(setq dired-listing-switches "-alo") ;; Default is -al
+
 ;; Configure parentheses behavior
 
 ;; @Perf Don't blink matching parenthesis by default as it has a painfully slow
