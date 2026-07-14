@@ -119,6 +119,7 @@
 (global-hl-line-mode -1)
 
 ;; Make dired listings shorter by omitting groups. Unfortunately, other things can't be omitted.
+;; (This does nothing on windows, because ls is emulated in lisp, where the option to omit groups is ignored.)
 (setq dired-listing-switches "-alo") ;; Default is -al
 
 ;; Configure parentheses behavior
