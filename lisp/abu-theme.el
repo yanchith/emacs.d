@@ -1,16 +1,6 @@
 (deftheme abu
   "just a phase")
 
-;; Add font-lock-number-face, so we can target it and highlight numbers
-(require 'font-lock)
-(defun yan-copy-face (new-face face)
-  "Define NEW-FACE from existing FACE."
-  (copy-face face new-face)
-  (eval `(defvar ,new-face nil))
-  (set new-face new-face))
-
-(yan-copy-face 'font-lock-number-face 'font-lock-string-face)
-
 (custom-theme-set-faces
  'abu
  ;;;; Frame
