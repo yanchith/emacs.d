@@ -57,7 +57,7 @@
 
  ;; Customizing these is kind of difficult, because they multiply colors...
 
- ;; TODO(yan): This somehow multiplies with ivy-minibuffer-match-face-{1,2,3,4},
+ ;; TODO(jt): This somehow multiplies with ivy-minibuffer-match-face-{1,2,3,4},
  ;; which is not very pleasant. Also, it overrides the foreground of the
  ;; selected line. This is overall not worth customizing, so we stay with the
  ;; isearch palette here.
@@ -72,7 +72,7 @@
 
  `(swiper-line-face ((t (:background nil)))) ;; This was too aggressive
 
- ;; TODO(yan): If I set these, they for some reason multiply with the background
+ ;; TODO(jt): If I set these, they for some reason multiply with the background
  ;; faces, making the match unreadable. Staying with the isearch palette for
  ;; now.
  ;;

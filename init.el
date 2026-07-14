@@ -423,7 +423,7 @@
 
 ;;;; Configure programming packages
 
-;; TODO(yan): @Cleanup Emacs 29 is getting a rust-ts-mode. Maybe it will be good enough for us, if
+;; TODO(jt): @Cleanup Since Emacs 29, there is a builtin rust-ts-mode. Maybe it will be good enough for us, if
 ;; we add a shortcut for formatting and teach it about rustc's error output. We just need to build
 ;; the treesitter grammars for all platforms we use.
 (use-package rust-mode
@@ -456,9 +456,9 @@
            ("\\<[0-9_]+\\([ui]\\(8\\|16\\|32\\|64\\|128\\|size\\)\\)?\\>" . font-lock-number-face))))
   (add-hook 'rust-mode-hook 'setup-rust-mode))
 
-;; TODO(yan): @Cleanup typescript-mode has stopped major development and they recommend people using
-;; the builtin, tree-sitter-based typescript-ts-mode and tsx-ts-mode mode in Emacs 29. We just need
-;; to build the treesitter grammars for all platforms we use.
+;; TODO(jt): @Cleanup typescript-mode has stopped major development and they recommend people using
+;; the builtin, tree-sitter-based typescript-ts-mode and tsx-ts-mode mode since Emacs 29. We just
+;; need to build the treesitter grammars for all platforms we use.
 (use-package typescript-mode
   :straight t
   :mode (("\\.js\\'" . typescript-mode)
@@ -467,7 +467,7 @@
          ("\\.tsx\\'" . typescript-mode)
          ("\\.svelte\\'" . typescript-mode)))
 
-;; TODO(yan): @Cleanup We don't use many C# features. Maybe the new Emacs 29 csharp-ts-mode will be
+;; TODO(jt): @Cleanup We don't use many C# features. Maybe csharp-ts-mode (since Emacs 29) will be
 ;; enough for us? We just need to build the treesitter grammars for all platforms we use.
 (use-package csharp-mode
   :straight t
