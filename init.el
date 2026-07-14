@@ -4,6 +4,8 @@
 ;;
 ;; TODO(jt): Can we get rid of straight.el, and just somehow vendor the packages we use, and maybe
 ;; load them with package-install, or something that's built into Emacs.
+;;
+;; nocheckin Syntax highlighting breaks for rust-move, jai-mode, and possibly others after updating. ABORT!
 
 ;; Always load newest byte code
 (setq load-prefer-newer t)
@@ -490,15 +492,7 @@
 
 (use-package jai-mode
   :straight f
-  :mode ("\\.jai\\'" . jai-mode)
-  :config
-  (defun setup-jai-mode ()
-    ;; Override default, so we both get the default comment style we want, and
-    ;; also make M-q (fill-paragraph) work well with the usual, C-style,
-    ;; comments.
-    (setq comment-start "// "
-          comment-end ""))
-  (add-hook 'jai-mode-hook 'setup-jai-mode))
+  :mode ("\\.jai\\'" . jai-mode))
 
 (use-package lua-mode
   :straight t
