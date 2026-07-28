@@ -2,6 +2,9 @@
 ;; functionality and good startup time. The config targets the Emacs version I
 ;; use, which is usually the latest stable, unless I forget to update.
 ;;
+;; UPDATE/WARNING: This targets Emacs 28. In Emacs 29 and 30, syntax highlighting (and maybe other
+;; things) are totally broken, at least on Windows.
+;;
 ;; TODO(jt): Can we get rid of straight.el, and just somehow vendor the packages we use, and maybe
 ;; load them with package-install, or something that's built into Emacs.
 
