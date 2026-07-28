@@ -247,7 +247,7 @@
 
 ;;;; Disable some enabled-by-default commands
 
-;; I hit these accidentaly and don't want them
+;; I hit these accidentally and don't want them
 
 (global-unset-key (kbd "C-x C-b")) ;; 'list-buffers, hit when trying to "C-x b"
 (global-unset-key (kbd "C-x C-n")) ;; 'set-goal-column, hit when navigating
